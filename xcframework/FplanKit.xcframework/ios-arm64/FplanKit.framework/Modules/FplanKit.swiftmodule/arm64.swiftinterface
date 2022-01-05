@@ -37,7 +37,7 @@ public class RouteHandler : ObjectiveC.NSObject, WebKit.WKScriptMessageHandler {
   @_Concurrency.MainActor(unsafe) public init(_ url: Swift.String, fplanReadyHandler: (() -> Swift.Void)? = nil, boothSelectionHandler: ((_ boothName: Swift.String) -> Swift.Void)? = nil, routeBuildHandler: ((_ route: FplanKit.Route) -> Swift.Void)? = nil)
   @_Concurrency.MainActor(unsafe) public func makeUIView(context: FplanKit.FplanView.Context) -> WebKit.WKWebView
   @_Concurrency.MainActor(unsafe) public func selectBooth(_ boothName: Swift.String)
-  @_Concurrency.MainActor(unsafe) public func buildRoute(_ from: Swift.String, _ to: Swift.String)
+  @_Concurrency.MainActor(unsafe) public func buildRoute(_ from: Swift.String, _ to: Swift.String, _ exceptUnaccessible: Swift.Bool = false)
   @_Concurrency.MainActor(unsafe) public func updateUIView(_ webView: WebKit.WKWebView, context: FplanKit.FplanView.Context)
   public typealias Body = Swift.Never
   public typealias Coordinator = Swift.Void

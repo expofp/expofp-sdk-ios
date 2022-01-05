@@ -81,9 +81,9 @@ public struct FplanView: UIViewRepresentable {
          routeBuildHandler: ((_ route: Route) -> Void)? = nil){
         
         self.url = url
-        self.fplanReadyHandler = fplanReadyHandler;
-        self.boothSelectionHandler = boothSelectionHandler;
-        self.routeBuildHandler = routeBuildHandler;
+        self.fplanReadyHandler = fplanReadyHandler
+        self.boothSelectionHandler = boothSelectionHandler
+        self.routeBuildHandler = routeBuildHandler
         
         let preferences = WKPreferences()
         let configuration = WKWebViewConfiguration()
@@ -99,12 +99,12 @@ public struct FplanView: UIViewRepresentable {
     }
     
     public func selectBooth(_ boothName:String){
-        webView.evaluateJavaScript("window.selectBooth('\(boothName)');");
+        webView.evaluateJavaScript("window.selectBooth('\(boothName)');")
         
     }
     
-    public func buildRoute(_ from: String, _ to: String){
-        webView.evaluateJavaScript("window.selectRoute('\(from)', '\(to)', false);");
+    public func buildRoute(_ from: String, _ to: String, _ exceptUnaccessible: Bool = false){
+        webView.evaluateJavaScript("window.selectRoute('\(from)', '\(to)', \(exceptUnaccessible))")
     }
     
     public func updateUIView(_ webView: WKWebView, context: Context) {
