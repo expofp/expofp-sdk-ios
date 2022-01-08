@@ -15,7 +15,7 @@ Pod::Spec.new do |spec|
   spec.ios.deployment_target  = "13.0"
 
   # Published binaries
-  spec.vendored_frameworks = "xcframework/FplanKit.xcframework"
+  spec.ios.vendored_frameworks = "xcframework/FplanKit.xcframework"
 
   spec.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
   spec.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
