@@ -12,10 +12,10 @@ Pod::Spec.new do |spec|
   spec.swift_version      = "5"
 
   # Supported deployment targets
-  spec.ios.deployment_target  = "10.2"
+  spec.ios.deployment_target  = "13.0"
 
   # Published binaries
-  spec.ios.vendored_frameworks = "xcframework/FplanKit.xcframework"
+  spec.vendored_frameworks = "xcframework/FplanKit.xcframework"
 
   spec.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
   spec.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
