@@ -18,13 +18,14 @@ Pod::Spec.new do |spec|
   spec.name         = "FplanKit"
   spec.version      = "0.0.1"
   spec.summary      = "Fplan library for iOS"
+  spec.swift_versions = "4"
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
   #   * Try to keep it short, snappy and to the point.
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
-  spec.description  = "Fplan library for iOS"
+  spec.description  = "Library for displaying expo plans"
 
   spec.homepage     = "https://github.com/expofp/expofp-ios-sdk"
   # spec.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
@@ -37,8 +38,8 @@ Pod::Spec.new do |spec|
   #  Popular ones are 'MIT', 'BSD' and 'Apache License, Version 2.0'.
   #
 
-  spec.license      = "MIT (example)"
-  spec.license      = { :type => "MIT", :http => "https://github.com/expofp/expofp-ios-sdk/blob/main/LICENSE" }
+  #spec.license      = "MIT (example)"
+  spec.license      = { :type => "MIT", :file => "LICENSE" }
 
 
   # ――― Author Metadata  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -89,8 +90,8 @@ Pod::Spec.new do |spec|
   #  Not including the public_header_files will make all headers public.
   #
 
-  spec.source_files  = "Classes", "Classes/**/*.{swift}"
-  spec.exclude_files = "Classes/Exclude"
+  spec.source_files  = "FplanKit", "FplanKit/**/*.{swift}"
+  ##spec.exclude_files = "Classes/Exclude"
 
   # spec.public_header_files = "Classes/**/*.h"
 
