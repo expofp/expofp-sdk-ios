@@ -1,4 +1,8 @@
-# ExpoFP FplanView
+# ExpoFP Fplan - iOS library for displaying expo plans
+
+Create your expo plan on the website https://expofp.com then use the URL of the created expo plan when you working with the library
+
+Version for android: https://github.com/expofp/expofp-android-sdk
 
 ![WhatsApp Image 2022-01-05 at 22 51 07](https://user-images.githubusercontent.com/60826376/148282339-c53466a3-4b65-42ba-ba12-54156f77497f.jpeg)
 
@@ -8,7 +12,15 @@ https://github.com/expofp/expofp-swiftui-example
 
 ## Add to project
 
-Download: https://github.com/expofp/expofp-ios-sdk/raw/main/xcframework/FplanKit.xcframework.zip
+### Cocoapods
+
+```swift
+pod 'FplanKit'
+```
+
+### Manualy
+
+Download: https://github.com/expofp/expofp-ios-sdk/raw/main/archives/0.0.1.zip
 
 ![1](https://user-images.githubusercontent.com/60826376/148283967-c2bdf8a9-7651-41a0-bc32-d66bd07246ff.jpeg)
 
@@ -42,6 +54,7 @@ struct FplanApp: App {
             //Some code
         }
         
+        //Specify the url address of your expo plan
         fplanView = FplanView("https://developer.expofp.com/examples/autumnfair.html",
                               fplanReadyHandler: fplanReadyHandler,
                               boothSelectionHandler: boothSelectionHandler,
