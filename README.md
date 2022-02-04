@@ -55,7 +55,7 @@ struct FplanApp: App {
         }
         
         //Specify the url address of your expo plan
-        fplanView = FplanView("https://developer.expofp.com/examples/autumnfair.html",
+        fplanView = FplanView("https://wayfinding.expofp.com",
                               fplanReadyHandler: fplanReadyHandler,
                               boothSelectionHandler: boothSelectionHandler,
                               routeBuildHandler: routeBuildHandler)
@@ -107,8 +107,7 @@ func fplanReadyHandler(){
 Init:
 
 ```swift
-fplanView = FplanView("https://developer.expofp.com/examples/autumnfair.html",
-                      fplanReadyHandler: fplanReadyHandler)
+fplanView = FplanView("https://wayfinding.expofp.com", fplanReadyHandler: fplanReadyHandler)
 ```
 
 
@@ -125,8 +124,7 @@ func boothSelectionHandler(boothName: String){
 Init:
 
 ```swift
-fplanView = FplanView("https://developer.expofp.com/examples/autumnfair.html",
-                      boothSelectionHandler: boothSelectionHandler)
+fplanView = FplanView("https://wayfinding.expofp.com", boothSelectionHandler: boothSelectionHandler)
 ```
 
 
@@ -143,7 +141,6 @@ func routeBuildHandler(route: Route){
 Init:
 
 ```swift
-fplanView = FplanView("https://developer.expofp.com/examples/autumnfair.html",
-                      routeBuildHandler: routeBuildHandler)
+fplanView = FplanView("https://wayfinding.expofp.com", routeBuildHandler: routeBuildHandler)
 ```
 
