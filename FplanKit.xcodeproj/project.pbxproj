@@ -22,6 +22,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		E70E859127B058D400D80AF8 /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70E859027B058D400D80AF8 /* NetworkReachability.swift */; };
+		E70E859227B058D400D80AF8 /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70E859027B058D400D80AF8 /* NetworkReachability.swift */; };
 		E78776A927859137007C1824 /* FplanKit.docc in Sources */ = {isa = PBXBuildFile; fileRef = E78776A827859137007C1824 /* FplanKit.docc */; };
 		E78776AF27859137007C1824 /* FplanKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E78776A427859137007C1824 /* FplanKit.framework */; };
 		E78776B427859137007C1824 /* FplanKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78776B327859137007C1824 /* FplanKitTests.swift */; };
@@ -47,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E70E859027B058D400D80AF8 /* NetworkReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
 		E78776A427859137007C1824 /* FplanKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FplanKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E78776A727859137007C1824 /* FplanKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FplanKit.h; sourceTree = "<group>"; };
 		E78776A827859137007C1824 /* FplanKit.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = FplanKit.docc; sourceTree = "<group>"; };
@@ -98,6 +101,7 @@
 				E78776A727859137007C1824 /* FplanKit.h */,
 				E78776A827859137007C1824 /* FplanKit.docc */,
 				E78776BE2785919B007C1824 /* FplanView.swift */,
+				E70E859027B058D400D80AF8 /* NetworkReachability.swift */,
 			);
 			path = FplanKit;
 			sourceTree = "<group>";
@@ -178,6 +182,7 @@
 					};
 					E78776C027859367007C1824 = {
 						CreatedOnToolsVersion = 13.2.1;
+						LastSwiftMigration = 1320;
 					};
 				};
 			};
@@ -245,6 +250,7 @@
 			files = (
 				E78776BF2785919B007C1824 /* FplanView.swift in Sources */,
 				E78776A927859137007C1824 /* FplanKit.docc in Sources */,
+				E70E859127B058D400D80AF8 /* NetworkReachability.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E78776B427859137007C1824 /* FplanKitTests.swift in Sources */,
+				E70E859227B058D400D80AF8 /* NetworkReachability.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,18 +500,35 @@
 		E78776C227859367007C1824 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2TWXV89QU8;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FplanKit/BuildTarget-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		E78776C327859367007C1824 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2TWXV89QU8;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FplanKit/BuildTarget-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
