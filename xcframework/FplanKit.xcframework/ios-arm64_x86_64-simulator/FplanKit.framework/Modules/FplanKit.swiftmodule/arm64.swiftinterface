@@ -53,3 +53,7 @@ public class RouteHandler : ObjectiveC.NSObject, WebKit.WKScriptMessageHandler {
   }
   public typealias Previews = @_opaqueReturnTypeOf("$s8FplanKit0A13View_PreviewsV8previewsQrvpZ", 0) __
 }
+@_hasMissingDesignatedInitializers public class Helper {
+  public static func GetIndexHtml() -> Swift.String
+  @objc deinit
+}

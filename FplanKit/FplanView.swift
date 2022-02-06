@@ -120,31 +120,35 @@ public struct FplanView: UIViewRepresentable {
         let netReachability = NetworkReachability()
         let isConnected = netReachability.checkConnection()
         
-        if let htmlPath = Bundle.main.path(forResource: "index", ofType: "html") {
-            do {
-                let eventId = url.starts(with: "https://")
-                ? url[url.index(url.startIndex, offsetBy: 8)...url.index(url.firstIndex(of: ".")!, offsetBy: -1)]
-                : url[...url.index(url.firstIndex(of: ".")!, offsetBy: -1)]
+        let eventId = url.starts(with: "https://")
+        ? url[url.index(url.startIndex, offsetBy: 8)...url.index(url.firstIndex(of: ".")!, offsetBy: -1)]
+        : url[...url.index(url.firstIndex(of: ".")!, offsetBy: -1)]
                 
-                let html = try String(contentsOfFile: htmlPath, encoding: .utf8)
-                    .replacingOccurrences(of: "$url#", with: url)
-                    .replacingOccurrences(of: "$eventId#", with: eventId)
-                
-                let filename = getDocumentsDirectory().appendingPathComponent("index.html")
-                try html.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
-                
-                if(isConnected){
-                    let requestUrl = URLRequest(url: filename, cachePolicy: .reloadRevalidatingCacheData)
-                    webView.load(requestUrl)
-                }
-                else{
-                    let requestUrl = URLRequest(url: filename, cachePolicy: .returnCacheDataElseLoad)
-                    webView.load(requestUrl)
-                }
-                
-            } catch {
+        let html = Helper.GetIndexHtml()
+            .replacingOccurrences(of: "$url#", with: url)
+            .replacingOccurrences(of: "$eventId#", with: eventId)
+        
+        do {
+            let filename = getDocumentsDirectory().appendingPathComponent("index.html")
+            try html.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
+            if(isConnected){
+                let requestUrl = URLRequest(url: filename, cachePolicy: .reloadRevalidatingCacheData)
+                webView.load(requestUrl)
             }
+            else{
+                let requestUrl = URLRequest(url: filename, cachePolicy: .returnCacheDataElseLoad)
+                webView.load(requestUrl)
+            }
+            
+        } catch {
         }
+        
+        /*
+        if let htmlPath = Bundle.main.path(forResource: "index", ofType: "html") {
+         let html = try String(contentsOfFile: htmlPath, encoding: .utf8)
+             .replacingOccurrences(of: "$url#", with: url)
+             .replacingOccurrences(of: "$eventId#", with: eventId)
+        }*/
         
         if let handle = fplanReadyHandler{
             webView.configuration.userContentController.add(FpHandler(handle), name: "onFpConfiguredHandler")

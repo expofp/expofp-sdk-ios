@@ -22,15 +22,15 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		E70E859127B058D400D80AF8 /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70E859027B058D400D80AF8 /* NetworkReachability.swift */; };
-		E70E859227B058D400D80AF8 /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70E859027B058D400D80AF8 /* NetworkReachability.swift */; };
-		E70E859427B069F800D80AF8 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = E70E859327B069F800D80AF8 /* index.html */; };
-		E70E859527B069F800D80AF8 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = E70E859327B069F800D80AF8 /* index.html */; };
+		E72A4C4727B08054004AB602 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72A4C4627B08054004AB602 /* Helper.swift */; };
 		E78776A927859137007C1824 /* FplanKit.docc in Sources */ = {isa = PBXBuildFile; fileRef = E78776A827859137007C1824 /* FplanKit.docc */; };
 		E78776AF27859137007C1824 /* FplanKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E78776A427859137007C1824 /* FplanKit.framework */; };
 		E78776B427859137007C1824 /* FplanKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78776B327859137007C1824 /* FplanKitTests.swift */; };
 		E78776B527859137007C1824 /* FplanKit.h in Headers */ = {isa = PBXBuildFile; fileRef = E78776A727859137007C1824 /* FplanKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E78776BF2785919B007C1824 /* FplanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78776BE2785919B007C1824 /* FplanView.swift */; };
+		E78E993A27B07444003DF393 /* FplanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78E993927B07444003DF393 /* FplanView.swift */; };
+		E78E993C27B0744A003DF393 /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78E993B27B0744A003DF393 /* NetworkReachability.swift */; };
+		E78E993E27B07638003DF393 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = E78E993D27B07638003DF393 /* index.html */; };
+		E78E993F27B07638003DF393 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = E78E993D27B07638003DF393 /* index.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,14 +51,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E70E859027B058D400D80AF8 /* NetworkReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
-		E70E859327B069F800D80AF8 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		E72A4C4627B08054004AB602 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		E78776A427859137007C1824 /* FplanKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FplanKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E78776A727859137007C1824 /* FplanKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FplanKit.h; sourceTree = "<group>"; };
 		E78776A827859137007C1824 /* FplanKit.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = FplanKit.docc; sourceTree = "<group>"; };
 		E78776AE27859137007C1824 /* FplanKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FplanKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E78776B327859137007C1824 /* FplanKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FplanKitTests.swift; sourceTree = "<group>"; };
-		E78776BE2785919B007C1824 /* FplanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FplanView.swift; sourceTree = "<group>"; };
+		E78E993927B07444003DF393 /* FplanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FplanView.swift; sourceTree = "<group>"; };
+		E78E993B27B0744A003DF393 /* NetworkReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
+		E78E993D27B07638003DF393 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,9 +81,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E72B3C4B27B0799900526284 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				E72B3C4C27B079AD00526284 /* FplanKit */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		E72B3C4C27B079AD00526284 /* FplanKit */ = {
+			isa = PBXGroup;
+			children = (
+				E78E993D27B07638003DF393 /* index.html */,
+			);
+			path = FplanKit;
+			sourceTree = "<group>";
+		};
 		E787769A27859137007C1824 = {
 			isa = PBXGroup;
 			children = (
+				E72B3C4B27B0799900526284 /* Sources */,
 				E78776A627859137007C1824 /* FplanKit */,
 				E78776B227859137007C1824 /* FplanKitTests */,
 				E78776A527859137007C1824 /* Products */,
@@ -101,11 +119,11 @@
 		E78776A627859137007C1824 /* FplanKit */ = {
 			isa = PBXGroup;
 			children = (
+				E78E993927B07444003DF393 /* FplanView.swift */,
+				E78E993B27B0744A003DF393 /* NetworkReachability.swift */,
 				E78776A727859137007C1824 /* FplanKit.h */,
 				E78776A827859137007C1824 /* FplanKit.docc */,
-				E78776BE2785919B007C1824 /* FplanView.swift */,
-				E70E859327B069F800D80AF8 /* index.html */,
-				E70E859027B058D400D80AF8 /* NetworkReachability.swift */,
+				E72A4C4627B08054004AB602 /* Helper.swift */,
 			);
 			path = FplanKit;
 			sourceTree = "<group>";
@@ -215,7 +233,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E70E859427B069F800D80AF8 /* index.html in Resources */,
+				E78E993E27B07638003DF393 /* index.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,7 +241,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E70E859527B069F800D80AF8 /* index.html in Resources */,
+				E78E993F27B07638003DF393 /* index.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,9 +272,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E78776BF2785919B007C1824 /* FplanView.swift in Sources */,
+				E78E993A27B07444003DF393 /* FplanView.swift in Sources */,
 				E78776A927859137007C1824 /* FplanKit.docc in Sources */,
-				E70E859127B058D400D80AF8 /* NetworkReachability.swift in Sources */,
+				E78E993C27B0744A003DF393 /* NetworkReachability.swift in Sources */,
+				E72A4C4727B08054004AB602 /* Helper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,7 +284,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E78776B427859137007C1824 /* FplanKitTests.swift in Sources */,
-				E70E859227B058D400D80AF8 /* NetworkReachability.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
