@@ -1,8 +1,7 @@
 import Foundation
 
-
 @available(iOS 13.0.0, *)
-public class Helper{
+class Helper{
     
     public static func getCacheDirectory() -> URL {
         let paths = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)

@@ -22,6 +22,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		E706182A27B44A9700F35C14 /* BoothHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E706182927B44A9700F35C14 /* BoothHandler.swift */; };
+		E706182B27B44A9700F35C14 /* BoothHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E706182927B44A9700F35C14 /* BoothHandler.swift */; };
+		E706182D27B44AF200F35C14 /* FpHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E706182C27B44AF200F35C14 /* FpHandler.swift */; };
+		E706182E27B44AF200F35C14 /* FpHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E706182C27B44AF200F35C14 /* FpHandler.swift */; };
+		E706183027B44B6D00F35C14 /* RouteHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E706182F27B44B6D00F35C14 /* RouteHandler.swift */; };
+		E706183127B44B6D00F35C14 /* RouteHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E706182F27B44B6D00F35C14 /* RouteHandler.swift */; };
+		E706183327B44BA400F35C14 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = E706183227B44BA400F35C14 /* Route.swift */; };
+		E706183427B44BA400F35C14 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = E706183227B44BA400F35C14 /* Route.swift */; };
 		E72A4C4727B08054004AB602 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72A4C4627B08054004AB602 /* Helper.swift */; };
 		E78776A927859137007C1824 /* FplanKit.docc in Sources */ = {isa = PBXBuildFile; fileRef = E78776A827859137007C1824 /* FplanKit.docc */; };
 		E78776AF27859137007C1824 /* FplanKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E78776A427859137007C1824 /* FplanKit.framework */; };
@@ -51,6 +59,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E706182927B44A9700F35C14 /* BoothHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoothHandler.swift; sourceTree = "<group>"; };
+		E706182C27B44AF200F35C14 /* FpHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FpHandler.swift; sourceTree = "<group>"; };
+		E706182F27B44B6D00F35C14 /* RouteHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteHandler.swift; sourceTree = "<group>"; };
+		E706183227B44BA400F35C14 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		E72A4C4627B08054004AB602 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		E78776A427859137007C1824 /* FplanKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FplanKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E78776A727859137007C1824 /* FplanKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FplanKit.h; sourceTree = "<group>"; };
@@ -81,6 +93,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E706182727B44A6800F35C14 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E706183227B44BA400F35C14 /* Route.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E706182827B44A7600F35C14 /* Handlers */ = {
+			isa = PBXGroup;
+			children = (
+				E706182927B44A9700F35C14 /* BoothHandler.swift */,
+				E706182C27B44AF200F35C14 /* FpHandler.swift */,
+				E706182F27B44B6D00F35C14 /* RouteHandler.swift */,
+			);
+			path = Handlers;
+			sourceTree = "<group>";
+		};
 		E72B3C4B27B0799900526284 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +125,15 @@
 				E78E993D27B07638003DF393 /* index.html */,
 			);
 			path = FplanKit;
+			sourceTree = "<group>";
+		};
+		E757AC0727B44D0600A0ABA8 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				E72A4C4627B08054004AB602 /* Helper.swift */,
+				E78E993B27B0744A003DF393 /* NetworkReachability.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		E787769A27859137007C1824 = {
@@ -119,11 +158,12 @@
 		E78776A627859137007C1824 /* FplanKit */ = {
 			isa = PBXGroup;
 			children = (
+				E757AC0727B44D0600A0ABA8 /* Helpers */,
+				E706182827B44A7600F35C14 /* Handlers */,
+				E706182727B44A6800F35C14 /* Models */,
 				E78E993927B07444003DF393 /* FplanView.swift */,
-				E78E993B27B0744A003DF393 /* NetworkReachability.swift */,
 				E78776A727859137007C1824 /* FplanKit.h */,
 				E78776A827859137007C1824 /* FplanKit.docc */,
-				E72A4C4627B08054004AB602 /* Helper.swift */,
 			);
 			path = FplanKit;
 			sourceTree = "<group>";
@@ -274,8 +314,12 @@
 			files = (
 				E78E993A27B07444003DF393 /* FplanView.swift in Sources */,
 				E78776A927859137007C1824 /* FplanKit.docc in Sources */,
+				E706182D27B44AF200F35C14 /* FpHandler.swift in Sources */,
 				E78E993C27B0744A003DF393 /* NetworkReachability.swift in Sources */,
+				E706182A27B44A9700F35C14 /* BoothHandler.swift in Sources */,
+				E706183327B44BA400F35C14 /* Route.swift in Sources */,
 				E72A4C4727B08054004AB602 /* Helper.swift in Sources */,
+				E706183027B44B6D00F35C14 /* RouteHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +328,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E78776B427859137007C1824 /* FplanKitTests.swift in Sources */,
+				E706182B27B44A9700F35C14 /* BoothHandler.swift in Sources */,
+				E706183127B44B6D00F35C14 /* RouteHandler.swift in Sources */,
+				E706183427B44BA400F35C14 /* Route.swift in Sources */,
+				E706182E27B44AF200F35C14 /* FpHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/FplanKit-Swift.h</key>
 		<data>
-		7G9n+JQh2QuBtYOtiay+FVST2FU=
+		3Cg1OeJeIRbGW+liirkwE+RfKxM=
 		</data>
 		<key>Headers/FplanKit.h</key>
 		<data>
@@ -22,11 +22,11 @@
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		5rAYFRkrHXLTSM9NPcMBiBEha0Q=
+		/07p0GJKqIkpsVyUK0GGwYYFi+M=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		6O+rCUHOhFCFO64k/YA//kf7g1s=
+		ltN0X8FMHgg40SBtKhZ9rV8eHUM=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -34,11 +34,11 @@
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftinterface</key>
 		<data>
-		5rAYFRkrHXLTSM9NPcMBiBEha0Q=
+		/07p0GJKqIkpsVyUK0GGwYYFi+M=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		6O+rCUHOhFCFO64k/YA//kf7g1s=
+		ltN0X8FMHgg40SBtKhZ9rV8eHUM=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -46,11 +46,11 @@
 		</data>
 		<key>Modules/FplanKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		6xDCwr/UUL8jN/1QvalNBCNznLo=
+		nGr3VaTexa8wKzyEaWUjrc0hPQY=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		Ivxqn6gknvzhGADc6g9BTR7Mf0Q=
+		0e8956Jd5wMmo8b/hGY1YsFsCPI=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -58,11 +58,11 @@
 		</data>
 		<key>Modules/FplanKit.swiftmodule/x86_64.swiftinterface</key>
 		<data>
-		6xDCwr/UUL8jN/1QvalNBCNznLo=
+		nGr3VaTexa8wKzyEaWUjrc0hPQY=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		Ivxqn6gknvzhGADc6g9BTR7Mf0Q=
+		0e8956Jd5wMmo8b/hGY1YsFsCPI=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -79,7 +79,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			1E+RACNTDYSXQhmHaTAqlRFuVADuPZno00GMx65PPKg=
+			n1TYA4yjQKsiRKaX/Y+yUEi9P2/h+2wZGOwQzbXyfZc=
 			</data>
 		</dict>
 		<key>Headers/FplanKit.h</key>
@@ -100,14 +100,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			/8VcN6r2cHn0L2iP8CWF4p6WRmL/RVlJbGWu0Ou9JbY=
+			YsFa5HUzVPa1RVBXKPtagoMkG4wgtziA9Q+3yk9tXvw=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			xzdlUutOlJqkCm1N2T1dYeBON9RR8DS6QB3+ytELQ1o=
+			x1qnSwwAYqKfdSdlIg43uisb5YcdRe2QWVx4AxDYiII=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftdoc</key>
@@ -121,14 +121,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			/8VcN6r2cHn0L2iP8CWF4p6WRmL/RVlJbGWu0Ou9JbY=
+			YsFa5HUzVPa1RVBXKPtagoMkG4wgtziA9Q+3yk9tXvw=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			xzdlUutOlJqkCm1N2T1dYeBON9RR8DS6QB3+ytELQ1o=
+			x1qnSwwAYqKfdSdlIg43uisb5YcdRe2QWVx4AxDYiII=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -142,14 +142,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			glWzk/9FJU1/uMmhyDEfQLuX+z+S/qnLJ/NWPodjEKY=
+			oosG5FBzu+nGE6KWkjKH6t6vI9FUAkt8Y1stqujr3AI=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			6P2iyFS+vJLIA/EaJgKn/4l6ZlgRt+hrH9AQ9Wtkd1s=
+			au5odSKsc83V3wf33e8xY/wNrt8Z60xta8kB0c9rcWc=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/x86_64.swiftdoc</key>
@@ -163,14 +163,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			glWzk/9FJU1/uMmhyDEfQLuX+z+S/qnLJ/NWPodjEKY=
+			oosG5FBzu+nGE6KWkjKH6t6vI9FUAkt8Y1stqujr3AI=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/x86_64.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			6P2iyFS+vJLIA/EaJgKn/4l6ZlgRt+hrH9AQ9Wtkd1s=
+			au5odSKsc83V3wf33e8xY/wNrt8Z60xta8kB0c9rcWc=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

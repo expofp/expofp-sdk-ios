@@ -10,29 +10,6 @@ import SystemConfiguration
 import UIKit
 import WebKit
 import _Concurrency
-public struct Route {
-}
-public struct JRoute : Swift.Decodable {
-  public init(from decoder: Swift.Decoder) throws
-}
-@objc @available(iOS 13.0, *)
-public class FpHandler : ObjectiveC.NSObject, WebKit.WKScriptMessageHandler {
-  public init(_ fplanReadyHandler: (() -> Swift.Void)!)
-  @objc public func userContentController(_ userContentController: WebKit.WKUserContentController, didReceive message: WebKit.WKScriptMessage)
-  @objc deinit
-}
-@objc @available(iOS 13.0, *)
-public class BoothHandler : ObjectiveC.NSObject, WebKit.WKScriptMessageHandler {
-  public init(_ boothSelectionHandler: ((_ boothName: Swift.String) -> Swift.Void)!)
-  @objc public func userContentController(_ userContentController: WebKit.WKUserContentController, didReceive message: WebKit.WKScriptMessage)
-  @objc deinit
-}
-@objc @available(iOS 13.0, *)
-public class RouteHandler : ObjectiveC.NSObject, WebKit.WKScriptMessageHandler {
-  public init(_ routeBuildHandler: ((_ route: FplanKit.Route) -> Swift.Void)!)
-  @objc public func userContentController(_ userContentController: WebKit.WKUserContentController, didReceive message: WebKit.WKScriptMessage)
-  @objc deinit
-}
 @available(iOS 13.0, *)
 @_Concurrency.MainActor(unsafe) public struct FplanView : SwiftUI.UIViewRepresentable {
   @_Concurrency.MainActor(unsafe) public init(_ url: Swift.String, fplanReadyHandler: (() -> Swift.Void)? = nil, boothSelectionHandler: ((_ boothName: Swift.String) -> Swift.Void)? = nil, routeBuildHandler: ((_ route: FplanKit.Route) -> Swift.Void)? = nil)
@@ -53,7 +30,12 @@ public class RouteHandler : ObjectiveC.NSObject, WebKit.WKScriptMessageHandler {
   }
   public typealias Previews = @_opaqueReturnTypeOf("$s8FplanKit0A13View_PreviewsV8previewsQrvpZ", 0) __
 }
-@_hasMissingDesignatedInitializers public class Helper {
-  public static func GetIndexHtml() -> Swift.String
+public struct Route {
+}
+@_hasMissingDesignatedInitializers @available(iOS 13.0.0, *)
+public class Helper {
+  public static func getCacheDirectory() -> Foundation.URL
+  public static func updateAllFiles(baseUrl: Foundation.URL!, directory: Foundation.URL!) throws
+  public static func getIndexHtml() -> Swift.String
   @objc deinit
 }

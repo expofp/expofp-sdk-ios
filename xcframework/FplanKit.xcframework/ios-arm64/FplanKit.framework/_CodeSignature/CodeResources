@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/FplanKit-Swift.h</key>
 		<data>
-		Wj4aA85dchapzPwB0aZA3hmHACo=
+		spOzCopTfNHZMzzB1nDajgxPN7M=
 		</data>
 		<key>Headers/FplanKit.h</key>
 		<data>
@@ -22,11 +22,11 @@
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
-		Fp+IECq5JlZkYecptwAX24kYbPw=
+		porS53yOdKR5N4zS6Ls/4HAfWM8=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		+CEdJO7gBUEyYjIg5WoyceXWbwc=
+		k5Lcx5FP7AXS+UsczgvHbUdVzs8=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -34,11 +34,11 @@
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftinterface</key>
 		<data>
-		Fp+IECq5JlZkYecptwAX24kYbPw=
+		porS53yOdKR5N4zS6Ls/4HAfWM8=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		+CEdJO7gBUEyYjIg5WoyceXWbwc=
+		k5Lcx5FP7AXS+UsczgvHbUdVzs8=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -55,7 +55,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			o7+TMqIvzAsx74Zpjz+bf3BGq8zSqmWGBioabzv7Qys=
+			kLcUNXLTdFM39baDbgz8oHqpmB46roLs7AvioKKxCTI=
 			</data>
 		</dict>
 		<key>Headers/FplanKit.h</key>
@@ -76,14 +76,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			BSL1iO+UF9HUQ8Prh8znoUHwjZYaOzC83mrlqsW+6R0=
+			IBZQ3bk6kGKYEYIRPhsGP/JfCEjsQSq+371axjaKl8g=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			/vH4jOsSMipRrXCTQk68xzkQmn3XNHyjBXlXLIlWiRA=
+			D7LTVHyBP50dlIPEpvHR/6vKigIxzFKtEaaFwMgwfMY=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftdoc</key>
@@ -97,14 +97,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			BSL1iO+UF9HUQ8Prh8znoUHwjZYaOzC83mrlqsW+6R0=
+			IBZQ3bk6kGKYEYIRPhsGP/JfCEjsQSq+371axjaKl8g=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			/vH4jOsSMipRrXCTQk68xzkQmn3XNHyjBXlXLIlWiRA=
+			D7LTVHyBP50dlIPEpvHR/6vKigIxzFKtEaaFwMgwfMY=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

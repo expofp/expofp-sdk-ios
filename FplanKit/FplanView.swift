@@ -4,68 +4,6 @@ import Combine
 import WebKit
 import UIKit
 
-public struct Route {
-    let distance: String
-    let duration: TimeInterval
-}
-
-public struct JRoute : Decodable {
-    let distance: String
-    let time: Int
-}
-
-@available(iOS 13.0, *)
-public class FpHandler : NSObject, WKScriptMessageHandler {
-    
-    private let fplanReadyHandler: () -> Void
-    
-    public init(_ fplanReadyHandler: (() -> Void)!) {
-        self.fplanReadyHandler = fplanReadyHandler
-        super.init()
-    }
-    
-    public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        fplanReadyHandler()
-    }
-}
-
-@available(iOS 13.0, *)
-public class BoothHandler : NSObject, WKScriptMessageHandler {
-    
-    private let boothSelectionHandler: (_ boothName: String) -> Void
-    
-    public init(_ boothSelectionHandler: ((_ boothName: String) -> Void)!) {
-        self.boothSelectionHandler = boothSelectionHandler
-        super.init()
-    }
-    
-    public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        if let boothName = message.body as? String{
-            boothSelectionHandler(boothName)
-        }
-    }
-}
-
-@available(iOS 13.0, *)
-public class RouteHandler : NSObject, WKScriptMessageHandler {
-    
-    private let routeBuildHandler: (_ route: Route) -> Void
-    
-    public init(_ routeBuildHandler: ((_ route: Route) -> Void)!) {
-        self.routeBuildHandler = routeBuildHandler
-        super.init()
-    }
-    
-    public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        if let json = message.body as? String{
-            let decoder = JSONDecoder()
-            guard let jRoute = try? decoder.decode(JRoute.self, from: json.data(using: .utf8)!) else {
-                return
-            }
-            routeBuildHandler(Route(distance: jRoute.distance, duration: TimeInterval(jRoute.time)))
-        }
-    }
-}
 
 @available(iOS 13.0, *)
 public struct FplanView: UIViewRepresentable {
@@ -121,11 +59,12 @@ public struct FplanView: UIViewRepresentable {
         let fileManager = FileManager.default
         let netReachability = NetworkReachability()
         
-        let eventAddress = url.replacingOccurrences(of: "https://www.", with: "").replacingOccurrences(of: "https://", with: "")        
+        let eventAddress = url.replacingOccurrences(of: "https://www.", with: "").replacingOccurrences(of: "https://", with: "")
         let eventUrl = "https://\(eventAddress)"
         let eventId = String(eventAddress[...eventAddress.index(eventAddress.firstIndex(of: ".")!, offsetBy: -1)])
         let directory = Helper.getCacheDirectory().appendingPathComponent("fplan/\(eventAddress)/")
         let indexPath = directory.appendingPathComponent("index.html")
+        
         do {
             if(netReachability.checkConnection()){
                 try fileManager.removeItem(at: directory)
@@ -140,7 +79,7 @@ public struct FplanView: UIViewRepresentable {
             }
             else{
                 let expofpJsUrl = "\(directory.path)/expofp.js"
-                try createHtmlFile(filePath: indexPath, directory: directory,expofpJsUrl: expofpJsUrl, eventId: eventId )
+                try createHtmlFile(filePath: indexPath, directory: directory, expofpJsUrl: expofpJsUrl, eventId: eventId )
                 
                 let requestUrl = URLRequest(url: indexPath, cachePolicy: .returnCacheDataElseLoad)
                 self.webView.load(requestUrl)
