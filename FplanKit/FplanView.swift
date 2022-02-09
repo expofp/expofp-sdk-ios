@@ -121,21 +121,11 @@ public struct FplanView: UIViewRepresentable {
         let fileManager = FileManager.default
         let netReachability = NetworkReachability()
         
-        let eventAddress = url.replacingOccurrences(of: "https://www.", with: "").replacingOccurrences(of: "https://", with: "")
-        print("eventAddress: " + eventAddress)
-        
+        let eventAddress = url.replacingOccurrences(of: "https://www.", with: "").replacingOccurrences(of: "https://", with: "")        
         let eventUrl = "https://\(eventAddress)"
-        print("eventUrl: " + eventUrl)
-        
         let eventId = String(eventAddress[...eventAddress.index(eventAddress.firstIndex(of: ".")!, offsetBy: -1)])
-        print("eventId: " + eventId)
-        
         let directory = Helper.getCacheDirectory().appendingPathComponent("fplan/\(eventAddress)/")
-        print("directory: \(directory)")
-        
         let indexPath = directory.appendingPathComponent("index.html")
-        print("indexPath: \(indexPath)")
-        
         do {
             if(netReachability.checkConnection()){
                 try fileManager.removeItem(at: directory)
