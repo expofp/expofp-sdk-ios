@@ -70,7 +70,6 @@ public class RouteHandler : NSObject, WKScriptMessageHandler {
 @available(iOS 13.0, *)
 public struct FplanView: UIViewRepresentable {
     
-    private let url: String
     private let webView: WKWebView
     private let fplanReadyHandler: (() -> Void)?
     private let boothSelectionHandler: ((_ boothName: String) -> Void)?
@@ -80,87 +79,108 @@ public struct FplanView: UIViewRepresentable {
                 boothSelectionHandler: ((_ boothName: String) -> Void)? = nil,
                 routeBuildHandler: ((_ route: Route) -> Void)? = nil){
         
-        self.url = url
         self.fplanReadyHandler = fplanReadyHandler
         self.boothSelectionHandler = boothSelectionHandler
         self.routeBuildHandler = routeBuildHandler
         
         let preferences = WKPreferences()
+        preferences.setValue(true, forKey: "allowFileAccessFromFileURLs")
+        preferences.setValue(true, forKey: "offlineApplicationCacheIsEnabled")
+        
         let configuration = WKWebViewConfiguration()
         configuration.preferences = preferences
+        configuration.websiteDataStore = WKWebsiteDataStore.default()
         
         self.webView = WKWebView(frame: CGRect.zero, configuration: configuration)
         self.webView.allowsBackForwardNavigationGestures = true
         self.webView.scrollView.isScrollEnabled = true
+        
+        intWebView(url: url)
     }
     
     public func makeUIView(context: Context) -> WKWebView {
-        return webView
+        return self.webView
     }
     
     public func selectBooth(_ boothName:String){
-        webView.evaluateJavaScript("window.selectBooth('\(boothName)');")
-        
+        self.webView.evaluateJavaScript("window.selectBooth('\(boothName)');")
     }
     
     public func buildRoute(_ from: String, _ to: String, _ exceptUnaccessible: Bool = false){
-        webView.evaluateJavaScript("window.selectRoute('\(from)', '\(to)', \(exceptUnaccessible))")
+        self.webView.evaluateJavaScript("window.selectRoute('\(from)', '\(to)', \(exceptUnaccessible))")
     }
     
     public func setCurrentPosition(_ x: Int, _ y: Int, _ focus: Bool = false){
-        webView.evaluateJavaScript("window.setCurrentPosition('\(x)', '\(y)', \(focus))")
-    }
-    
-    func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
+        self.webView.evaluateJavaScript("window.setCurrentPosition('\(x)', '\(y)', \(focus))")
     }
     
     public func updateUIView(_ webView: WKWebView, context: Context) {
+    }
+    
+    private func intWebView(url: String) {
+        let fileManager = FileManager.default
         let netReachability = NetworkReachability()
-        let isConnected = netReachability.checkConnection()
         
-        let eventId = url.starts(with: "https://")
-        ? url[url.index(url.startIndex, offsetBy: 8)...url.index(url.firstIndex(of: ".")!, offsetBy: -1)]
-        : url[...url.index(url.firstIndex(of: ".")!, offsetBy: -1)]
-                
-        let html = Helper.GetIndexHtml()
-            .replacingOccurrences(of: "$url#", with: url)
-            .replacingOccurrences(of: "$eventId#", with: eventId)
+        let eventAddress = url.replacingOccurrences(of: "https://www.", with: "").replacingOccurrences(of: "https://", with: "")
+        print("eventAddress: " + eventAddress)
+        
+        let eventUrl = "https://\(eventAddress)"
+        print("eventUrl: " + eventUrl)
+        
+        let eventId = String(eventAddress[...eventAddress.index(eventAddress.firstIndex(of: ".")!, offsetBy: -1)])
+        print("eventId: " + eventId)
+        
+        let directory = Helper.getCacheDirectory().appendingPathComponent("fplan/\(eventAddress)/")
+        print("directory: \(directory)")
+        
+        let indexPath = directory.appendingPathComponent("index.html")
+        print("indexPath: \(indexPath)")
         
         do {
-            let filename = getDocumentsDirectory().appendingPathComponent("index.html")
-            try html.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
-            if(isConnected){
-                let requestUrl = URLRequest(url: filename, cachePolicy: .reloadRevalidatingCacheData)
-                webView.load(requestUrl)
+            if(netReachability.checkConnection()){
+                try fileManager.removeItem(at: directory)
+                
+                let expofpJsUrl = "\(eventUrl)/packages/master/expofp.js"
+                try createHtmlFile(filePath: indexPath, directory: directory,expofpJsUrl: expofpJsUrl, eventId: eventId )
+                
+                let requestUrl = URLRequest(url: indexPath, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
+                self.webView.load(requestUrl)
+                
+                try Helper.updateAllFiles(baseUrl: URL(string: eventUrl), directory: directory)
             }
             else{
-                let requestUrl = URLRequest(url: filename, cachePolicy: .returnCacheDataElseLoad)
-                webView.load(requestUrl)
+                let expofpJsUrl = "\(directory.path)/expofp.js"
+                try createHtmlFile(filePath: indexPath, directory: directory,expofpJsUrl: expofpJsUrl, eventId: eventId )
+                
+                let requestUrl = URLRequest(url: indexPath, cachePolicy: .returnCacheDataElseLoad)
+                self.webView.load(requestUrl)
             }
-            
         } catch {
         }
         
-        /*
-        if let htmlPath = Bundle.main.path(forResource: "index", ofType: "html") {
-         let html = try String(contentsOfFile: htmlPath, encoding: .utf8)
-             .replacingOccurrences(of: "$url#", with: url)
-             .replacingOccurrences(of: "$eventId#", with: eventId)
-        }*/
-        
         if let handle = fplanReadyHandler{
-            webView.configuration.userContentController.add(FpHandler(handle), name: "onFpConfiguredHandler")
+            self.webView.configuration.userContentController.add(FpHandler(handle), name: "onFpConfiguredHandler")
         }
         
         if let handle = boothSelectionHandler{
-            webView.configuration.userContentController.add(BoothHandler(handle), name: "onBoothClickHandler")
+            self.webView.configuration.userContentController.add(BoothHandler(handle), name: "onBoothClickHandler")
         }
         
         if let handle = routeBuildHandler{
-            webView.configuration.userContentController.add(RouteHandler(handle), name: "onDirectionHandler")
+            self.webView.configuration.userContentController.add(RouteHandler(handle), name: "onDirectionHandler")
         }
+    }
+    
+    private func createHtmlFile(filePath: URL, directory: URL, expofpJsUrl: String, eventId: String) throws {
+        let fileManager = FileManager.default
+        let html = Helper.getIndexHtml()
+            .replacingOccurrences(of: "$expofp_js_url#", with: expofpJsUrl)
+            .replacingOccurrences(of: "$eventId#", with: eventId)
+        
+        if !fileManager.fileExists(atPath: filePath.path){
+            try! fileManager.createDirectory(atPath: directory.path, withIntermediateDirectories: true, attributes: nil)
+        }
+        try html.write(to: filePath, atomically: true, encoding: String.Encoding.utf8)
     }
 }
 
