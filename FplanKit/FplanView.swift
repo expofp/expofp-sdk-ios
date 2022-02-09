@@ -13,6 +13,13 @@ public struct FplanView: UIViewRepresentable {
     private let boothSelectionHandler: ((_ boothName: String) -> Void)?
     private let routeBuildHandler: ((_ route: Route) -> Void)?
     
+    /**
+     Initialize view
+     @param url expo URL address in the format https://[expo_name].expofp.com
+     @param fplanReadyHandler Callback called after the map has been built
+     @param boothSelectionHandler Callback called after clicking on the booth on the map
+     @param routeBuildHandler Callback to be called after the route has been built
+     */
     public init(_ url: String, fplanReadyHandler: (() -> Void)? = nil,
                 boothSelectionHandler: ((_ boothName: String) -> Void)? = nil,
                 routeBuildHandler: ((_ route: Route) -> Void)? = nil){
@@ -40,14 +47,30 @@ public struct FplanView: UIViewRepresentable {
         return self.webView
     }
     
+    /**
+     Select booth and focus on map
+     @param boothName Name of the booth
+     */
     public func selectBooth(_ boothName:String){
         self.webView.evaluateJavaScript("window.selectBooth('\(boothName)');")
     }
     
-    public func buildRoute(_ from: String, _ to: String, _ exceptUnaccessible: Bool = false){
-        self.webView.evaluateJavaScript("window.selectRoute('\(from)', '\(to)', \(exceptUnaccessible))")
+    /**
+     Build a route from one booth to another
+     @param from Start booth name
+     @param to End booth name
+     @param exceptInaccessible True - exclude routes inaccessible to people with disabilities
+     */
+    public func buildRoute(_ from: String, _ to: String, _ exceptInaccessible: Bool = false){
+        self.webView.evaluateJavaScript("window.selectRoute('\(from)', '\(to)', \(exceptInaccessible))")
     }
     
+    /**
+     Set current position(Blu Dot) on the map
+     @param x X
+     @param y Y
+     @param focus true - focus on a point
+     */
     public func setCurrentPosition(_ x: Int, _ y: Int, _ focus: Bool = false){
         self.webView.evaluateJavaScript("window.setCurrentPosition('\(x)', '\(y)', \(focus))")
     }
@@ -117,6 +140,7 @@ public struct FplanView_Previews: PreviewProvider {
     public init(){
         
     }
+    
     @available(iOS 13.0.0, *)
     public static var previews: some View {
         FplanView("https://wayfinding.expofp.com")

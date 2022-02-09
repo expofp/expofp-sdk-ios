@@ -32,10 +32,3 @@ import _Concurrency
 }
 public struct Route {
 }
-@_hasMissingDesignatedInitializers @available(iOS 13.0.0, *)
-public class Helper {
-  public static func getCacheDirectory() -> Foundation.URL
-  public static func updateAllFiles(baseUrl: Foundation.URL!, directory: Foundation.URL!) throws
-  public static func getIndexHtml() -> Swift.String
-  @objc deinit
-}
