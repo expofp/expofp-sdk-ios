@@ -85,12 +85,16 @@ public struct FplanView: UIViewRepresentable {
         let eventAddress = url.replacingOccurrences(of: "https://www.", with: "").replacingOccurrences(of: "https://", with: "")
         let eventUrl = "https://\(eventAddress)"
         let eventId = String(eventAddress[...eventAddress.index(eventAddress.firstIndex(of: ".")!, offsetBy: -1)])
-        let directory = Helper.getCacheDirectory().appendingPathComponent("fplan/\(eventAddress)/")
+        
+        let fplanDirectory = Helper.getCacheDirectory().appendingPathComponent("fplan/")
+        let directory = fplanDirectory.appendingPathComponent("\(eventAddress)/")
         let indexPath = directory.appendingPathComponent("index.html")
         
         do {
             if(netReachability.checkConnection()){
-                try fileManager.removeItem(at: directory)
+                if fileManager.fileExists(atPath: fplanDirectory.path){
+                    try fileManager.removeItem(at: fplanDirectory)
+                }
                 
                 let expofpJsUrl = "\(eventUrl)/packages/master/expofp.js"
                 try createHtmlFile(filePath: indexPath, directory: directory,expofpJsUrl: expofpJsUrl, eventId: eventId )
@@ -108,6 +112,7 @@ public struct FplanView: UIViewRepresentable {
                 self.webView.load(requestUrl)
             }
         } catch {
+            print(error)
         }
         
         if let handle = fplanReadyHandler{
