@@ -117,7 +117,6 @@ class Helper{
     }
     
     private static func updateFile(_ url: URL, _ filePath: URL){
-        print("UPDATE FILE: \(url) -> \(filePath)")
         let session = URLSession.shared
         let task = session.dataTask(with: url, completionHandler: { data, response, error in
             let fileManager = FileManager.default
