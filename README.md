@@ -18,18 +18,6 @@ https://github.com/expofp/expofp-swiftui-example
 pod 'FplanKit'
 ```
 
-### Manualy
-
-Download: https://github.com/expofp/expofp-ios-sdk/raw/main/archives/0.0.1.zip
-
-![1](https://user-images.githubusercontent.com/60826376/148283967-c2bdf8a9-7651-41a0-bc32-d66bd07246ff.jpeg)
-
-![2](https://user-images.githubusercontent.com/60826376/148283980-53635c91-be28-4a2f-b33c-b9dcbbfa43e7.jpeg)
-
-![3](https://user-images.githubusercontent.com/60826376/148283996-e0cadddc-5058-487e-bb5d-afdaf64a221d.jpeg)
-
-![4](https://user-images.githubusercontent.com/60826376/148284001-580f2226-598a-482d-8648-a8fbadf2e528.jpeg)
-
 ## Usage
 
 ```swift
