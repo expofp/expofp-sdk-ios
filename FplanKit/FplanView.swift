@@ -22,7 +22,7 @@ public struct FplanView: UIViewRepresentable {
       
      **Parameters:**
          - url: Floor plan URL address in the format https://[expo_name].expofp.com
-         - fplanReadyHandler: Callback called after the map has been built
+         - fplanReadyHandler: Callback called after the floor plan has been built
          - boothSelectionHandler: Callback called after clicking on the booth
          - routeBuildHandler: Callback to be called after the route has been built
      */
