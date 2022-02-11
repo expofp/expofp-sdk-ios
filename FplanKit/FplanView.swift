@@ -4,7 +4,11 @@ import Combine
 import WebKit
 import UIKit
 
+/**
+ Views to display the floor plan
 
+ You can create a floor plan on the site https://expofp.com
+ */
 @available(iOS 13.0, *)
 public struct FplanView: UIViewRepresentable {
     
@@ -14,11 +18,13 @@ public struct FplanView: UIViewRepresentable {
     private let routeBuildHandler: ((_ route: Route) -> Void)?
     
     /**
-     Initialize view
-     @param url expo URL address in the format https://[expo_name].expofp.com
-     @param fplanReadyHandler Callback called after the map has been built
-     @param boothSelectionHandler Callback called after clicking on the booth on the map
-     @param routeBuildHandler Callback to be called after the route has been built
+     This function initializes the view.
+      
+     **Parameters:**
+         - url: Floor plan URL address in the format https://[expo_name].expofp.com
+         - fplanReadyHandler: Callback called after the floor plan has been built
+         - boothSelectionHandler: Callback called after clicking on the booth
+         - routeBuildHandler: Callback to be called after the route has been built
      */
     public init(_ url: String, fplanReadyHandler: (() -> Void)? = nil,
                 boothSelectionHandler: ((_ boothName: String) -> Void)? = nil,
@@ -48,28 +54,35 @@ public struct FplanView: UIViewRepresentable {
     }
     
     /**
-     Select booth and focus on map
-     @param boothName Name of the booth
+     This function selects a booth on the floor plan.
+      
+     **Parameters:**
+         - boothName: Name of the booth
      */
     public func selectBooth(_ boothName:String){
         self.webView.evaluateJavaScript("window.selectBooth('\(boothName)');")
     }
     
+    
     /**
-     Build a route from one booth to another
-     @param from Start booth name
-     @param to End booth name
-     @param exceptInaccessible True - exclude routes inaccessible to people with disabilities
+     This function builds a route from one booth to another.
+      
+     **Parameters:**
+         - from: Start booth name
+         - to: End booth name
+         - exceptInaccessible: Exclude routes inaccessible to people with disabilities
      */
     public func buildRoute(_ from: String, _ to: String, _ exceptInaccessible: Bool = false){
         self.webView.evaluateJavaScript("window.selectRoute('\(from)', '\(to)', \(exceptInaccessible))")
     }
     
     /**
-     Set current position(Blu Dot) on the map
-     @param x X
-     @param y Y
-     @param focus true - focus on a point
+     This function sets current position(blue-dot) on the floor plan.
+      
+     **Parameters:**
+         - x: X
+         - y: Y
+         - focus: Focus on a point
      */
     public func setCurrentPosition(_ x: Int, _ y: Int, _ focus: Bool = false){
         self.webView.evaluateJavaScript("window.setCurrentPosition('\(x)', '\(y)', \(focus))")

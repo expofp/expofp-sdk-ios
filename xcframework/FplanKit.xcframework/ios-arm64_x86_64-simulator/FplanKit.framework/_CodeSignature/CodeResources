@@ -18,7 +18,7 @@
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		5R+78d8rdsLtd/o/m9YZ9+ENgsA=
+		oAzJQM/cBTiS/2bS0ZbxR1XuXj0=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
@@ -30,7 +30,7 @@
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftdoc</key>
 		<data>
-		5R+78d8rdsLtd/o/m9YZ9+ENgsA=
+		oAzJQM/cBTiS/2bS0ZbxR1XuXj0=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftinterface</key>
 		<data>
@@ -42,7 +42,7 @@
 		</data>
 		<key>Modules/FplanKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		SA5/a/wGNsu/h9A6vGvrhcFzo7g=
+		tU5b39B7F1e06m4qM7mRTye4aRg=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Modules/FplanKit.swiftmodule/x86_64.swiftdoc</key>
 		<data>
-		SA5/a/wGNsu/h9A6vGvrhcFzo7g=
+		tU5b39B7F1e06m4qM7mRTye4aRg=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/x86_64.swiftinterface</key>
 		<data>
@@ -93,7 +93,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			MExnKr8RagSTH0Jk2Ztf/1IS40oEHxpezxGJpEBxxBA=
+			uXTl6cRH2PFOCJmEyBbW7TTZ10IjmlqnCr6H4VbpeaU=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
@@ -114,7 +114,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			MExnKr8RagSTH0Jk2Ztf/1IS40oEHxpezxGJpEBxxBA=
+			uXTl6cRH2PFOCJmEyBbW7TTZ10IjmlqnCr6H4VbpeaU=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftinterface</key>
@@ -135,7 +135,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			+K+78yerOkldm4b9OejuUo3UxXS5KhDZzxQYjUP16Qg=
+			ayeROOGN0huG3GhOLVQxpmNzpL7EbJQOF3fL+Nrntfg=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
@@ -156,7 +156,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			+K+78yerOkldm4b9OejuUo3UxXS5KhDZzxQYjUP16Qg=
+			ayeROOGN0huG3GhOLVQxpmNzpL7EbJQOF3fL+Nrntfg=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/x86_64.swiftinterface</key>
