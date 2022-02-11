@@ -26,7 +26,7 @@
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		RvRCUC46ljJONhKhnCQYM2nbYYc=
+		pstyFRR1OEaE8l5ZZ1RKyxW45Sk=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -38,7 +38,7 @@
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		RvRCUC46ljJONhKhnCQYM2nbYYc=
+		pstyFRR1OEaE8l5ZZ1RKyxW45Sk=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -50,7 +50,7 @@
 		</data>
 		<key>Modules/FplanKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		xZa0Lnen3RQzWVuparF34kDdz9Y=
+		zs/J2ZN2L4/qmBMBow9qEuWBAUs=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -62,7 +62,7 @@
 		</data>
 		<key>Modules/FplanKit.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		xZa0Lnen3RQzWVuparF34kDdz9Y=
+		zs/J2ZN2L4/qmBMBow9qEuWBAUs=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -107,7 +107,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			FyLZeFZ6FL5IMlMeIfdVZMTsX4Ye36nXD/f9HY/Qq5M=
+			8p137l6bJZfj/NZS2VqdHygJizncmWd88gEuyAPNeGc=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftdoc</key>
@@ -128,7 +128,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			FyLZeFZ6FL5IMlMeIfdVZMTsX4Ye36nXD/f9HY/Qq5M=
+			8p137l6bJZfj/NZS2VqdHygJizncmWd88gEuyAPNeGc=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -149,7 +149,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			GusSOiaGu1aiI8TF4F+u56uYptUQMVCbmneKG1bhVbE=
+			IKAKl9GUuqu5JUKyK3WldLBW36jh9AZ6+QERoZQzXxs=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/x86_64.swiftdoc</key>
@@ -170,7 +170,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			GusSOiaGu1aiI8TF4F+u56uYptUQMVCbmneKG1bhVbE=
+			IKAKl9GUuqu5JUKyK3WldLBW36jh9AZ6+QERoZQzXxs=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

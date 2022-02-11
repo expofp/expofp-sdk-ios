@@ -12,6 +12,7 @@ import UIKit
 @available(iOS 13.0, *)
 public struct FplanView: UIViewRepresentable {
     
+    private let url: String
     private let webView: WKWebView
     private let fplanReadyHandler: (() -> Void)?
     private let boothSelectionHandler: ((_ boothName: String) -> Void)?
@@ -30,6 +31,7 @@ public struct FplanView: UIViewRepresentable {
                 boothSelectionHandler: ((_ boothName: String) -> Void)? = nil,
                 routeBuildHandler: ((_ route: Route) -> Void)? = nil){
         
+        self.url = url
         self.fplanReadyHandler = fplanReadyHandler
         self.boothSelectionHandler = boothSelectionHandler
         self.routeBuildHandler = routeBuildHandler
@@ -45,8 +47,6 @@ public struct FplanView: UIViewRepresentable {
         self.webView = WKWebView(frame: CGRect.zero, configuration: configuration)
         self.webView.allowsBackForwardNavigationGestures = true
         self.webView.scrollView.isScrollEnabled = true
-        
-        intWebView(url: url)
     }
     
     public func makeUIView(context: Context) -> WKWebView {
@@ -89,6 +89,7 @@ public struct FplanView: UIViewRepresentable {
     }
     
     public func updateUIView(_ webView: WKWebView, context: Context) {
+        intWebView(url: self.url)
     }
     
     private func intWebView(url: String) {
