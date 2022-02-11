@@ -2,9 +2,11 @@
 
 Create your expo plan on the website https://expofp.com then use the URL of the created expo plan when you working with the library
 
-Version for android: https://github.com/expofp/expofp-android-sdk
-
 ![WhatsApp Image 2022-01-05 at 22 51 07](https://user-images.githubusercontent.com/60826376/148282339-c53466a3-4b65-42ba-ba12-54156f77497f.jpeg)
+
+## Version for Android
+
+https://github.com/expofp/expofp-android-sdk
 
 ## Usage example
 
