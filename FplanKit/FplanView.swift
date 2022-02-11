@@ -13,7 +13,7 @@ import UIKit
 public struct FplanView: UIViewRepresentable {
     
     private let url: String
-    private let webView: WKWebView
+    //private var webView: WKWebView
     private let fplanReadyHandler: (() -> Void)?
     private let boothSelectionHandler: ((_ boothName: String) -> Void)?
     private let routeBuildHandler: ((_ route: Route) -> Void)?
@@ -35,7 +35,9 @@ public struct FplanView: UIViewRepresentable {
         self.fplanReadyHandler = fplanReadyHandler
         self.boothSelectionHandler = boothSelectionHandler
         self.routeBuildHandler = routeBuildHandler
-        
+    }
+    
+    public func makeUIView(context: Context) -> WKWebView {
         let preferences = WKPreferences()
         preferences.setValue(true, forKey: "allowFileAccessFromFileURLs")
         preferences.setValue(true, forKey: "offlineApplicationCacheIsEnabled")
@@ -44,13 +46,11 @@ public struct FplanView: UIViewRepresentable {
         configuration.preferences = preferences
         configuration.websiteDataStore = WKWebsiteDataStore.default()
         
-        self.webView = WKWebView(frame: CGRect.zero, configuration: configuration)
-        self.webView.allowsBackForwardNavigationGestures = true
-        self.webView.scrollView.isScrollEnabled = true
-    }
-    
-    public func makeUIView(context: Context) -> WKWebView {
-        return self.webView
+        let webView = WKWebView(frame: CGRect.zero, configuration: configuration)
+        webView.allowsBackForwardNavigationGestures = true
+        webView.scrollView.isScrollEnabled = true
+        intWebView(url: self.url, webView: webView)
+        return webView
     }
     
     /**
@@ -60,7 +60,7 @@ public struct FplanView: UIViewRepresentable {
          - boothName: Name of the booth
      */
     public func selectBooth(_ boothName:String){
-        self.webView.evaluateJavaScript("window.selectBooth('\(boothName)');")
+        //self.webView.evaluateJavaScript("window.selectBooth('\(boothName)');")
     }
     
     
@@ -73,7 +73,7 @@ public struct FplanView: UIViewRepresentable {
          - exceptInaccessible: Exclude routes inaccessible to people with disabilities
      */
     public func buildRoute(_ from: String, _ to: String, _ exceptInaccessible: Bool = false){
-        self.webView.evaluateJavaScript("window.selectRoute('\(from)', '\(to)', \(exceptInaccessible))")
+        //self.webView.evaluateJavaScript("window.selectRoute('\(from)', '\(to)', \(exceptInaccessible))")
     }
     
     /**
@@ -85,14 +85,14 @@ public struct FplanView: UIViewRepresentable {
          - focus: Focus on a point
      */
     public func setCurrentPosition(_ x: Int, _ y: Int, _ focus: Bool = false){
-        self.webView.evaluateJavaScript("window.setCurrentPosition('\(x)', '\(y)', \(focus))")
+        //self.webView.evaluateJavaScript("window.setCurrentPosition('\(x)', '\(y)', \(focus))")
     }
     
     public func updateUIView(_ webView: WKWebView, context: Context) {
-        intWebView(url: self.url)
+        
     }
     
-    private func intWebView(url: String) {
+    private func intWebView(url: String, webView: WKWebView) {
         let fileManager = FileManager.default
         let netReachability = NetworkReachability()
         
@@ -114,7 +114,7 @@ public struct FplanView: UIViewRepresentable {
                 try createHtmlFile(filePath: indexPath, directory: directory,expofpJsUrl: expofpJsUrl, eventId: eventId )
                 
                 let requestUrl = URLRequest(url: indexPath, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
-                self.webView.load(requestUrl)
+                webView.load(requestUrl)
                 
                 try Helper.updateAllFiles(baseUrl: URL(string: eventUrl), directory: directory)
             }
@@ -123,22 +123,22 @@ public struct FplanView: UIViewRepresentable {
                 try createHtmlFile(filePath: indexPath, directory: directory, expofpJsUrl: expofpJsUrl, eventId: eventId )
                 
                 let requestUrl = URLRequest(url: indexPath, cachePolicy: .returnCacheDataElseLoad)
-                self.webView.load(requestUrl)
+                webView.load(requestUrl)
             }
         } catch {
             print(error)
         }
         
         if let handle = fplanReadyHandler{
-            self.webView.configuration.userContentController.add(FpHandler(handle), name: "onFpConfiguredHandler")
+            webView.configuration.userContentController.add(FpHandler(handle), name: "onFpConfiguredHandler")
         }
         
         if let handle = boothSelectionHandler{
-            self.webView.configuration.userContentController.add(BoothHandler(handle), name: "onBoothClickHandler")
+            webView.configuration.userContentController.add(BoothHandler(handle), name: "onBoothClickHandler")
         }
         
         if let handle = routeBuildHandler{
-            self.webView.configuration.userContentController.add(RouteHandler(handle), name: "onDirectionHandler")
+            webView.configuration.userContentController.add(RouteHandler(handle), name: "onDirectionHandler")
         }
     }
     
