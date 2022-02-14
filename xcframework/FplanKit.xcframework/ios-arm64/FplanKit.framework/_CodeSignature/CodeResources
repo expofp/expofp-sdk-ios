@@ -18,27 +18,27 @@
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		5p2ar7dGYHR22qRDEtsWuvotcy4=
+		R4Y/RK154DSYoaXY09M2dyHj9GE=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
-		t3IZQhV2tyfbTa9zCXzZ+MIEHh4=
+		Ce49S9tLy7pFXQ2qQGUBtOub/is=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		evGMV/WdRfaY88P9Zgpi2niMLqQ=
+		8K1mv/7bobTsC1nYmvm/QRHBy6s=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftdoc</key>
 		<data>
-		5p2ar7dGYHR22qRDEtsWuvotcy4=
+		R4Y/RK154DSYoaXY09M2dyHj9GE=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftinterface</key>
 		<data>
-		t3IZQhV2tyfbTa9zCXzZ+MIEHh4=
+		Ce49S9tLy7pFXQ2qQGUBtOub/is=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		evGMV/WdRfaY88P9Zgpi2niMLqQ=
+		8K1mv/7bobTsC1nYmvm/QRHBy6s=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -69,42 +69,42 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			A3YsTKWdNU8X76HZyP4zQnU1N2E+c2pU3A7bHAgzFDw=
+			/hKoTIPpgoKOg8jDKMTgHEP+hxitr0tJ+R/OA4J3KBE=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			N9GBbgsgAAAtAPI+rl/ljUMFKrmsAhjO1zlAPFRpSMM=
+			90KCPztnkEzPH5MqctwD8eDOoV1bD01cjgam87cwBKg=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			dtbUZ2/PgzRrJcWm1FFLJetyLaM0GHBpQ7zWYTBk8Hg=
+			RnWAXg1aG588197x8b22NmpEs+TyUoAWxr2WYU3zdW0=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			A3YsTKWdNU8X76HZyP4zQnU1N2E+c2pU3A7bHAgzFDw=
+			/hKoTIPpgoKOg8jDKMTgHEP+hxitr0tJ+R/OA4J3KBE=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			N9GBbgsgAAAtAPI+rl/ljUMFKrmsAhjO1zlAPFRpSMM=
+			90KCPztnkEzPH5MqctwD8eDOoV1bD01cjgam87cwBKg=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/arm64.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			dtbUZ2/PgzRrJcWm1FFLJetyLaM0GHBpQ7zWYTBk8Hg=
+			RnWAXg1aG588197x8b22NmpEs+TyUoAWxr2WYU3zdW0=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

@@ -14,9 +14,6 @@ import _Concurrency
 @_Concurrency.MainActor(unsafe) public struct FplanView : SwiftUI.UIViewRepresentable {
   @_Concurrency.MainActor(unsafe) public init(_ url: Swift.String, selectedBooth: SwiftUI.Binding<Swift.String?>)
   @_Concurrency.MainActor(unsafe) public func makeUIView(context: FplanKit.FplanView.Context) -> WebKit.WKWebView
-  @_Concurrency.MainActor(unsafe) public func selectBooth1(_ boothName: Swift.String)
-  @_Concurrency.MainActor(unsafe) public func buildRoute1(_ from: Swift.String, _ to: Swift.String, _ exceptInaccessible: Swift.Bool = false)
-  @_Concurrency.MainActor(unsafe) public func setCurrentPosition1(_ x: Swift.Int, _ y: Swift.Int, _ focus: Swift.Bool = false)
   @_Concurrency.MainActor(unsafe) public func updateUIView(_ webView: WebKit.WKWebView, context: FplanKit.FplanView.Context)
   public typealias Body = Swift.Never
   public typealias Coordinator = Swift.Void

@@ -8,10 +8,11 @@ struct JSONRoute : Decodable {
 
 @available(iOS 13.0, *)
 class RouteHandler : NSObject, WKScriptMessageHandler {
+    private let webView: WKWebView
+    private let routeBuildHandler: (_ webView: WKWebView, _ route: Route) -> Void
     
-    private let routeBuildHandler: (_ route: Route) -> Void
-    
-    public init(_ routeBuildHandler: ((_ route: Route) -> Void)!) {
+    public init(_ webView: WKWebView, _ routeBuildHandler: ((_ webView: WKWebView, _ route: Route) -> Void)!) {
+        self.webView = webView
         self.routeBuildHandler = routeBuildHandler
         super.init()
     }
@@ -22,7 +23,7 @@ class RouteHandler : NSObject, WKScriptMessageHandler {
             guard let jRoute = try? decoder.decode(JSONRoute.self, from: json.data(using: .utf8)!) else {
                 return
             }
-            routeBuildHandler(Route(distance: jRoute.distance, duration: TimeInterval(jRoute.time)))
+            routeBuildHandler(webView, Route(distance: jRoute.distance, duration: TimeInterval(jRoute.time)))
         }
     }
 }

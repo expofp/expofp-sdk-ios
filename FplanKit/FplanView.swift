@@ -23,12 +23,14 @@ public struct FplanView: UIViewRepresentable {
      */
     public init(_ url: String,
                 selectedBooth: Binding<String?>){
-        
         self.url = url
         self._selectedBooth = selectedBooth
+        print("[FplanView.init] url: \(url); selectedBooth: \(selectedBooth)")
     }
     
     public func makeUIView(context: Context) -> WKWebView {
+        print("[FplanView.makeUIView]")
+        
         let preferences = WKPreferences()
         preferences.setValue(true, forKey: "allowFileAccessFromFileURLs")
         preferences.setValue(true, forKey: "offlineApplicationCacheIsEnabled")
@@ -40,15 +42,26 @@ public struct FplanView: UIViewRepresentable {
         let webView = WKWebView(frame: CGRect.zero, configuration: configuration)
         webView.allowsBackForwardNavigationGestures = true
         webView.scrollView.isScrollEnabled = true
-        intWebView(webView)
+        
+        webView.configuration.userContentController.add(FpHandler(webView, fpReady), name: "onFpConfiguredHandler")
+        webView.configuration.userContentController.add(BoothHandler(webView, selectBooth), name: "onBoothClickHandler")
+        
         return webView
     }
     
     public func updateUIView(_ webView: WKWebView, context: Context) {
+        print("[FplanView.updateUIView]")
         
+        let eventAddress = url.replacingOccurrences(of: "https://www.", with: "").replacingOccurrences(of: "https://", with: "")
+        if(!(webView.url?.path.contains(eventAddress) ?? false)){
+            initWebView(webView)
+        }
+        else if(self.selectedBooth != nil){
+            webView.evaluateJavaScript("window.selectBooth('\(self.selectedBooth!)');")
+        }
     }
     
-    private func intWebView(_ webView: WKWebView) {
+    private func initWebView(_ webView: WKWebView) {
         let fileManager = FileManager.default
         let netReachability = NetworkReachability()
         
@@ -85,29 +98,18 @@ public struct FplanView: UIViewRepresentable {
             print(error)
         }
         
-        func fpReady(){
-            if(self.selectedBooth != nil){
-                webView.evaluateJavaScript("window.selectBooth('\(self.selectedBooth!)');")
-            }
-        }
+    }
+    
+    func fpReady(_ webView: WKWebView){
+        print("[FplanView.makeUIView.initWebView] fpReady")
         
-        func selectBooth(_ boothName:String){
-            self.selectedBooth = boothName
+        if(self.selectedBooth != nil){
+            //webView.evaluateJavaScript("window.selectBooth('\(self.selectedBooth!)');")
         }
-        
-        webView.configuration.userContentController.add(FpHandler(fpReady), name: "onFpConfiguredHandler")
-        webView.configuration.userContentController.add(BoothHandler(selectBooth), name: "onBoothClickHandler")
-        /*if let handle = fplanReadyHandler{
-            webView.configuration.userContentController.add(FpHandler(handle), name: "onFpConfiguredHandler")
-        }
-        
-        if let handle = boothSelectionHandler{
-            webView.configuration.userContentController.add(BoothHandler(handle), name: "onBoothClickHandler")
-        }
-        
-        if let handle = routeBuildHandler{
-            webView.configuration.userContentController.add(RouteHandler(handle), name: "onDirectionHandler")
-        }*/
+    }
+    
+    func selectBooth(_ webView: WKWebView, _ boothName: String){
+        self.selectedBooth = boothName
     }
     
     private func createHtmlFile(filePath: URL, directory: URL, expofpJsUrl: String, eventId: String) throws {
