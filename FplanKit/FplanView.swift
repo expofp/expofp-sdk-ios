@@ -13,28 +13,19 @@ import UIKit
 public struct FplanView: UIViewRepresentable {
     
     private let url: String
-    //private var webView: WKWebView
-    private let fplanReadyHandler: (() -> Void)?
-    private let boothSelectionHandler: ((_ boothName: String) -> Void)?
-    private let routeBuildHandler: ((_ route: Route) -> Void)?
+    @Binding var selectedBooth: String?
     
     /**
      This function initializes the view.
       
      **Parameters:**
          - url: Floor plan URL address in the format https://[expo_name].expofp.com
-         - fplanReadyHandler: Callback called after the floor plan has been built
-         - boothSelectionHandler: Callback called after clicking on the booth
-         - routeBuildHandler: Callback to be called after the route has been built
      */
-    public init(_ url: String, fplanReadyHandler: (() -> Void)? = nil,
-                boothSelectionHandler: ((_ boothName: String) -> Void)? = nil,
-                routeBuildHandler: ((_ route: Route) -> Void)? = nil){
+    public init(_ url: String,
+                selectedBooth: Binding<String?>){
         
         self.url = url
-        self.fplanReadyHandler = fplanReadyHandler
-        self.boothSelectionHandler = boothSelectionHandler
-        self.routeBuildHandler = routeBuildHandler
+        self._selectedBooth = selectedBooth
     }
     
     public func makeUIView(context: Context) -> WKWebView {
@@ -49,50 +40,15 @@ public struct FplanView: UIViewRepresentable {
         let webView = WKWebView(frame: CGRect.zero, configuration: configuration)
         webView.allowsBackForwardNavigationGestures = true
         webView.scrollView.isScrollEnabled = true
-        intWebView(url: self.url, webView: webView)
+        intWebView(webView)
         return webView
-    }
-    
-    /**
-     This function selects a booth on the floor plan.
-      
-     **Parameters:**
-         - boothName: Name of the booth
-     */
-    public func selectBooth(_ boothName:String){
-        //self.webView.evaluateJavaScript("window.selectBooth('\(boothName)');")
-    }
-    
-    
-    /**
-     This function builds a route from one booth to another.
-      
-     **Parameters:**
-         - from: Start booth name
-         - to: End booth name
-         - exceptInaccessible: Exclude routes inaccessible to people with disabilities
-     */
-    public func buildRoute(_ from: String, _ to: String, _ exceptInaccessible: Bool = false){
-        //self.webView.evaluateJavaScript("window.selectRoute('\(from)', '\(to)', \(exceptInaccessible))")
-    }
-    
-    /**
-     This function sets current position(blue-dot) on the floor plan.
-      
-     **Parameters:**
-         - x: X
-         - y: Y
-         - focus: Focus on a point
-     */
-    public func setCurrentPosition(_ x: Int, _ y: Int, _ focus: Bool = false){
-        //self.webView.evaluateJavaScript("window.setCurrentPosition('\(x)', '\(y)', \(focus))")
     }
     
     public func updateUIView(_ webView: WKWebView, context: Context) {
         
     }
     
-    private func intWebView(url: String, webView: WKWebView) {
+    private func intWebView(_ webView: WKWebView) {
         let fileManager = FileManager.default
         let netReachability = NetworkReachability()
         
@@ -129,7 +85,19 @@ public struct FplanView: UIViewRepresentable {
             print(error)
         }
         
-        if let handle = fplanReadyHandler{
+        func fpReady(){
+            if(self.selectedBooth != nil){
+                webView.evaluateJavaScript("window.selectBooth('\(self.selectedBooth!)');")
+            }
+        }
+        
+        func selectBooth(_ boothName:String){
+            self.selectedBooth = boothName
+        }
+        
+        webView.configuration.userContentController.add(FpHandler(fpReady), name: "onFpConfiguredHandler")
+        webView.configuration.userContentController.add(BoothHandler(selectBooth), name: "onBoothClickHandler")
+        /*if let handle = fplanReadyHandler{
             webView.configuration.userContentController.add(FpHandler(handle), name: "onFpConfiguredHandler")
         }
         
@@ -139,7 +107,7 @@ public struct FplanView: UIViewRepresentable {
         
         if let handle = routeBuildHandler{
             webView.configuration.userContentController.add(RouteHandler(handle), name: "onDirectionHandler")
-        }
+        }*/
     }
     
     private func createHtmlFile(filePath: URL, directory: URL, expofpJsUrl: String, eventId: String) throws {
@@ -156,12 +124,14 @@ public struct FplanView: UIViewRepresentable {
 }
 
 public struct FplanView_Previews: PreviewProvider {
+    @State private static var selectedBooth: String? = nil
+    
     public init(){
         
     }
     
     @available(iOS 13.0.0, *)
     public static var previews: some View {
-        FplanView("https://wayfinding.expofp.com")
+        FplanView("https://wayfinding.expofp.com", selectedBooth: $selectedBooth)
     }
 }
