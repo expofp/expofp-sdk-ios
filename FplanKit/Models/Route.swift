@@ -1,17 +1,10 @@
 import Foundation
 
-/**
- Route
- */
 public struct Route {
-    /**
-     Route length information
-     Example: 10m
-     */
-    let distance: String
+
+    let from: String
     
-    /**
-     Estimated time to complete the route
-     */
-    let duration: TimeInterval
+    let to: String
+    
+    let exceptInaccessible: Bool
 }

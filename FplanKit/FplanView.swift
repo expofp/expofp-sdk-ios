@@ -13,6 +13,10 @@ import UIKit
 public struct FplanView: UIViewRepresentable {
     
     private let url: String
+    private let route: Route?
+    private let currentPosition: Point?
+    private let focusOnCurrentPosition: Bool
+    
     @Binding var selectedBooth: String?
     
     /**
@@ -22,10 +26,18 @@ public struct FplanView: UIViewRepresentable {
          - url: Floor plan URL address in the format https://[expo_name].expofp.com
      */
     public init(_ url: String,
-                selectedBooth: Binding<String?>){
+                selectedBooth: Binding<String?>? = nil,
+                route: Route? = nil,
+                currentPosition: Point? = nil,
+                focusOnCurrentPosition: Bool = false){
         self.url = url
-        self._selectedBooth = selectedBooth
-        print("[FplanView.init] url: \(url); selectedBooth: \(selectedBooth)")
+        self._selectedBooth = selectedBooth ?? Binding.constant(nil)
+        self.route = route
+        self.currentPosition = currentPosition
+        self.focusOnCurrentPosition = focusOnCurrentPosition
+
+        
+        print("[FplanView.init] url: \(url); selectedBooth: \(String(describing: selectedBooth))")
     }
     
     public func makeUIView(context: Context) -> WKWebView {
@@ -45,7 +57,8 @@ public struct FplanView: UIViewRepresentable {
         
         webView.configuration.userContentController.add(FpHandler(webView, fpReady), name: "onFpConfiguredHandler")
         webView.configuration.userContentController.add(BoothHandler(webView, selectBooth), name: "onBoothClickHandler")
-        
+        webView.configuration.userContentController.add(DirectionHandler(webView, buildDirection), name: "onDirectionHandler")
+
         return webView
     }
     
@@ -58,6 +71,12 @@ public struct FplanView: UIViewRepresentable {
         }
         else if(self.selectedBooth != nil){
             webView.evaluateJavaScript("window.selectBooth('\(self.selectedBooth!)');")
+        }
+        else if(self.route != nil){
+            webView.evaluateJavaScript("window.selectRoute(\(self.route!.from), \(self.route!.to), \(self.route!.exceptInaccessible));")
+        }
+        else if(self.currentPosition != nil){
+            webView.evaluateJavaScript("window.setCurrentPosition(\(self.currentPosition!.x), \(self.currentPosition!.y), \(focusOnCurrentPosition));")
         }
     }
     
@@ -104,12 +123,23 @@ public struct FplanView: UIViewRepresentable {
         print("[FplanView.makeUIView.initWebView] fpReady")
         
         if(self.selectedBooth != nil){
-            //webView.evaluateJavaScript("window.selectBooth('\(self.selectedBooth!)');")
+            webView.evaluateJavaScript("window.selectBooth('\(self.selectedBooth!)');")
+        }
+        else if(self.route != nil){
+            webView.evaluateJavaScript("window.selectRoute(\(self.route!.from), \(self.route!.to), \(self.route!.exceptInaccessible));")
+        }
+        else if(self.currentPosition != nil){
+            webView.evaluateJavaScript("window.setCurrentPosition(\(self.currentPosition!.x), \(self.currentPosition!.y), \(focusOnCurrentPosition));")
         }
     }
     
     func selectBooth(_ webView: WKWebView, _ boothName: String){
         self.selectedBooth = boothName
+    }
+    
+    func buildDirection(_ webView: WKWebView, _ direction: Direction){
+        print("buildDirection")
+        print(direction)
     }
     
     private func createHtmlFile(filePath: URL, directory: URL, expofpJsUrl: String, eventId: String) throws {
