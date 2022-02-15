@@ -2,7 +2,7 @@ import Foundation
 
 public struct Booth : Decodable {
 
-    let id: String
+    let id: Int
     
     let name: String
 }

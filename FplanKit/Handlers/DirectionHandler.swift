@@ -28,7 +28,18 @@ class DirectionHandler : NSObject, WKScriptMessageHandler {
     
     public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if let json = message.body as? String{
+            print(json)
+            
             let decoder = JSONDecoder()
+            do{
+                let teres = try decoder.decode(JSONRoute.self, from: json.data(using: .utf8)!)
+                print(teres)
+            }
+            catch
+            {
+                print(error)
+            }
+            
             guard let jRoute = try? decoder.decode(JSONRoute.self, from: json.data(using: .utf8)!) else {
                 return
             }

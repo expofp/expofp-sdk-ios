@@ -26,23 +26,26 @@ public struct FplanView: UIViewRepresentable {
          - url: Floor plan URL address in the format https://[expo_name].expofp.com
      */
     public init(_ url: String,
-                selectedBooth: Binding<String?>? = nil,
+                selectedBooth: Binding<String?>? = nil){
+        self.url = url
+        self._selectedBooth = selectedBooth ?? Binding.constant(nil)
+        self.route = nil
+        self.currentPosition = nil
+        self.focusOnCurrentPosition = false
+    }
+    
+    public init(_ url: String,
                 route: Route? = nil,
                 currentPosition: Point? = nil,
                 focusOnCurrentPosition: Bool = false){
         self.url = url
-        self._selectedBooth = selectedBooth ?? Binding.constant(nil)
+        self._selectedBooth = Binding.constant(nil)
         self.route = route
         self.currentPosition = currentPosition
         self.focusOnCurrentPosition = focusOnCurrentPosition
-
-        
-        print("[FplanView.init] url: \(url); selectedBooth: \(String(describing: selectedBooth))")
     }
     
-    public func makeUIView(context: Context) -> WKWebView {
-        print("[FplanView.makeUIView]")
-        
+    public func makeUIView(context: Context) -> WKWebView {        
         let preferences = WKPreferences()
         preferences.setValue(true, forKey: "allowFileAccessFromFileURLs")
         preferences.setValue(true, forKey: "offlineApplicationCacheIsEnabled")
@@ -63,17 +66,21 @@ public struct FplanView: UIViewRepresentable {
     }
     
     public func updateUIView(_ webView: WKWebView, context: Context) {
-        print("[FplanView.updateUIView]")
-        
         let eventAddress = url.replacingOccurrences(of: "https://www.", with: "").replacingOccurrences(of: "https://", with: "")
         if(!(webView.url?.path.contains(eventAddress) ?? false)){
             initWebView(webView)
         }
-        else if(self.selectedBooth != nil){
+        else{
+            updateWebView(webView)
+        }
+    }
+    
+    private func updateWebView(_ webView: WKWebView) {
+        if(self.selectedBooth != nil){
             webView.evaluateJavaScript("window.selectBooth('\(self.selectedBooth!)');")
         }
         else if(self.route != nil){
-            webView.evaluateJavaScript("window.selectRoute(\(self.route!.from), \(self.route!.to), \(self.route!.exceptInaccessible));")
+            webView.evaluateJavaScript("window.selectRoute('\(self.route!.from)', '\(self.route!.to)', \(self.route!.exceptInaccessible));")
         }
         else if(self.currentPosition != nil){
             webView.evaluateJavaScript("window.setCurrentPosition(\(self.currentPosition!.x), \(self.currentPosition!.y), \(focusOnCurrentPosition));")
@@ -122,15 +129,8 @@ public struct FplanView: UIViewRepresentable {
     func fpReady(_ webView: WKWebView){
         print("[FplanView.makeUIView.initWebView] fpReady")
         
-        if(self.selectedBooth != nil){
-            webView.evaluateJavaScript("window.selectBooth('\(self.selectedBooth!)');")
-        }
-        else if(self.route != nil){
-            webView.evaluateJavaScript("window.selectRoute(\(self.route!.from), \(self.route!.to), \(self.route!.exceptInaccessible));")
-        }
-        else if(self.currentPosition != nil){
-            webView.evaluateJavaScript("window.setCurrentPosition(\(self.currentPosition!.x), \(self.currentPosition!.y), \(focusOnCurrentPosition));")
-        }
+        updateWebView(webView)
+        
     }
     
     func selectBooth(_ webView: WKWebView, _ boothName: String){
@@ -138,8 +138,7 @@ public struct FplanView: UIViewRepresentable {
     }
     
     func buildDirection(_ webView: WKWebView, _ direction: Direction){
-        print("buildDirection")
-        print(direction)
+
     }
     
     private func createHtmlFile(filePath: URL, directory: URL, expofpJsUrl: String, eventId: String) throws {
