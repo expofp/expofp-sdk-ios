@@ -2,10 +2,6 @@ import Foundation
 
 ///Information about the built route
 public struct Direction {
-    /**
-     Route length information.
-     Example: 10m
-     */
     ///Route length information. Example: "10m"
     public let distance: String
     

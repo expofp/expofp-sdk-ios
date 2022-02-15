@@ -7,7 +7,7 @@ import UIKit
 /**
  Views to display the floor plan
 
- You can create a floor plan on the site https://expofp.com
+ You can create a floor plan on the https://expofp.com
  */
 @available(iOS 13.0, *)
 public struct FplanView: UIViewRepresentable {
