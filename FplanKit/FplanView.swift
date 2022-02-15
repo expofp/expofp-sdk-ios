@@ -17,6 +17,7 @@ public struct FplanView: UIViewRepresentable {
     private let currentPosition: Point?
     private let focusOnCurrentPosition: Bool
     private let buildDirectionAction: ((_ direction: Direction) -> Void)?
+    private let selectBoothAction: ((_ boothName: String) -> Void)?
     
     @Binding var selectedBooth: String?
     
@@ -35,6 +36,7 @@ public struct FplanView: UIViewRepresentable {
         self.currentPosition = nil
         self.focusOnCurrentPosition = false
         self.buildDirectionAction = nil
+        self.selectBoothAction = nil
     }
     
     /**
@@ -46,18 +48,21 @@ public struct FplanView: UIViewRepresentable {
      - currentPosition: Current position on the floor plan
      - focusOnCurrentPosition: Focus on current position
      - buildDirectionAction: Callback to be called after the route has been built
+     - selectBoothAction: Callback to be called after the booth has been selected on the floor plan
      */
     public init(_ url: String,
                 route: Route? = nil,
                 currentPosition: Point? = nil,
                 focusOnCurrentPosition: Bool = false,
-                buildDirectionAction: ((_ direction: Direction) -> Void)? = nil){
+                buildDirectionAction: ((_ direction: Direction) -> Void)? = nil,
+                selectBoothAction: ((_ boothName: String) -> Void)? = nil){
         self.url = url
         self._selectedBooth = Binding.constant(nil)
         self.route = route
         self.currentPosition = currentPosition
         self.focusOnCurrentPosition = focusOnCurrentPosition
         self.buildDirectionAction = buildDirectionAction
+        self.selectBoothAction = selectBoothAction
     }
     
     public func makeUIView(context: Context) -> WKWebView {
@@ -147,6 +152,7 @@ public struct FplanView: UIViewRepresentable {
     
     private func selectBooth(_ webView: WKWebView, _ boothName: String){
         self.selectedBooth = boothName
+        self.selectBoothAction?(boothName)
     }
     
     private func buildDirection(_ webView: WKWebView, _ direction: Direction){
