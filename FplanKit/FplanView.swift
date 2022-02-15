@@ -7,35 +7,45 @@ import UIKit
 /**
  Views to display the floor plan
 
- You can create a floor plan on the site https://expofp.com
+ You can create a floor plan on the https://expofp.com
  */
 @available(iOS 13.0, *)
 public struct FplanView: UIViewRepresentable {
     
     private let url: String
-    private let webView: WKWebView
-    private let fplanReadyHandler: (() -> Void)?
-    private let boothSelectionHandler: ((_ boothName: String) -> Void)?
-    private let routeBuildHandler: ((_ route: Route) -> Void)?
+    private let route: Route?
+    private let currentPosition: Point?
+    private let focusOnCurrentPosition: Bool
+    private let buildDirectionAction: ((_ direction: Direction) -> Void)?
+    
+    @Binding var selectedBooth: String?
     
     /**
      This function initializes the view.
       
      **Parameters:**
-         - url: Floor plan URL address in the format https://[expo_name].expofp.com
-         - fplanReadyHandler: Callback called after the floor plan has been built
-         - boothSelectionHandler: Callback called after clicking on the booth
-         - routeBuildHandler: Callback to be called after the route has been built
+     - url: Floor plan URL address in the format https://[expo_name].expofp.com
+     - selectedBooth: Booth selected on the floor plan
+     - route: Information about the route to be built
+     - currentPosition: Current position on the floor plan
+     - focusOnCurrentPosition: Focus on current position
+     - buildDirectionAction: Callback to be called after the route has been built
      */
-    public init(_ url: String, fplanReadyHandler: (() -> Void)? = nil,
-                boothSelectionHandler: ((_ boothName: String) -> Void)? = nil,
-                routeBuildHandler: ((_ route: Route) -> Void)? = nil){
-        
+    public init(_ url: String,
+                selectedBooth: Binding<String?>? = nil,
+                route: Route? = nil,
+                currentPosition: Point? = nil,
+                focusOnCurrentPosition: Bool = false,
+                buildDirectionAction: ((_ direction: Direction) -> Void)? = nil){
         self.url = url
-        self.fplanReadyHandler = fplanReadyHandler
-        self.boothSelectionHandler = boothSelectionHandler
-        self.routeBuildHandler = routeBuildHandler
-        
+        self._selectedBooth = selectedBooth ?? Binding.constant(nil)
+        self.route = route
+        self.currentPosition = currentPosition
+        self.focusOnCurrentPosition = focusOnCurrentPosition
+        self.buildDirectionAction = buildDirectionAction
+    }
+    
+    public func makeUIView(context: Context) -> WKWebView {
         let preferences = WKPreferences()
         preferences.setValue(true, forKey: "allowFileAccessFromFileURLs")
         preferences.setValue(true, forKey: "offlineApplicationCacheIsEnabled")
@@ -44,59 +54,44 @@ public struct FplanView: UIViewRepresentable {
         configuration.preferences = preferences
         configuration.websiteDataStore = WKWebsiteDataStore.default()
         
-        self.webView = WKWebView(frame: CGRect.zero, configuration: configuration)
-        self.webView.allowsBackForwardNavigationGestures = true
-        self.webView.scrollView.isScrollEnabled = true
-    }
-    
-    public func makeUIView(context: Context) -> WKWebView {
-        return self.webView
-    }
-    
-    /**
-     This function selects a booth on the floor plan.
-      
-     **Parameters:**
-         - boothName: Name of the booth
-     */
-    public func selectBooth(_ boothName:String){
-        self.webView.evaluateJavaScript("window.selectBooth('\(boothName)');")
-    }
-    
-    
-    /**
-     This function builds a route from one booth to another.
-      
-     **Parameters:**
-         - from: Start booth name
-         - to: End booth name
-         - exceptInaccessible: Exclude routes inaccessible to people with disabilities
-     */
-    public func buildRoute(_ from: String, _ to: String, _ exceptInaccessible: Bool = false){
-        self.webView.evaluateJavaScript("window.selectRoute('\(from)', '\(to)', \(exceptInaccessible))")
-    }
-    
-    /**
-     This function sets current position(blue-dot) on the floor plan.
-      
-     **Parameters:**
-         - x: X
-         - y: Y
-         - focus: Focus on a point
-     */
-    public func setCurrentPosition(_ x: Int, _ y: Int, _ focus: Bool = false){
-        self.webView.evaluateJavaScript("window.setCurrentPosition('\(x)', '\(y)', \(focus))")
+        let webView = WKWebView(frame: CGRect.zero, configuration: configuration)
+        webView.allowsBackForwardNavigationGestures = true
+        webView.scrollView.isScrollEnabled = true
+        
+        webView.configuration.userContentController.add(FpHandler(webView, fpReady), name: "onFpConfiguredHandler")
+        webView.configuration.userContentController.add(BoothHandler(webView, selectBooth), name: "onBoothClickHandler")
+        webView.configuration.userContentController.add(DirectionHandler(webView, buildDirection), name: "onDirectionHandler")
+
+        return webView
     }
     
     public func updateUIView(_ webView: WKWebView, context: Context) {
-        intWebView(url: self.url)
+        let eventAddress = getEventAddress()
+        if(!(webView.url?.path.contains(eventAddress) ?? false)){
+            initWebView(webView)
+        }
+        else{
+            updateWebView(webView)
+        }
     }
     
-    private func intWebView(url: String) {
+    private func updateWebView(_ webView: WKWebView) {
+        if(self.selectedBooth != nil){
+            webView.evaluateJavaScript("window.selectBooth('\(self.selectedBooth!)');")
+        }
+        if(self.route != nil){
+            webView.evaluateJavaScript("window.selectRoute('\(self.route!.from)', '\(self.route!.to)', \(self.route!.exceptInaccessible));")
+        }
+        if(self.currentPosition != nil){
+            webView.evaluateJavaScript("window.setCurrentPosition(\(self.currentPosition!.x), \(self.currentPosition!.y), \(focusOnCurrentPosition));")
+        }
+    }
+    
+    private func initWebView(_ webView: WKWebView) {
         let fileManager = FileManager.default
         let netReachability = NetworkReachability()
         
-        let eventAddress = url.replacingOccurrences(of: "https://www.", with: "").replacingOccurrences(of: "https://", with: "")
+        let eventAddress = getEventAddress()
         let eventUrl = "https://\(eventAddress)"
         let eventId = String(eventAddress[...eventAddress.index(eventAddress.firstIndex(of: ".")!, offsetBy: -1)])
         
@@ -114,7 +109,7 @@ public struct FplanView: UIViewRepresentable {
                 try createHtmlFile(filePath: indexPath, directory: directory,expofpJsUrl: expofpJsUrl, eventId: eventId )
                 
                 let requestUrl = URLRequest(url: indexPath, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
-                self.webView.load(requestUrl)
+                webView.load(requestUrl)
                 
                 try Helper.updateAllFiles(baseUrl: URL(string: eventUrl), directory: directory)
             }
@@ -123,23 +118,28 @@ public struct FplanView: UIViewRepresentable {
                 try createHtmlFile(filePath: indexPath, directory: directory, expofpJsUrl: expofpJsUrl, eventId: eventId )
                 
                 let requestUrl = URLRequest(url: indexPath, cachePolicy: .returnCacheDataElseLoad)
-                self.webView.load(requestUrl)
+                webView.load(requestUrl)
             }
         } catch {
             print(error)
         }
         
-        if let handle = fplanReadyHandler{
-            self.webView.configuration.userContentController.add(FpHandler(handle), name: "onFpConfiguredHandler")
-        }
-        
-        if let handle = boothSelectionHandler{
-            self.webView.configuration.userContentController.add(BoothHandler(handle), name: "onBoothClickHandler")
-        }
-        
-        if let handle = routeBuildHandler{
-            self.webView.configuration.userContentController.add(RouteHandler(handle), name: "onDirectionHandler")
-        }
+    }
+    
+    private func fpReady(_ webView: WKWebView){
+        updateWebView(webView)
+    }
+    
+    private func selectBooth(_ webView: WKWebView, _ boothName: String){
+        self.selectedBooth = boothName
+    }
+    
+    private func buildDirection(_ webView: WKWebView, _ direction: Direction){
+        self.buildDirectionAction?(direction)
+    }
+    
+    private func getEventAddress() -> String {
+        return self.url.replacingOccurrences(of: "https://www.", with: "").replacingOccurrences(of: "https://", with: "")
     }
     
     private func createHtmlFile(filePath: URL, directory: URL, expofpJsUrl: String, eventId: String) throws {
@@ -156,6 +156,7 @@ public struct FplanView: UIViewRepresentable {
 }
 
 public struct FplanView_Previews: PreviewProvider {
+    
     public init(){
         
     }

@@ -1,17 +1,28 @@
 import Foundation
 
-/**
- Route
- */
+///Route info
 public struct Route {
-    /**
-     Route length information
-     Example: 10m
-     */
-    let distance: String
+
+    ///Start booth
+    public let from: String
+    
+    ///End booth
+    public let to: String
+    
+    ///Exclude routes inaccessible to people with disabilities
+    public let exceptInaccessible: Bool
     
     /**
-     Estimated time to complete the route
+     This function initializes the Route struct.
+      
+     **Parameters:**
+     - from: Start booth
+     - to: End booth
+     - exceptInaccessible: Exclude routes inaccessible to people with disabilities
      */
-    let duration: TimeInterval
+    public init(from: String, to: String, exceptInaccessible: Bool){
+        self.from = from
+        self.to = to
+        self.exceptInaccessible = exceptInaccessible
+    }
 }
