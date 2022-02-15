@@ -17,7 +17,6 @@ public struct FplanView: UIViewRepresentable {
     private let currentPosition: Point?
     private let focusOnCurrentPosition: Bool
     private let buildDirectionAction: ((_ direction: Direction) -> Void)?
-    private let selectBoothAction: ((_ boothName: String) -> Void)?
     
     @Binding var selectedBooth: String?
     
@@ -27,42 +26,23 @@ public struct FplanView: UIViewRepresentable {
      **Parameters:**
      - url: Floor plan URL address in the format https://[expo_name].expofp.com
      - selectedBooth: Booth selected on the floor plan
-     */
-    public init(_ url: String,
-                selectedBooth: Binding<String?>? = nil){
-        self.url = url
-        self._selectedBooth = selectedBooth ?? Binding.constant(nil)
-        self.route = nil
-        self.currentPosition = nil
-        self.focusOnCurrentPosition = false
-        self.buildDirectionAction = nil
-        self.selectBoothAction = nil
-    }
-    
-    /**
-     This function initializes the view.
-      
-     **Parameters:**
-     - url: Floor plan URL address in the format https://[expo_name].expofp.com
      - route: Information about the route to be built
      - currentPosition: Current position on the floor plan
      - focusOnCurrentPosition: Focus on current position
      - buildDirectionAction: Callback to be called after the route has been built
-     - selectBoothAction: Callback to be called after the booth has been selected on the floor plan
      */
     public init(_ url: String,
+                selectedBooth: Binding<String?>? = nil,
                 route: Route? = nil,
                 currentPosition: Point? = nil,
                 focusOnCurrentPosition: Bool = false,
-                buildDirectionAction: ((_ direction: Direction) -> Void)? = nil,
-                selectBoothAction: ((_ boothName: String) -> Void)? = nil){
+                buildDirectionAction: ((_ direction: Direction) -> Void)? = nil){
         self.url = url
-        self._selectedBooth = Binding.constant(nil)
+        self._selectedBooth = selectedBooth ?? Binding.constant(nil)
         self.route = route
         self.currentPosition = currentPosition
         self.focusOnCurrentPosition = focusOnCurrentPosition
         self.buildDirectionAction = buildDirectionAction
-        self.selectBoothAction = selectBoothAction
     }
     
     public func makeUIView(context: Context) -> WKWebView {
@@ -99,10 +79,10 @@ public struct FplanView: UIViewRepresentable {
         if(self.selectedBooth != nil){
             webView.evaluateJavaScript("window.selectBooth('\(self.selectedBooth!)');")
         }
-        else if(self.route != nil){
+        if(self.route != nil){
             webView.evaluateJavaScript("window.selectRoute('\(self.route!.from)', '\(self.route!.to)', \(self.route!.exceptInaccessible));")
         }
-        else if(self.currentPosition != nil){
+        if(self.currentPosition != nil){
             webView.evaluateJavaScript("window.setCurrentPosition(\(self.currentPosition!.x), \(self.currentPosition!.y), \(focusOnCurrentPosition));")
         }
     }
@@ -152,7 +132,6 @@ public struct FplanView: UIViewRepresentable {
     
     private func selectBooth(_ webView: WKWebView, _ boothName: String){
         self.selectedBooth = boothName
-        self.selectBoothAction?(boothName)
     }
     
     private func buildDirection(_ webView: WKWebView, _ direction: Direction){
