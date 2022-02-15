@@ -1,23 +1,23 @@
 import Foundation
 
-/**
- Route
- */
+///Information about the built route
 public struct Direction {
     /**
-     Route length information
+     Route length information.
      Example: 10m
      */
-    let distance: String
+    ///Route length information. Example: "10m"
+    public let distance: String
     
-    /**
-     Estimated time to complete the route
-     */
-    let duration: TimeInterval
+    ///Estimated time to complete the route
+    public let duration: TimeInterval
     
-    let from: Booth
+    ///Start booth
+    public let from: Booth
     
-    let to: Booth
+    ///End booth
+    public let to: Booth
     
-    let lines: [Line]
+    ///Lines
+    public let lines: [Line]
 }

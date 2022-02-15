@@ -1,8 +1,11 @@
 import Foundation
 
+///Booth info
 public struct Booth : Decodable {
 
-    let id: Int
+    ///Booth id
+    public let id: Int
     
-    let name: String
+    ///Booth name
+    public let name: String
 }

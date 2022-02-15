@@ -16,6 +16,7 @@ public struct FplanView: UIViewRepresentable {
     private let route: Route?
     private let currentPosition: Point?
     private let focusOnCurrentPosition: Bool
+    private let buildDirectionAction: ((_ direction: Direction) -> Void)?
     
     @Binding var selectedBooth: String?
     
@@ -23,7 +24,8 @@ public struct FplanView: UIViewRepresentable {
      This function initializes the view.
       
      **Parameters:**
-         - url: Floor plan URL address in the format https://[expo_name].expofp.com
+     - url: Floor plan URL address in the format https://[expo_name].expofp.com
+     - selectedBooth: Booth selected on the floor plan
      */
     public init(_ url: String,
                 selectedBooth: Binding<String?>? = nil){
@@ -32,17 +34,30 @@ public struct FplanView: UIViewRepresentable {
         self.route = nil
         self.currentPosition = nil
         self.focusOnCurrentPosition = false
+        self.buildDirectionAction = nil
     }
     
+    /**
+     This function initializes the view.
+      
+     **Parameters:**
+     - url: Floor plan URL address in the format https://[expo_name].expofp.com
+     - route: Information about the route to be built
+     - currentPosition: Current position on the floor plan
+     - focusOnCurrentPosition: Focus on current position
+     - buildDirectionAction: Callback to be called after the route has been built
+     */
     public init(_ url: String,
                 route: Route? = nil,
                 currentPosition: Point? = nil,
-                focusOnCurrentPosition: Bool = false){
+                focusOnCurrentPosition: Bool = false,
+                buildDirectionAction: ((_ direction: Direction) -> Void)? = nil){
         self.url = url
         self._selectedBooth = Binding.constant(nil)
         self.route = route
         self.currentPosition = currentPosition
         self.focusOnCurrentPosition = focusOnCurrentPosition
+        self.buildDirectionAction = buildDirectionAction
     }
     
     public func makeUIView(context: Context) -> WKWebView {
@@ -126,16 +141,16 @@ public struct FplanView: UIViewRepresentable {
         
     }
     
-    func fpReady(_ webView: WKWebView){
+    private func fpReady(_ webView: WKWebView){
         updateWebView(webView)
     }
     
-    func selectBooth(_ webView: WKWebView, _ boothName: String){
+    private func selectBooth(_ webView: WKWebView, _ boothName: String){
         self.selectedBooth = boothName
     }
     
-    func buildDirection(_ webView: WKWebView, _ direction: Direction){
-
+    private func buildDirection(_ webView: WKWebView, _ direction: Direction){
+        self.buildDirectionAction?(direction)
     }
     
     private func createHtmlFile(filePath: URL, directory: URL, expofpJsUrl: String, eventId: String) throws {

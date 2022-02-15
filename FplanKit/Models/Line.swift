@@ -1,10 +1,13 @@
 import Foundation
 
+///Line on floor plan
 public struct Line {
-
-    let startPoint: Point
+    ///Start point
+    public let startPoint: Point
     
-    let endPoint: Point
+    ///End point
+    public let endPoint: Point
     
-    let weight: Int
+    ///Weight
+    public let weight: Int
 }

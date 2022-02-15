@@ -12,7 +12,8 @@ import WebKit
 import _Concurrency
 @available(iOS 13.0, *)
 @_Concurrency.MainActor(unsafe) public struct FplanView : SwiftUI.UIViewRepresentable {
-  @_Concurrency.MainActor(unsafe) public init(_ url: Swift.String, selectedBooth: SwiftUI.Binding<Swift.String?>? = nil, route: FplanKit.Route? = nil, currentPosition: FplanKit.Point? = nil, focusOnCurrentPosition: Swift.Bool = false)
+  @_Concurrency.MainActor(unsafe) public init(_ url: Swift.String, selectedBooth: SwiftUI.Binding<Swift.String?>? = nil)
+  @_Concurrency.MainActor(unsafe) public init(_ url: Swift.String, route: FplanKit.Route? = nil, currentPosition: FplanKit.Point? = nil, focusOnCurrentPosition: Swift.Bool = false, buildDirectionAction: ((_ direction: FplanKit.Direction) -> Swift.Void)? = nil)
   @_Concurrency.MainActor(unsafe) public func makeUIView(context: FplanKit.FplanView.Context) -> WebKit.WKWebView
   @_Concurrency.MainActor(unsafe) public func updateUIView(_ webView: WebKit.WKWebView, context: FplanKit.FplanView.Context)
   public typealias Body = Swift.Never
@@ -28,16 +29,31 @@ import _Concurrency
   public typealias Previews = @_opaqueReturnTypeOf("$s8FplanKit0A13View_PreviewsV8previewsQrvpZ", 0) __
 }
 public struct Direction {
+  public let distance: Swift.String
+  public let duration: Foundation.TimeInterval
+  public let from: FplanKit.Booth
+  public let to: FplanKit.Booth
+  public let lines: [FplanKit.Line]
 }
 public struct Route {
+  public let from: Swift.String
+  public let to: Swift.String
+  public let exceptInaccessible: Swift.Bool
   public init(from: Swift.String, to: Swift.String, exceptInaccessible: Swift.Bool)
 }
 public struct Line {
+  public let startPoint: FplanKit.Point
+  public let endPoint: FplanKit.Point
+  public let weight: Swift.Int
 }
 public struct Booth : Swift.Decodable {
+  public let id: Swift.Int
+  public let name: Swift.String
   public init(from decoder: Swift.Decoder) throws
 }
 public struct Point : Swift.Decodable {
+  public let x: Swift.Int
+  public let y: Swift.Int
   public init(x: Swift.Int, y: Swift.Int)
   public init(from decoder: Swift.Decoder) throws
 }
