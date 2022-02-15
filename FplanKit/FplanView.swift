@@ -45,7 +45,7 @@ public struct FplanView: UIViewRepresentable {
         self.focusOnCurrentPosition = focusOnCurrentPosition
     }
     
-    public func makeUIView(context: Context) -> WKWebView {        
+    public func makeUIView(context: Context) -> WKWebView {
         let preferences = WKPreferences()
         preferences.setValue(true, forKey: "allowFileAccessFromFileURLs")
         preferences.setValue(true, forKey: "offlineApplicationCacheIsEnabled")
@@ -127,10 +127,7 @@ public struct FplanView: UIViewRepresentable {
     }
     
     func fpReady(_ webView: WKWebView){
-        print("[FplanView.makeUIView.initWebView] fpReady")
-        
         updateWebView(webView)
-        
     }
     
     func selectBooth(_ webView: WKWebView, _ boothName: String){
@@ -155,7 +152,6 @@ public struct FplanView: UIViewRepresentable {
 }
 
 public struct FplanView_Previews: PreviewProvider {
-    @State private static var selectedBooth: String? = nil
     
     public init(){
         
@@ -163,6 +159,6 @@ public struct FplanView_Previews: PreviewProvider {
     
     @available(iOS 13.0.0, *)
     public static var previews: some View {
-        FplanView("https://wayfinding.expofp.com", selectedBooth: $selectedBooth)
+        FplanView("https://wayfinding.expofp.com")
     }
 }
