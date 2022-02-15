@@ -81,7 +81,7 @@ public struct FplanView: UIViewRepresentable {
     }
     
     public func updateUIView(_ webView: WKWebView, context: Context) {
-        let eventAddress = url.replacingOccurrences(of: "https://www.", with: "").replacingOccurrences(of: "https://", with: "")
+        let eventAddress = getEventAddress()
         if(!(webView.url?.path.contains(eventAddress) ?? false)){
             initWebView(webView)
         }
@@ -106,7 +106,7 @@ public struct FplanView: UIViewRepresentable {
         let fileManager = FileManager.default
         let netReachability = NetworkReachability()
         
-        let eventAddress = url.replacingOccurrences(of: "https://www.", with: "").replacingOccurrences(of: "https://", with: "")
+        let eventAddress = getEventAddress()
         let eventUrl = "https://\(eventAddress)"
         let eventId = String(eventAddress[...eventAddress.index(eventAddress.firstIndex(of: ".")!, offsetBy: -1)])
         
@@ -151,6 +151,10 @@ public struct FplanView: UIViewRepresentable {
     
     private func buildDirection(_ webView: WKWebView, _ direction: Direction){
         self.buildDirectionAction?(direction)
+    }
+    
+    private func getEventAddress() -> String {
+        return self.url.replacingOccurrences(of: "https://www.", with: "").replacingOccurrences(of: "https://", with: "")
     }
     
     private func createHtmlFile(filePath: URL, directory: URL, expofpJsUrl: String, eventId: String) throws {
