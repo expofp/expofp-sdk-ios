@@ -29,108 +29,42 @@ import FplanKit
 @main
 struct FplanApp: App {
     
-    let fplanView: FplanView
+    @State var url: String = "https://wayfinding.expofp.com"
+    @State var selectedBooth: String? = nil
+    @State var route: Route? = nil
+    @State var currentPosition: Point? = nil
     
-    init() {
-        func fplanReadyHandler(){
-            //Some code
-        }
-        
-        func boothSelectionHandler(boothName: String){
-            //Some code
-        }
-        
-        func routeBuildHandler(route: Route){
-            //Some code
-        }
-        
-        //Specify the url address of your expo plan
-        fplanView = FplanView("https://wayfinding.expofp.com",
-                              fplanReadyHandler: fplanReadyHandler,
-                              boothSelectionHandler: boothSelectionHandler,
-                              routeBuildHandler: routeBuildHandler)
+    func selectBooth() {
+        self.currentPosition = nil
+        self.route = nil
+        self.selectedBooth = "1306"
     }
     
-    func selectBooth(_ boothName: String) {
-        fplanView.selectBooth(boothName)
+    func buildRoute() {
+        self.selectedBooth = nil
+        self.currentPosition = Point(x: 2870, y: 1780)
+        self.route = Route(from: "1306", to: "2206", exceptInaccessible: false)
     }
     
-    func selectBooth(_ from: String, _ to: String, _ exceptUnaccessible: Bool) {
-        fplanView.buildRoute(from, to, exceptUnaccessible)
+    func directionReady(direction: Direction){
+        //Some code
     }
     
     var body: some Scene {
         WindowGroup {
-            fplanView
+            ZStack(alignment: .bottom)
+            {
+                FplanView(url, selectedBooth: $selectedBooth, route: route, currentPosition: currentPosition, buildDirectionAction: directionReady)
+                HStack
+                {
+                    Spacer()
+                    Button("Select booth", action: selectBooth)
+                    Spacer()
+                    Button("Build route", action: buildRoute)
+                    Spacer()
+                }
+            }
         }
     }
 }
 ```
-
-## Functions
-
-Select booth:
-
-```swift
-fplanView.selectBooth("1306")
-```
-
-Buid route:
-
-```swift
-fplanView.buildRoute("1306", "2206")
-```
-
-## Events
-
-
-### Handling the plan load event
-
-Handler:
-
-```swift
-func fplanReadyHandler(){
-    //Some code
-}
-```
-
-Init:
-
-```swift
-fplanView = FplanView("https://wayfinding.expofp.com", fplanReadyHandler: fplanReadyHandler)
-```
-
-
-### Handling the booth selection event
-
-Handler:
-
-```swift
-func boothSelectionHandler(boothName: String){
-    //Some code
-}
-```
-
-Init:
-
-```swift
-fplanView = FplanView("https://wayfinding.expofp.com", boothSelectionHandler: boothSelectionHandler)
-```
-
-
-### Route creation event handling
-
-Handler:
-
-```swift
-func routeBuildHandler(route: Route){
-    //Some code
-}
-```
-
-Init:
-
-```swift
-fplanView = FplanView("https://wayfinding.expofp.com", routeBuildHandler: routeBuildHandler)
-```
-
