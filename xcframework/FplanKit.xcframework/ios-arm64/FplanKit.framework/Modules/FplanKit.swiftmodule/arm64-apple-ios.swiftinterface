@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.5.2 (swiftlang-1300.0.47.5 clang-1300.0.29.30)
+// swift-compiler-version: Apple Swift version 5.6 (swiftlang-5.6.0.323.62 clang-1316.0.20.8)
 // swift-module-flags: -target arm64-apple-ios13.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name FplanKit
 import Combine
 import Foundation
@@ -11,8 +11,8 @@ import UIKit
 import WebKit
 import _Concurrency
 @available(iOS 13.0, *)
-@_Concurrency.MainActor(unsafe) public struct FplanView : SwiftUI.UIViewRepresentable {
-  @_Concurrency.MainActor(unsafe) public init(_ url: Swift.String, selectedBooth: SwiftUI.Binding<Swift.String?>? = nil, route: FplanKit.Route? = nil, currentPosition: FplanKit.Point? = nil, focusOnCurrentPosition: Swift.Bool = false, buildDirectionAction: ((_ direction: FplanKit.Direction) -> Swift.Void)? = nil)
+public struct FplanView : SwiftUI.UIViewRepresentable {
+  public init(_ url: Swift.String, noOverlay: Swift.Bool = true, selectedBooth: SwiftUI.Binding<Swift.String?>? = nil, route: FplanKit.Route? = nil, currentPosition: FplanKit.Point? = nil, focusOnCurrentPosition: Swift.Bool = false, fpReadyAction: (() -> Swift.Void)? = nil, buildDirectionAction: ((_ direction: FplanKit.Direction) -> Swift.Void)? = nil)
   @_Concurrency.MainActor(unsafe) public func makeUIView(context: FplanKit.FplanView.Context) -> WebKit.WKWebView
   @_Concurrency.MainActor(unsafe) public func updateUIView(_ webView: WebKit.WKWebView, context: FplanKit.FplanView.Context)
   public typealias Body = Swift.Never

@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/FplanKit-Swift.h</key>
 		<data>
-		spOzCopTfNHZMzzB1nDajgxPN7M=
+		oqV2RFFSieobJHl+RrnJEfZYuu0=
 		</data>
 		<key>Headers/FplanKit.h</key>
 		<data>
@@ -14,31 +14,19 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		3L7GxmXexF/xttS8y+laUmuGGQk=
+		XqqpSxniw4CBuvXBtxOM72Gujo8=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		vmQ+XnPXrWTvRCNU8oOUJZySvqI=
+		z6u+OnQ5fIAuVudS+P/aoGBWGjM=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
-		FaryI/TwazMPu2iCoSflHP8/SaE=
+		aj5bEJX71hAWw6Fvqa9g4DUINWI=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		2B2jDQGMwk3xRhNLhoblcs9518g=
-		</data>
-		<key>Modules/FplanKit.swiftmodule/arm64.swiftdoc</key>
-		<data>
-		vmQ+XnPXrWTvRCNU8oOUJZySvqI=
-		</data>
-		<key>Modules/FplanKit.swiftmodule/arm64.swiftinterface</key>
-		<data>
-		FaryI/TwazMPu2iCoSflHP8/SaE=
-		</data>
-		<key>Modules/FplanKit.swiftmodule/arm64.swiftmodule</key>
-		<data>
-		2B2jDQGMwk3xRhNLhoblcs9518g=
+		uxSc+uh24GEMUCBtFYUGIG8FdTg=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -55,7 +43,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			kLcUNXLTdFM39baDbgz8oHqpmB46roLs7AvioKKxCTI=
+			6KkxNguBcb9bIyCehvdS25ZJfCkIqfL1MrRLu9pzd1A=
 			</data>
 		</dict>
 		<key>Headers/FplanKit.h</key>
@@ -69,42 +57,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			id7EuRCKkSXdFkSI2biCa4i88ouCGyl1goCPbUb+V3c=
+			ONk0q0k8nQ5F4xnF8ynPnaWjiN34nvGEdp+RBAwBJFU=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			cLBVrBERJVTqT/AKKbFjaEEq6QGJBUXYNSvan/rmudM=
+			I+H67GzuJA9Ogqhq1SEVfvaJWEmyf9rRdYf3zM/oQ7w=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			z1BpQ3ZKKvhWv/V8IjcYB27Zg6n0V7rWzkR3dxRJX+o=
-			</data>
-		</dict>
-		<key>Modules/FplanKit.swiftmodule/arm64.swiftdoc</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			id7EuRCKkSXdFkSI2biCa4i88ouCGyl1goCPbUb+V3c=
-			</data>
-		</dict>
-		<key>Modules/FplanKit.swiftmodule/arm64.swiftinterface</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			cLBVrBERJVTqT/AKKbFjaEEq6QGJBUXYNSvan/rmudM=
-			</data>
-		</dict>
-		<key>Modules/FplanKit.swiftmodule/arm64.swiftmodule</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			z1BpQ3ZKKvhWv/V8IjcYB27Zg6n0V7rWzkR3dxRJX+o=
+			sUUd66+8rTypJBVcwWuKaoXKsOPJZA1d88ofMye+8Ww=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

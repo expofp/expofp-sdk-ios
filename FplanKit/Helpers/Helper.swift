@@ -87,7 +87,7 @@ class Helper{
             window.floorplan = new ExpoFP.FloorPlan({
                 element: document.querySelector("#floorplan"),
                 eventId: "$eventId#",
-                noOverlay: true,
+                noOverlay: $noOverlay#,
                 onBoothClick: e => {
                     window.webkit?.messageHandlers?.onBoothClickHandler?.postMessage(e.target.name);
                 },
