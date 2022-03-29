@@ -155,6 +155,7 @@ public struct FplanView: UIViewRepresentable {
     }
     
     private func fpReady(_ webView: WKWebView){
+        updateWebView(webView)
         self.fpReadyAction?()
     }
     
