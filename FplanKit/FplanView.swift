@@ -84,7 +84,6 @@ public struct FplanView: UIViewRepresentable {
     public func updateUIView(_ webView: WKWebView, context: Context) {
         
         let newEventAddress = Helper.getEventAddress(self.url).lowercased()
-        let path = webView.url?.path ?? ""
         
         if(!(webView.url?.absoluteString.lowercased().contains(newEventAddress) ?? false)){
             initWebView(webView)
@@ -122,8 +121,8 @@ public struct FplanView: UIViewRepresentable {
         let netReachability = NetworkReachability()
         
         let eventAddress = Helper.getEventAddress(self.url)
-        
         let eventUrl = "https://\(eventAddress)"
+        
         let fplanDirectory = Helper.getCacheDirectory().appendingPathComponent("fplan/")
         let directory = fplanDirectory.appendingPathComponent("\(eventAddress)/")
         let indexPath = directory.appendingPathComponent("index.html")
@@ -156,7 +155,6 @@ public struct FplanView: UIViewRepresentable {
     }
     
     private func fpReady(_ webView: WKWebView){
-        //updateWebView(webView)
         self.fpReadyAction?()
     }
     
