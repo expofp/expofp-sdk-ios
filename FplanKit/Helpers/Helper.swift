@@ -1,7 +1,46 @@
 import Foundation
 
 @available(iOS 13.0.0, *)
-class Helper{
+struct Helper{
+    public static func getEventAddress(_ url: String) -> String {
+        func getWithoutParams (_ url: String, _ delimiter: Character) -> String {
+            if let sIndex = url.firstIndex(of: delimiter){
+                return String(url[...url.index(before: sIndex)])
+            }
+            else{
+                return url
+            }
+        }
+        
+        let mainPart = url.replacingOccurrences(of: "https://www.", with: "").replacingOccurrences(of: "https://", with: "")
+            .replacingOccurrences(of: "http://www.", with: "").replacingOccurrences(of: "http://", with: "")
+        
+        let result = getWithoutParams(getWithoutParams(mainPart, "/"), "?")
+        return result
+    }
+    
+    public static func getEventId(_ url: String) -> String {
+        let eventAddress = getEventAddress(url)
+        if let index = eventAddress.firstIndex(of: ".") {
+            return String(eventAddress[...eventAddress.index(index, offsetBy: -1)])
+        }
+        else{
+            return ""
+        }
+    }
+    
+    public static func createHtmlFile(filePath: URL, noOverlay: Bool, directory: URL, expofpJsUrl: String, eventId: String) throws {
+        let fileManager = FileManager.default
+        let html = Helper.getIndexHtml()
+            .replacingOccurrences(of: "$expofp_js_url#", with: expofpJsUrl)
+            .replacingOccurrences(of: "$eventId#", with: eventId)
+            .replacingOccurrences(of: "$noOverlay#", with: String(noOverlay))
+        
+        if !fileManager.fileExists(atPath: filePath.path){
+            try! fileManager.createDirectory(atPath: directory.path, withIntermediateDirectories: true, attributes: nil)
+        }
+        try html.write(to: filePath, atomically: true, encoding: String.Encoding.utf8)
+    }
     
     public static func getCacheDirectory() -> URL {
         let paths = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)

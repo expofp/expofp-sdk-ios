@@ -13,6 +13,7 @@ import UIKit
 public struct FplanView: UIViewRepresentable {
     
     private let url: String
+    private let eventId: String
     private let noOverlay: Bool
     private let route: Route?
     private let currentPosition: Point?
@@ -27,6 +28,7 @@ public struct FplanView: UIViewRepresentable {
       
      **Parameters:**
      - url: Floor plan URL address in the format https://[expo_name].expofp.com
+     - eventId = [expo_name]: Id of the expo
      - noOverlay: True - Hides the panel with information about exhibitors
      - selectedBooth: Booth selected on the floor plan
      - route: Information about the route to be built
@@ -36,6 +38,7 @@ public struct FplanView: UIViewRepresentable {
      - buildDirectionAction: Callback to be called after the route has been built
      */
     public init(_ url: String,
+                eventId: String? = nil,
                 noOverlay: Bool = true,
                 selectedBooth: Binding<String?>? = nil,
                 route: Route? = nil,
@@ -43,7 +46,12 @@ public struct FplanView: UIViewRepresentable {
                 focusOnCurrentPosition: Bool = false,
                 fpReadyAction:(() -> Void)? = nil,
                 buildDirectionAction: ((_ direction: Direction) -> Void)? = nil){
-        self.url = url
+        
+        let eventAddress = Helper.getEventAddress(url)
+        let eventUrl = "https://\(eventAddress)"
+        
+        self.url = eventUrl
+        self.eventId = eventId ?? Helper.getEventId(eventUrl)
         self.noOverlay = noOverlay
         self._selectedBooth = selectedBooth ?? Binding.constant(nil)
         self.route = route
@@ -74,8 +82,11 @@ public struct FplanView: UIViewRepresentable {
     }
     
     public func updateUIView(_ webView: WKWebView, context: Context) {
-        let eventAddress = getEventAddress()
-        if(!(webView.url?.path.contains(eventAddress) ?? false)){
+        
+        let newEventAddress = Helper.getEventAddress(self.url).lowercased()
+        let path = webView.url?.path ?? ""
+        
+        if(!(webView.url?.absoluteString.lowercased().contains(newEventAddress) ?? false)){
             initWebView(webView)
         }
         else{
@@ -87,14 +98,14 @@ public struct FplanView: UIViewRepresentable {
         if(self.selectedBooth != nil){
             webView.evaluateJavaScript("window.selectBooth('\(self.selectedBooth!)');")
         }
-        else{
+        else if(self.route == nil){
             webView.evaluateJavaScript("window.selectBooth(null);")
         }
         
         if(self.route != nil){
             webView.evaluateJavaScript("window.selectRoute('\(self.route!.from)', '\(self.route!.to)', \(self.route!.exceptInaccessible));")
         }
-        else{
+        else if(self.selectedBooth == nil){
             webView.evaluateJavaScript("window.selectRoute(null, null, false);")
         }
         
@@ -110,10 +121,9 @@ public struct FplanView: UIViewRepresentable {
         let fileManager = FileManager.default
         let netReachability = NetworkReachability()
         
-        let eventAddress = getEventAddress()
-        let eventUrl = "https://\(eventAddress)"
-        let eventId = String(eventAddress[...eventAddress.index(eventAddress.firstIndex(of: ".")!, offsetBy: -1)])
+        let eventAddress = Helper.getEventAddress(self.url)
         
+        let eventUrl = "https://\(eventAddress)"
         let fplanDirectory = Helper.getCacheDirectory().appendingPathComponent("fplan/")
         let directory = fplanDirectory.appendingPathComponent("\(eventAddress)/")
         let indexPath = directory.appendingPathComponent("index.html")
@@ -125,7 +135,7 @@ public struct FplanView: UIViewRepresentable {
                 }
                 
                 let expofpJsUrl = "\(eventUrl)/packages/master/expofp.js"
-                try createHtmlFile(filePath: indexPath, noOverlay: noOverlay, directory: directory,expofpJsUrl: expofpJsUrl, eventId: eventId )
+                try Helper.createHtmlFile(filePath: indexPath, noOverlay: noOverlay, directory: directory,expofpJsUrl: expofpJsUrl, eventId: self.eventId )
                 
                 let requestUrl = URLRequest(url: indexPath, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
                 webView.load(requestUrl)
@@ -134,7 +144,7 @@ public struct FplanView: UIViewRepresentable {
             }
             else{
                 let expofpJsUrl = "\(directory.path)/expofp.js"
-                try createHtmlFile(filePath: indexPath, noOverlay: noOverlay, directory: directory, expofpJsUrl: expofpJsUrl, eventId: eventId )
+                try Helper.createHtmlFile(filePath: indexPath, noOverlay: noOverlay, directory: directory, expofpJsUrl: expofpJsUrl, eventId: self.eventId )
                 
                 let requestUrl = URLRequest(url: indexPath, cachePolicy: .returnCacheDataElseLoad)
                 webView.load(requestUrl)
@@ -146,7 +156,7 @@ public struct FplanView: UIViewRepresentable {
     }
     
     private func fpReady(_ webView: WKWebView){
-        updateWebView(webView)
+        //updateWebView(webView)
         self.fpReadyAction?()
     }
     
@@ -156,24 +166,6 @@ public struct FplanView: UIViewRepresentable {
     
     private func buildDirection(_ webView: WKWebView, _ direction: Direction){
         self.buildDirectionAction?(direction)
-    }
-    
-    private func getEventAddress() -> String {
-        return self.url.replacingOccurrences(of: "https://www.", with: "").replacingOccurrences(of: "https://", with: "")
-            .replacingOccurrences(of: "http://www.", with: "").replacingOccurrences(of: "http://", with: "")
-    }
-    
-    private func createHtmlFile(filePath: URL, noOverlay: Bool, directory: URL, expofpJsUrl: String, eventId: String) throws {
-        let fileManager = FileManager.default
-        let html = Helper.getIndexHtml()
-            .replacingOccurrences(of: "$expofp_js_url#", with: expofpJsUrl)
-            .replacingOccurrences(of: "$eventId#", with: eventId)
-            .replacingOccurrences(of: "$noOverlay#", with: String(noOverlay))
-        
-        if !fileManager.fileExists(atPath: filePath.path){
-            try! fileManager.createDirectory(atPath: directory.path, withIntermediateDirectories: true, attributes: nil)
-        }
-        try html.write(to: filePath, atomically: true, encoding: String.Encoding.utf8)
     }
 }
 

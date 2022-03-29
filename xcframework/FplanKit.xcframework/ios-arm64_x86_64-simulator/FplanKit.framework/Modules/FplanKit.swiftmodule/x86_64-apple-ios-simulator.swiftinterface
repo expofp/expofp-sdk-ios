@@ -12,7 +12,7 @@ import WebKit
 import _Concurrency
 @available(iOS 13.0, *)
 public struct FplanView : SwiftUI.UIViewRepresentable {
-  public init(_ url: Swift.String, noOverlay: Swift.Bool = true, selectedBooth: SwiftUI.Binding<Swift.String?>? = nil, route: FplanKit.Route? = nil, currentPosition: FplanKit.Point? = nil, focusOnCurrentPosition: Swift.Bool = false, fpReadyAction: (() -> Swift.Void)? = nil, buildDirectionAction: ((_ direction: FplanKit.Direction) -> Swift.Void)? = nil)
+  public init(_ url: Swift.String, eventId: Swift.String? = nil, noOverlay: Swift.Bool = true, selectedBooth: SwiftUI.Binding<Swift.String?>? = nil, route: FplanKit.Route? = nil, currentPosition: FplanKit.Point? = nil, focusOnCurrentPosition: Swift.Bool = false, fpReadyAction: (() -> Swift.Void)? = nil, buildDirectionAction: ((_ direction: FplanKit.Direction) -> Swift.Void)? = nil)
   @_Concurrency.MainActor(unsafe) public func makeUIView(context: FplanKit.FplanView.Context) -> WebKit.WKWebView
   @_Concurrency.MainActor(unsafe) public func updateUIView(_ webView: WebKit.WKWebView, context: FplanKit.FplanView.Context)
   public typealias Body = Swift.Never

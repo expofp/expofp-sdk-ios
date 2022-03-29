@@ -4,7 +4,7 @@ import SystemConfiguration
 @available(iOS 13.0, *)
 class NetworkReachability: ObservableObject {
     @Published private(set) var reachable: Bool = false
-    private let reachability = SCNetworkReachabilityCreateWithName(nil, "www.expofp.com")
+    private let reachability = SCNetworkReachabilityCreateWithName(nil, "www.\(Constants.expofpDomain)")
 
     init() {
         self.reachable = checkConnection()
