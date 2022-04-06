@@ -49,6 +49,8 @@
 		E78E993C27B0744A003DF393 /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78E993B27B0744A003DF393 /* NetworkReachability.swift */; };
 		E78E993E27B07638003DF393 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = E78E993D27B07638003DF393 /* index.html */; };
 		E78E993F27B07638003DF393 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = E78E993D27B07638003DF393 /* index.html */; };
+		E7BC4F5B27F7168300DFF2E9 /* FSWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BC4F5A27F7168300DFF2E9 /* FSWebView.swift */; };
+		E7BC4F5C27F7168300DFF2E9 /* FSWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BC4F5A27F7168300DFF2E9 /* FSWebView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +89,7 @@
 		E78E993927B07444003DF393 /* FplanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FplanView.swift; sourceTree = "<group>"; };
 		E78E993B27B0744A003DF393 /* NetworkReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
 		E78E993D27B07638003DF393 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		E7BC4F5A27F7168300DFF2E9 /* FSWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSWebView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +187,7 @@
 				E78E993927B07444003DF393 /* FplanView.swift */,
 				E78776A727859137007C1824 /* FplanKit.h */,
 				E78776A827859137007C1824 /* FplanKit.docc */,
+				E7BC4F5A27F7168300DFF2E9 /* FSWebView.swift */,
 			);
 			path = FplanKit;
 			sourceTree = "<group>";
@@ -336,6 +340,7 @@
 				E78776A927859137007C1824 /* FplanKit.docc in Sources */,
 				E706182D27B44AF200F35C14 /* FpHandler.swift in Sources */,
 				E78E993C27B0744A003DF393 /* NetworkReachability.swift in Sources */,
+				E7BC4F5B27F7168300DFF2E9 /* FSWebView.swift in Sources */,
 				E706182A27B44A9700F35C14 /* BoothHandler.swift in Sources */,
 				E706183327B44BA400F35C14 /* Direction.swift in Sources */,
 				E74819F627BB99930070D9B5 /* Route.swift in Sources */,
@@ -357,6 +362,7 @@
 				E720CD6327BB16220077AE87 /* Point.swift in Sources */,
 				E74819F727BB99930070D9B5 /* Route.swift in Sources */,
 				E720CD6627BB18CB0077AE87 /* Booth.swift in Sources */,
+				E7BC4F5C27F7168300DFF2E9 /* FSWebView.swift in Sources */,
 				E710330127F332FC001346A4 /* Constants.swift in Sources */,
 				E706183127B44B6D00F35C14 /* DirectionHandler.swift in Sources */,
 				E74819FA27BBA1E10070D9B5 /* Line.swift in Sources */,

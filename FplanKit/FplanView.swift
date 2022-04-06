@@ -61,7 +61,7 @@ public struct FplanView: UIViewRepresentable {
         self.buildDirectionAction = buildDirectionAction
     }
     
-    public func makeUIView(context: Context) -> WKWebView {
+    public func makeUIView(context: Context) -> FSWebView {
         let preferences = WKPreferences()
         preferences.setValue(true, forKey: "allowFileAccessFromFileURLs")
         preferences.setValue(true, forKey: "offlineApplicationCacheIsEnabled")
@@ -70,7 +70,7 @@ public struct FplanView: UIViewRepresentable {
         configuration.preferences = preferences
         configuration.websiteDataStore = WKWebsiteDataStore.default()
         
-        let webView = WKWebView(frame: CGRect.zero, configuration: configuration)
+        let webView = FSWebView(frame: CGRect.zero, configuration: configuration)
         webView.allowsBackForwardNavigationGestures = true
         webView.scrollView.isScrollEnabled = true
         
@@ -81,7 +81,7 @@ public struct FplanView: UIViewRepresentable {
         return webView
     }
     
-    public func updateUIView(_ webView: WKWebView, context: Context) {
+    public func updateUIView(_ webView: FSWebView, context: Context) {
         
         let newEventAddress = Helper.getEventAddress(self.url).lowercased()
         
@@ -93,7 +93,7 @@ public struct FplanView: UIViewRepresentable {
         }
     }
     
-    private func updateWebView(_ webView: WKWebView) {
+    private func updateWebView(_ webView: FSWebView) {
         if(self.selectedBooth != nil){
             webView.evaluateJavaScript("window.selectBooth('\(self.selectedBooth!)');")
         }
@@ -116,7 +116,7 @@ public struct FplanView: UIViewRepresentable {
         }
     }
     
-    private func initWebView(_ webView: WKWebView) {
+    private func initWebView(_ webView: FSWebView) {
         let fileManager = FileManager.default
         let netReachability = NetworkReachability()
         
@@ -154,16 +154,16 @@ public struct FplanView: UIViewRepresentable {
         
     }
     
-    private func fpReady(_ webView: WKWebView){
+    private func fpReady(_ webView: FSWebView){
         updateWebView(webView)
         self.fpReadyAction?()
     }
     
-    private func selectBooth(_ webView: WKWebView, _ boothName: String){
+    private func selectBooth(_ webView: FSWebView, _ boothName: String){
         self.selectedBooth = boothName
     }
     
-    private func buildDirection(_ webView: WKWebView, _ direction: Direction){
+    private func buildDirection(_ webView: FSWebView, _ direction: Direction){
         self.buildDirectionAction?(direction)
     }
 }

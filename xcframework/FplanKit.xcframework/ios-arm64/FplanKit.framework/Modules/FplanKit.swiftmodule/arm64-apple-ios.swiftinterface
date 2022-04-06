@@ -13,11 +13,11 @@ import _Concurrency
 @available(iOS 13.0, *)
 public struct FplanView : SwiftUI.UIViewRepresentable {
   public init(_ url: Swift.String, eventId: Swift.String? = nil, noOverlay: Swift.Bool = true, selectedBooth: SwiftUI.Binding<Swift.String?>? = nil, route: FplanKit.Route? = nil, currentPosition: FplanKit.Point? = nil, focusOnCurrentPosition: Swift.Bool = false, fpReadyAction: (() -> Swift.Void)? = nil, buildDirectionAction: ((_ direction: FplanKit.Direction) -> Swift.Void)? = nil)
-  @_Concurrency.MainActor(unsafe) public func makeUIView(context: FplanKit.FplanView.Context) -> WebKit.WKWebView
-  @_Concurrency.MainActor(unsafe) public func updateUIView(_ webView: WebKit.WKWebView, context: FplanKit.FplanView.Context)
+  @_Concurrency.MainActor(unsafe) public func makeUIView(context: FplanKit.FplanView.Context) -> FplanKit.FSWebView
+  @_Concurrency.MainActor(unsafe) public func updateUIView(_ webView: FplanKit.FSWebView, context: FplanKit.FplanView.Context)
   public typealias Body = Swift.Never
   public typealias Coordinator = Swift.Void
-  public typealias UIViewType = WebKit.WKWebView
+  public typealias UIViewType = FplanKit.FSWebView
 }
 @_Concurrency.MainActor(unsafe) public struct FplanView_Previews : SwiftUI.PreviewProvider {
   @_Concurrency.MainActor(unsafe) public init()
@@ -26,6 +26,14 @@ public struct FplanView : SwiftUI.UIViewRepresentable {
     get
   }
   public typealias Previews = @_opaqueReturnTypeOf("$s8FplanKit0A13View_PreviewsV8previewsQrvpZ", 0) __
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class FSWebView : WebKit.WKWebView {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public var safeAreaInsets: UIKit.UIEdgeInsets {
+    @_Concurrency.MainActor(unsafe) @objc get
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreGraphics.CGRect, configuration: WebKit.WKWebViewConfiguration)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
 }
 public struct Direction {
   public let distance: Swift.String

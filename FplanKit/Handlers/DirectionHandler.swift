@@ -17,10 +17,10 @@ struct JSONRoute : Decodable {
 
 @available(iOS 13.0, *)
 class DirectionHandler : NSObject, WKScriptMessageHandler {
-    private let webView: WKWebView
-    private let directionBuildHandler: (_ webView: WKWebView, _ direction: Direction) -> Void
+    private let webView: FSWebView
+    private let directionBuildHandler: (_ webView: FSWebView, _ direction: Direction) -> Void
     
-    public init(_ webView: WKWebView, _ directionBuildHandler: ((_ webView: WKWebView, _ direction: Direction) -> Void)!) {
+    public init(_ webView: FSWebView, _ directionBuildHandler: ((_ webView: FSWebView, _ direction: Direction) -> Void)!) {
         self.webView = webView
         self.directionBuildHandler = directionBuildHandler
         super.init()
