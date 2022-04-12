@@ -147,7 +147,12 @@ struct Helper{
       }
 
       function setCurrentPosition(x, y, focus){
-        window.floorplan?.selectCurrentPosition({x: x, y: y}, focus);
+        if(x == null || y == null){
+            window.floorplan?.selectCurrentPosition(null, focus);
+        }
+        else{
+            window.floorplan?.selectCurrentPosition({x: x, y: y}, focus);
+        }
       }
         </script>
 </body>

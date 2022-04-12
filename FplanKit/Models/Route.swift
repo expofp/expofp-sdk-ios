@@ -1,7 +1,7 @@
 import Foundation
 
 ///Route info
-public struct Route {
+public struct Route : Equatable {
 
     ///Start booth
     public let from: String
@@ -25,4 +25,10 @@ public struct Route {
         self.to = to
         self.exceptInaccessible = exceptInaccessible
     }
+    
+    public static func == (r1: Route, r2: Route) -> Bool {
+        return r1.from == r2.from &&
+        r1.to == r2.to &&
+        r1.exceptInaccessible == r2.exceptInaccessible
+      }
 }

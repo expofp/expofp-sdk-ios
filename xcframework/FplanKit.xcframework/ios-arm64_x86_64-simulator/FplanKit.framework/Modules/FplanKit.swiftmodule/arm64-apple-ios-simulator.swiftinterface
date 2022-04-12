@@ -28,6 +28,9 @@ public struct FplanView : SwiftUI.UIViewRepresentable {
   public typealias Previews = @_opaqueReturnTypeOf("$s8FplanKit0A13View_PreviewsV8previewsQrvpZ", 0) __
 }
 @objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class FSWebView : WebKit.WKWebView {
+  @_Concurrency.MainActor(unsafe) public var selectedBooth: Swift.String?
+  @_Concurrency.MainActor(unsafe) public var route: FplanKit.Route?
+  @_Concurrency.MainActor(unsafe) public var currentPosition: FplanKit.Point?
   @_Concurrency.MainActor(unsafe) @objc override dynamic public var safeAreaInsets: UIKit.UIEdgeInsets {
     @_Concurrency.MainActor(unsafe) @objc get
   }
@@ -42,11 +45,12 @@ public struct Direction {
   public let to: FplanKit.Booth
   public let lines: [FplanKit.Line]
 }
-public struct Route {
+public struct Route : Swift.Equatable {
   public let from: Swift.String
   public let to: Swift.String
   public let exceptInaccessible: Swift.Bool
   public init(from: Swift.String, to: Swift.String, exceptInaccessible: Swift.Bool)
+  public static func == (r1: FplanKit.Route, r2: FplanKit.Route) -> Swift.Bool
 }
 public struct Line {
   public let startPoint: FplanKit.Point
@@ -58,9 +62,10 @@ public struct Booth : Swift.Decodable {
   public let name: Swift.String
   public init(from decoder: Swift.Decoder) throws
 }
-public struct Point : Swift.Decodable {
+public struct Point : Swift.Decodable, Swift.Equatable {
   public let x: Swift.Int
   public let y: Swift.Int
   public init(x: Swift.Int, y: Swift.Int)
+  public static func == (p1: FplanKit.Point, p2: FplanKit.Point) -> Swift.Bool
   public init(from decoder: Swift.Decoder) throws
 }

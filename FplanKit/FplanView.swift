@@ -6,7 +6,7 @@ import UIKit
 
 /**
  Views to display the floor plan
-
+ 
  You can create a floor plan on the https://expofp.com
  */
 @available(iOS 13.0, *)
@@ -20,6 +20,7 @@ public struct FplanView: UIViewRepresentable {
     private let focusOnCurrentPosition: Bool
     private let fpReadyAction: (() -> Void)?
     private let buildDirectionAction: ((_ direction: Direction) -> Void)?
+    private let webViewController = FSWebViewController()
     
     @Binding var selectedBooth: String?
     
@@ -73,6 +74,7 @@ public struct FplanView: UIViewRepresentable {
         let webView = FSWebView(frame: CGRect.zero, configuration: configuration)
         webView.allowsBackForwardNavigationGestures = true
         webView.scrollView.isScrollEnabled = true
+        webView.navigationDelegate = webViewController
         
         webView.configuration.userContentController.add(FpHandler(webView, fpReady), name: "onFpConfiguredHandler")
         webView.configuration.userContentController.add(BoothHandler(webView, selectBooth), name: "onBoothClickHandler")
@@ -94,25 +96,37 @@ public struct FplanView: UIViewRepresentable {
     }
     
     private func updateWebView(_ webView: FSWebView) {
-        if(self.selectedBooth != nil){
-            webView.evaluateJavaScript("window.selectBooth('\(self.selectedBooth!)');")
-        }
-        else if(self.route == nil){
-            webView.evaluateJavaScript("window.selectBooth(null);")
-        }
-        
-        if(self.route != nil){
-            webView.evaluateJavaScript("window.selectRoute('\(self.route!.from)', '\(self.route!.to)', \(self.route!.exceptInaccessible));")
-        }
-        else if(self.selectedBooth == nil){
-            webView.evaluateJavaScript("window.selectRoute(null, null, false);")
+        if(webView.selectedBooth != self.selectedBooth){
+            webView.selectedBooth = self.selectedBooth
+            
+            if(self.selectedBooth != nil && self.selectedBooth != "" && self.route == nil){
+                webView.evaluateJavaScript("window.selectBooth('\(self.selectedBooth!)');")
+            }
+            else if(self.route == nil){
+                webView.evaluateJavaScript("window.selectBooth(null);")
+            }
         }
         
-        if(self.currentPosition != nil){
-            webView.evaluateJavaScript("window.setCurrentPosition(\(self.currentPosition!.x), \(self.currentPosition!.y), \(focusOnCurrentPosition));")
+        if(webView.route != self.route){
+            webView.route = self.route
+            
+            if(self.route != nil){
+                webView.evaluateJavaScript("window.selectRoute('\(self.route!.from)', '\(self.route!.to)', \(self.route!.exceptInaccessible));")
+            }
+            else if(self.selectedBooth == nil){
+                webView.evaluateJavaScript("window.selectRoute(null, null, false);")
+            }
         }
-        else{
-            webView.evaluateJavaScript("window.setCurrentPosition(null, null, false);")
+        
+        if(webView.currentPosition != self.currentPosition){
+            webView.currentPosition = self.currentPosition
+            
+            if(self.currentPosition != nil){
+                webView.evaluateJavaScript("window.setCurrentPosition(\(self.currentPosition!.x), \(self.currentPosition!.y), \(focusOnCurrentPosition));")
+            }
+            else{
+                webView.evaluateJavaScript("window.setCurrentPosition(null, null, false);")
+            }
         }
     }
     
