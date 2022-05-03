@@ -29,12 +29,13 @@ struct Helper{
         }
     }
     
-    public static func createHtmlFile(filePath: URL, noOverlay: Bool, directory: URL, expofpJsUrl: String, eventId: String) throws {
+    public static func createHtmlFile(filePath: URL, noOverlay: Bool, directory: URL, baseUrl: String, eventId: String, autoInit: Bool) throws {
         let fileManager = FileManager.default
         let html = Helper.getIndexHtml()
-            .replacingOccurrences(of: "$expofp_js_url#", with: expofpJsUrl)
+            .replacingOccurrences(of: "$url#", with: baseUrl)
             .replacingOccurrences(of: "$eventId#", with: eventId)
             .replacingOccurrences(of: "$noOverlay#", with: String(noOverlay))
+            .replacingOccurrences(of: "$autoInit#", with: String(autoInit))
         
         if !fileManager.fileExists(atPath: filePath.path){
             try! fileManager.createDirectory(atPath: directory.path, withIntermediateDirectories: true, attributes: nil)
@@ -47,7 +48,7 @@ struct Helper{
         return paths[0]
     }
     
-    public static func updateAllFiles(baseUrl: URL!, directory: URL!) throws {
+    public static func updateAllFiles(baseUrl: URL!, directory: URL!, callback: @escaping (() -> Void)) throws {
         let dirs:[String] = [
             directory.appendingPathComponent("fonts/").path,
             directory.appendingPathComponent("vendor/fa/css/").path,
@@ -63,10 +64,17 @@ struct Helper{
         }
 
         let paths: [String: String] = [
+            "data/fp.svg.js": "data/fp.svg.js",
+            "data/data.js": "data/data.js",
+            "data/wf.data.js": "data/wf.data.js",
+            "data/demo.png": "data/demo.png",
+            
             "packages/master/expofp.js": "expofp.js",
             "packages/master/floorplan.js": "floorplan.js",
             "packages/master/vendors~floorplan.js": "vendors~floorplan.js",
             "packages/master/expofp-overlay.png": "expofp-overlay.png",
+            "packages/master/free.js": "free.js",
+            "packages/master/slider.js": "slider.js",
             
             "packages/master/fonts/oswald-v17-cyrillic_latin-300.woff2": "fonts/oswald-v17-cyrillic_latin-300.woff2",
             "packages/master/fonts/oswald-v17-cyrillic_latin-500.woff2": "fonts/oswald-v17-cyrillic_latin-500.woff2",
@@ -96,16 +104,19 @@ struct Helper{
             "packages/master/locales/tr.json": "locales/tr.json",
             "packages/master/locales/vi.json": "locales/vi.json",
             "packages/master/locales/zh.json": "locales/zh.json",
-            
-            "data/data.js": "data/data.js",
-            "data/fp.svg.js": "data/fp.svg.js",
-            "data/demo.png": "data/demo.png",
         ]
+        
+        var count = 0
         
         for(_, path) in paths.enumerated(){
             let url = baseUrl.appendingPathComponent("/" + path.key)
             let filePath = directory.appendingPathComponent(path.value)
-            updateFile(url, filePath)
+            updateFile(url, filePath){
+                count += 1
+                if(count == paths.count){
+                    callback()
+                }
+            }
         }
     }
     
@@ -118,53 +129,197 @@ struct Helper{
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width" />
+    <style>
+      html,
+      body {
+        touch-action: none;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        background: #ebebeb;
+        position: fixed;
+        overflow: hidden;
+      }
+      @media (max-width: 820px) and (min-width: 500px) {
+        html {
+          font-size: 13px;
+        }
+      }
+    </style>
+    <style>
+      .lds-grid {
+        top: 42vh;
+        margin: 0 auto;
+        display: block;
+        position: relative;
+        width: 64px;
+        height: 64px;
+      }
+
+      .lds-grid div {
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        background: #aaa;
+        border-radius: 50%;
+        /* border: solid 1px #fff; */
+        animation: lds-grid 1.2s linear infinite;
+      }
+
+      .lds-grid div:nth-child(1) {
+        top: 6px;
+        left: 6px;
+        animation-delay: 0s;
+      }
+
+      .lds-grid div:nth-child(2) {
+        top: 6px;
+        left: 26px;
+        animation-delay: -0.4s;
+      }
+
+      .lds-grid div:nth-child(3) {
+        top: 6px;
+        left: 45px;
+        animation-delay: -0.8s;
+      }
+
+      .lds-grid div:nth-child(4) {
+        top: 26px;
+        left: 6px;
+        animation-delay: -0.4s;
+      }
+
+      .lds-grid div:nth-child(5) {
+        top: 26px;
+        left: 26px;
+        animation-delay: -0.8s;
+      }
+
+      .lds-grid div:nth-child(6) {
+        top: 26px;
+        left: 45px;
+        animation-delay: -1.2s;
+      }
+
+      .lds-grid div:nth-child(7) {
+        top: 45px;
+        left: 6px;
+        animation-delay: -0.8s;
+      }
+
+      .lds-grid div:nth-child(8) {
+        top: 45px;
+        left: 26px;
+        animation-delay: -1.2s;
+      }
+
+      .lds-grid div:nth-child(9) {
+        top: 45px;
+        left: 45px;
+        animation-delay: -1.6s;
+      }
+
+      @keyframes lds-grid {
+        0%,
+        100% {
+          opacity: 1;
+        }
+
+        50% {
+          opacity: 0.5;
+        }
+      }
+    </style>
 </head>
 <body>
-<div id="floorplan">Loading...</div>
-<script src="$expofp_js_url#" crossorigin="anonymous"></script>
+<div id="floorplan">
+    <div class="lds-grid">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
 <script>
-            window.floorplan = new ExpoFP.FloorPlan({
-                element: document.querySelector("#floorplan"),
-                eventId: "$eventId#",
-                noOverlay: $noOverlay#,
-                onBoothClick: e => {
-                    window.webkit?.messageHandlers?.onBoothClickHandler?.postMessage(e.target.name);
-                },
-                onFpConfigured: () => {
-                    window.webkit?.messageHandlers?.onFpConfiguredHandler?.postMessage("FLOOR PLAN CONFIGURED");
-                },
-                onDirection: (e) => {
-                    window.webkit?.messageHandlers?.onDirectionHandler?.postMessage(JSON.stringify(e));
-                }
-            });
+      function initFloorplan() {
+        window.floorplan = new ExpoFP.FloorPlan({
+          element: document.querySelector("#floorplan"),
+          dataUrl: "$url#/data/",
+          eventId: "$eventId#",
+          noOverlay: $noOverlay#,
+          onBoothClick: (e) => {
+            window.onBoothClickHandler?.postMessage(e.target.name);
+          },
+          onFpConfigured: () => {
+            window.onFpConfiguredHandler?.postMessage("FLOOR PLAN CONFIGURED");
+          },
+          onDirection: (e) => {
+            window.onDirectionHandler?.postMessage(JSON.stringify(e));
+          },
+        });
+      }
 
-      function selectRoute(from, to, exceptUnAccessible){
+      function init() {
+        const expofpScript = document.createElement("script");
+        expofpScript.src = "$url#/expofp.js";
+        expofpScript.crossorigin = "anonymous";
+        expofpScript.onload = function() {
+            initFloorplan();
+        };
+
+        document.body.appendChild(expofpScript);
+      }
+
+      function selectRoute(from, to, exceptUnAccessible) {
         window.floorplan?.selectRoute(from, to, exceptUnAccessible);
       }
 
-      function selectBooth(name){
+      function selectBooth(name) {
         window.floorplan?.selectBooth(name);
       }
 
-      function setCurrentPosition(x, y, focus){
-        if(x == null || y == null){
-            window.floorplan?.selectCurrentPosition(null, focus);
-        }
-        else{
-            window.floorplan?.selectCurrentPosition({x: x, y: y}, focus);
+      function setCurrentPosition(x, y, focus) {
+        if (x == null || y == null) {
+          window.floorplan?.selectCurrentPosition(null, focus);
+        } else {
+          window.floorplan?.selectCurrentPosition({ x: x, y: y }, focus);
         }
       }
-        </script>
+
+      function autoInit() {
+        const canInit = $autoInit#;
+        if(canInit){
+            init();
+        }
+      }
+      autoInit();
+    </script>
 </body>
 </html>
 """;
     }
     
-    private static func updateFile(_ url: URL, _ filePath: URL){
+    public static func updateFile(_ url: URL, _ filePath: URL, callback: @escaping (()->Void)){
         let session = URLSession.shared
         let task = session.dataTask(with: url, completionHandler: { data, response, error in
+            print("++++++++ updateFile")
+            print("++++++++ updateFile url: \(url)")
+            print("++++++++ updateFile filePath: \(filePath.absoluteString)")
+            
+            if(error != nil){
+                print("++++++++ updateFile ERROR. url: \(url); error: \(error)")
+            }
+            
             let fileManager = FileManager.default
             fileManager.createFile(atPath: filePath.path, contents: data)
+            callback()
         })
         task.resume()
     }

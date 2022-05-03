@@ -20,8 +20,8 @@ public struct FplanView: UIViewRepresentable {
     private let focusOnCurrentPosition: Bool
     private let fpReadyAction: (() -> Void)?
     private let buildDirectionAction: ((_ direction: Direction) -> Void)?
-    private let webViewController = FSWebViewController()
     
+    @State private var webViewController = FSWebViewController()
     @Binding var selectedBooth: String?
     
     /**
@@ -70,6 +70,7 @@ public struct FplanView: UIViewRepresentable {
         let configuration = WKWebViewConfiguration()
         configuration.preferences = preferences
         configuration.websiteDataStore = WKWebsiteDataStore.default()
+        configuration.setURLSchemeHandler(webViewController, forURLScheme: Constants.scheme)
         
         let webView = FSWebView(frame: CGRect.zero, configuration: configuration)
         webView.allowsBackForwardNavigationGestures = true
@@ -79,7 +80,7 @@ public struct FplanView: UIViewRepresentable {
         webView.configuration.userContentController.add(FpHandler(webView, fpReady), name: "onFpConfiguredHandler")
         webView.configuration.userContentController.add(BoothHandler(webView, selectBooth), name: "onBoothClickHandler")
         webView.configuration.userContentController.add(DirectionHandler(webView, buildDirection), name: "onDirectionHandler")
-
+        
         return webView
     }
     
@@ -96,13 +97,19 @@ public struct FplanView: UIViewRepresentable {
     }
     
     private func updateWebView(_ webView: FSWebView) {
+        print("+++++++++ updateWebView")
+        print("+++++++++ updateWebView webView.selectedBooth: \(String(describing: webView.selectedBooth))")
+        print("+++++++++ updateWebView self.selectedBooth: \(String(describing: self.selectedBooth))")
+        
         if(webView.selectedBooth != self.selectedBooth){
             webView.selectedBooth = self.selectedBooth
             
             if(self.selectedBooth != nil && self.selectedBooth != "" && self.route == nil){
+                print("+++++++++ updateWebView #1")
                 webView.evaluateJavaScript("window.selectBooth('\(self.selectedBooth!)');")
             }
             else if(self.route == nil){
+                print("+++++++++ updateWebView #2")
                 webView.evaluateJavaScript("window.selectBooth(null);")
             }
         }
@@ -111,9 +118,11 @@ public struct FplanView: UIViewRepresentable {
             webView.route = self.route
             
             if(self.route != nil){
+                print("+++++++++ updateWebView #3")
                 webView.evaluateJavaScript("window.selectRoute('\(self.route!.from)', '\(self.route!.to)', \(self.route!.exceptInaccessible));")
             }
             else if(self.selectedBooth == nil){
+                print("+++++++++ updateWebView #4")
                 webView.evaluateJavaScript("window.selectRoute(null, null, false);")
             }
         }
@@ -122,15 +131,19 @@ public struct FplanView: UIViewRepresentable {
             webView.currentPosition = self.currentPosition
             
             if(self.currentPosition != nil){
+                print("+++++++++ updateWebView #5")
                 webView.evaluateJavaScript("window.setCurrentPosition(\(self.currentPosition!.x), \(self.currentPosition!.y), \(focusOnCurrentPosition));")
             }
             else{
+                print("+++++++++ updateWebView #6")
                 webView.evaluateJavaScript("window.setCurrentPosition(null, null, false);")
             }
         }
     }
     
     private func initWebView(_ webView: FSWebView) {
+        print("+++++++++ initWebView")
+        
         let fileManager = FileManager.default
         let netReachability = NetworkReachability()
         
@@ -139,27 +152,43 @@ public struct FplanView: UIViewRepresentable {
         
         let fplanDirectory = Helper.getCacheDirectory().appendingPathComponent("fplan/")
         let directory = fplanDirectory.appendingPathComponent("\(eventAddress)/")
+        webViewController.initForExpo(eventUrl, directory.absoluteString)
+
         let indexPath = directory.appendingPathComponent("index.html")
+        
+        let baseUrl = "\(Constants.scheme)://\(directory.path)"
+        print("+++++++++ initWebView baseUrl: \(baseUrl)")
+        
+        let indexUrlString = selectedBooth != nil && selectedBooth != "" ? baseUrl + "/index.html" + "?\(selectedBooth!)" : baseUrl + "/index.html"
+        print("+++++++++ initWebView indexUrlString: \(indexUrlString)")
+        
+        let indexUrl = URL(string: indexUrlString)
+        print("+++++++++ initWebView indexUrl: \(indexUrl!)")
         
         do {
             if(netReachability.checkConnection()){
                 if fileManager.fileExists(atPath: fplanDirectory.path){
+                    print("*********** fileManager.fileExists: \(fplanDirectory.path)")
                     try fileManager.removeItem(at: fplanDirectory)
                 }
                 
-                let expofpJsUrl = "\(eventUrl)/packages/master/expofp.js"
-                try Helper.createHtmlFile(filePath: indexPath, noOverlay: noOverlay, directory: directory,expofpJsUrl: expofpJsUrl, eventId: self.eventId )
+                try Helper.createHtmlFile(filePath: indexPath, noOverlay: noOverlay, directory: directory, baseUrl: baseUrl, eventId: self.eventId, autoInit: false)
                 
-                let requestUrl = URLRequest(url: indexPath, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
+                let requestUrl = URLRequest(url: indexUrl!, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
                 webView.load(requestUrl)
                 
-                try Helper.updateAllFiles(baseUrl: URL(string: eventUrl), directory: directory)
+                try Helper.updateAllFiles(baseUrl: URL(string: eventUrl), directory: directory){
+                    print("$$$$$$$$$$$$$$$$$$$$$ window.init()")
+                    DispatchQueue.main.async {
+                        webView.evaluateJavaScript("window.init()")
+                    }
+                }
             }
             else{
-                let expofpJsUrl = "\(directory.path)/expofp.js"
-                try Helper.createHtmlFile(filePath: indexPath, noOverlay: noOverlay, directory: directory, expofpJsUrl: expofpJsUrl, eventId: self.eventId )
                 
-                let requestUrl = URLRequest(url: indexPath, cachePolicy: .returnCacheDataElseLoad)
+                try Helper.createHtmlFile(filePath: indexPath, noOverlay: noOverlay, directory: directory, baseUrl: baseUrl, eventId: self.eventId, autoInit: true)
+                
+                let requestUrl = URLRequest(url: indexUrl!, cachePolicy: .returnCacheDataElseLoad)
                 webView.load(requestUrl)
             }
         } catch {
@@ -182,13 +211,13 @@ public struct FplanView: UIViewRepresentable {
     }
 }
 
+@available(iOS 13.0.0, *)
 public struct FplanView_Previews: PreviewProvider {
     
     public init(){
         
     }
     
-    @available(iOS 13.0.0, *)
     public static var previews: some View {
         FplanView("https://demo.expofp.com")
     }

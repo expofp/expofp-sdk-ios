@@ -8,6 +8,7 @@ import Swift
 import SwiftUI
 import SystemConfiguration
 import UIKit
+import UniformTypeIdentifiers
 import WebKit
 import _Concurrency
 @available(iOS 13.0, *)
@@ -19,13 +20,25 @@ public struct FplanView : SwiftUI.UIViewRepresentable {
   public typealias Coordinator = Swift.Void
   public typealias UIViewType = FplanKit.FSWebView
 }
+@available(iOS 13.0.0, *)
 @_Concurrency.MainActor(unsafe) public struct FplanView_Previews : SwiftUI.PreviewProvider {
   @_Concurrency.MainActor(unsafe) public init()
-  @available(iOS 13.0.0, *)
   @_Concurrency.MainActor(unsafe) public static var previews: some SwiftUI.View {
     get
   }
   public typealias Previews = @_opaqueReturnTypeOf("$s8FplanKit0A13View_PreviewsV8previewsQrvpZ", 0) __
+}
+extension Foundation.NSURL {
+  public func mimeType() -> Swift.String
+}
+extension Foundation.URL {
+  public func mimeType() -> Swift.String
+}
+extension Foundation.NSString {
+  public func mimeType() -> Swift.String
+}
+extension Swift.String {
+  public func mimeType() -> Swift.String
 }
 @objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class FSWebView : WebKit.WKWebView {
   @_Concurrency.MainActor(unsafe) public var selectedBooth: Swift.String?

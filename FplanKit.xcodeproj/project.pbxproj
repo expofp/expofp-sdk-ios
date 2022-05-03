@@ -43,6 +43,8 @@
 		E74819F727BB99930070D9B5 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74819F527BB99930070D9B5 /* Route.swift */; };
 		E74819F927BBA1E10070D9B5 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74819F827BBA1E10070D9B5 /* Line.swift */; };
 		E74819FA27BBA1E10070D9B5 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74819F827BBA1E10070D9B5 /* Line.swift */; };
+		E770DB12282148E50098B6CE /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E770DB11282148E50098B6CE /* MimeType.swift */; };
+		E770DB13282148E50098B6CE /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E770DB11282148E50098B6CE /* MimeType.swift */; };
 		E78776A927859137007C1824 /* FplanKit.docc in Sources */ = {isa = PBXBuildFile; fileRef = E78776A827859137007C1824 /* FplanKit.docc */; };
 		E78776AF27859137007C1824 /* FplanKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E78776A427859137007C1824 /* FplanKit.framework */; };
 		E78776B427859137007C1824 /* FplanKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78776B327859137007C1824 /* FplanKitTests.swift */; };
@@ -84,6 +86,7 @@
 		E73980F827FE2ACA0009B781 /* FSWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSWebViewController.swift; sourceTree = "<group>"; };
 		E74819F527BB99930070D9B5 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		E74819F827BBA1E10070D9B5 /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
+		E770DB11282148E50098B6CE /* MimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
 		E78776A427859137007C1824 /* FplanKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FplanKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E78776A727859137007C1824 /* FplanKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FplanKit.h; sourceTree = "<group>"; };
 		E78776A827859137007C1824 /* FplanKit.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = FplanKit.docc; sourceTree = "<group>"; };
@@ -158,6 +161,7 @@
 				E72A4C4627B08054004AB602 /* Helper.swift */,
 				E78E993B27B0744A003DF393 /* NetworkReachability.swift */,
 				E71032FF27F332FC001346A4 /* Constants.swift */,
+				E770DB11282148E50098B6CE /* MimeType.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -343,6 +347,7 @@
 				E78E993A27B07444003DF393 /* FplanView.swift in Sources */,
 				E78776A927859137007C1824 /* FplanKit.docc in Sources */,
 				E706182D27B44AF200F35C14 /* FpHandler.swift in Sources */,
+				E770DB12282148E50098B6CE /* MimeType.swift in Sources */,
 				E78E993C27B0744A003DF393 /* NetworkReachability.swift in Sources */,
 				E7BC4F5B27F7168300DFF2E9 /* FSWebView.swift in Sources */,
 				E706182A27B44A9700F35C14 /* BoothHandler.swift in Sources */,
@@ -364,6 +369,7 @@
 			files = (
 				E78776B427859137007C1824 /* FplanKitTests.swift in Sources */,
 				E73980FA27FE2ACA0009B781 /* FSWebViewController.swift in Sources */,
+				E770DB13282148E50098B6CE /* MimeType.swift in Sources */,
 				E706182B27B44A9700F35C14 /* BoothHandler.swift in Sources */,
 				E720CD6327BB16220077AE87 /* Point.swift in Sources */,
 				E74819F727BB99930070D9B5 /* Route.swift in Sources */,

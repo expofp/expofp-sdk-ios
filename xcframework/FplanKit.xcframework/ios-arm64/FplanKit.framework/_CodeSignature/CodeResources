@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/FplanKit-Swift.h</key>
 		<data>
-		OAf4vCyR8gAWW6dk50QYOTb7kAI=
+		MJfXvI/HJEjLtBnrp9KYzwMddT4=
 		</data>
 		<key>Headers/FplanKit.h</key>
 		<data>
@@ -14,7 +14,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		XqqpSxniw4CBuvXBtxOM72Gujo8=
+		yKPafLh8Zz1D2Kib8rTODAc8OgE=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
@@ -22,11 +22,11 @@
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
-		q9f2/M3Zmlqe1J4oKDhTw7hlhtk=
+		ndIUr3e3sPwESiYvfULtXF6rr6g=
 		</data>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		zaZ3Eb0R8poerqSRlHmTcqzklPI=
+		kWTsmKRJSHX0wN0PKukE6hv+bXQ=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -43,7 +43,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			dv7uVYrFecqF9p+Ha8DBH8199tHt8WToORtREGKahT0=
+			azZVQzztRIPPxf7UdLQLJohvkYpnn63qGH62YTC/9/8=
 			</data>
 		</dict>
 		<key>Headers/FplanKit.h</key>
@@ -64,14 +64,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			7Efz9khU22na+apqk4chzEdvfE8RV21RR7AF+dgJ+Qk=
+			/yaMCSNWr3LcvCqu1m6odhXSPzPsbmSv1A/XID6Qfe4=
 			</data>
 		</dict>
 		<key>Modules/FplanKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			kbPzcZzCgAyjPZj7nmINyDtHnVogQ6ks/6yb09qhcF0=
+			jSl4IMjc0lEnAF0QeahcZd4MRUBOFqaXWdVW2E/wobk=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
