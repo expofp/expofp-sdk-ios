@@ -285,11 +285,11 @@ struct Helper{
         window.floorplan?.selectBooth(name);
       }
 
-      function setCurrentPosition(x, y, focus) {
+      function setCurrentPosition(x, y, z, angle, focus) {
         if (x == null || y == null) {
           window.floorplan?.selectCurrentPosition(null, focus);
         } else {
-          window.floorplan?.selectCurrentPosition({ x: x, y: y }, focus);
+          window.floorplan?.selectCurrentPosition({ x: x, y: y, z: z, angle: angle }, focus);
         }
       }
 
