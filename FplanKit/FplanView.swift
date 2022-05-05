@@ -16,13 +16,13 @@ public struct FplanView: UIViewRepresentable {
     private let eventId: String
     private let noOverlay: Bool
     private let route: Route?
-    private let currentPosition: Point?
     private let focusOnCurrentPosition: Bool
     private let fpReadyAction: (() -> Void)?
     private let buildDirectionAction: ((_ direction: Direction) -> Void)?
     
     @State private var webViewController = FSWebViewController()
     @Binding var selectedBooth: String?
+    @Binding var currentPosition: BlueDotPoint?
     
     /**
      This function initializes the view.
@@ -43,7 +43,7 @@ public struct FplanView: UIViewRepresentable {
                 noOverlay: Bool = true,
                 selectedBooth: Binding<String?>? = nil,
                 route: Route? = nil,
-                currentPosition: Point? = nil,
+                currentPosition: Binding<BlueDotPoint?>? = nil,
                 focusOnCurrentPosition: Bool = false,
                 fpReadyAction:(() -> Void)? = nil,
                 buildDirectionAction: ((_ direction: Direction) -> Void)? = nil){
@@ -56,7 +56,7 @@ public struct FplanView: UIViewRepresentable {
         self.noOverlay = noOverlay
         self._selectedBooth = selectedBooth ?? Binding.constant(nil)
         self.route = route
-        self.currentPosition = currentPosition
+        self._currentPosition = currentPosition ?? Binding.constant(nil)
         self.focusOnCurrentPosition = focusOnCurrentPosition
         self.fpReadyAction = fpReadyAction
         self.buildDirectionAction = buildDirectionAction
@@ -97,19 +97,13 @@ public struct FplanView: UIViewRepresentable {
     }
     
     private func updateWebView(_ webView: FSWebView) {
-        print("+++++++++ updateWebView")
-        print("+++++++++ updateWebView webView.selectedBooth: \(String(describing: webView.selectedBooth))")
-        print("+++++++++ updateWebView self.selectedBooth: \(String(describing: self.selectedBooth))")
-        
         if(webView.selectedBooth != self.selectedBooth){
             webView.selectedBooth = self.selectedBooth
             
             if(self.selectedBooth != nil && self.selectedBooth != "" && self.route == nil){
-                print("+++++++++ updateWebView #1")
                 webView.evaluateJavaScript("window.selectBooth('\(self.selectedBooth!)');")
             }
             else if(self.route == nil){
-                print("+++++++++ updateWebView #2")
                 webView.evaluateJavaScript("window.selectBooth(null);")
             }
         }
@@ -118,11 +112,9 @@ public struct FplanView: UIViewRepresentable {
             webView.route = self.route
             
             if(self.route != nil){
-                print("+++++++++ updateWebView #3")
                 webView.evaluateJavaScript("window.selectRoute('\(self.route!.from)', '\(self.route!.to)', \(self.route!.exceptInaccessible));")
             }
             else if(self.selectedBooth == nil){
-                print("+++++++++ updateWebView #4")
                 webView.evaluateJavaScript("window.selectRoute(null, null, false);")
             }
         }
@@ -131,19 +123,18 @@ public struct FplanView: UIViewRepresentable {
             webView.currentPosition = self.currentPosition
             
             if(self.currentPosition != nil){
-                print("+++++++++ updateWebView #5")
-                webView.evaluateJavaScript("window.setCurrentPosition(\(self.currentPosition!.x), \(self.currentPosition!.y), \(focusOnCurrentPosition));")
+                let z = self.currentPosition!.z != nil ? "'\(self.currentPosition!.z!)'" : "null"
+                let angle = self.currentPosition!.angle != nil ? "\(self.currentPosition!.angle!)" : "null"
+                
+                webView.evaluateJavaScript("window.setCurrentPosition(\(self.currentPosition!.x), \(self.currentPosition!.y), \(z), \(angle), \(focusOnCurrentPosition));")
             }
             else{
-                print("+++++++++ updateWebView #6")
-                webView.evaluateJavaScript("window.setCurrentPosition(null, null, false);")
+                webView.evaluateJavaScript("window.setCurrentPosition(null, null, null, null, false);")
             }
         }
     }
     
     private func initWebView(_ webView: FSWebView) {
-        print("+++++++++ initWebView")
-        
         let fileManager = FileManager.default
         let netReachability = NetworkReachability()
         
@@ -155,21 +146,15 @@ public struct FplanView: UIViewRepresentable {
         webViewController.initForExpo(eventUrl, directory.absoluteString)
 
         let indexPath = directory.appendingPathComponent("index.html")
-        
         let baseUrl = "\(Constants.scheme)://\(directory.path)"
-        print("+++++++++ initWebView baseUrl: \(baseUrl)")
         
         let indexUrlString = selectedBooth != nil && selectedBooth != "" ? baseUrl + "/index.html" + "?\(selectedBooth!)" : baseUrl + "/index.html"
-        print("+++++++++ initWebView indexUrlString: \(indexUrlString)")
-        
         let indexUrl = URL(string: indexUrlString)
-        print("+++++++++ initWebView indexUrl: \(indexUrl!)")
         
         do {
             if(netReachability.checkConnection()){
                 if fileManager.fileExists(atPath: fplanDirectory.path){
-                    print("*********** fileManager.fileExists: \(fplanDirectory.path)")
-                    try fileManager.removeItem(at: fplanDirectory)
+                    try? fileManager.removeItem(at: fplanDirectory)
                 }
                 
                 try Helper.createHtmlFile(filePath: indexPath, noOverlay: noOverlay, directory: directory, baseUrl: baseUrl, eventId: self.eventId, autoInit: false)
@@ -178,7 +163,6 @@ public struct FplanView: UIViewRepresentable {
                 webView.load(requestUrl)
                 
                 try Helper.updateAllFiles(baseUrl: URL(string: eventUrl), directory: directory){
-                    print("$$$$$$$$$$$$$$$$$$$$$ window.init()")
                     DispatchQueue.main.async {
                         webView.evaluateJavaScript("window.init()")
                     }
@@ -194,7 +178,6 @@ public struct FplanView: UIViewRepresentable {
         } catch {
             print(error)
         }
-        
     }
     
     private func fpReady(_ webView: FSWebView){

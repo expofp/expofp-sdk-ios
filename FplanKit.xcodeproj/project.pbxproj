@@ -43,6 +43,8 @@
 		E74819F727BB99930070D9B5 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74819F527BB99930070D9B5 /* Route.swift */; };
 		E74819F927BBA1E10070D9B5 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74819F827BBA1E10070D9B5 /* Line.swift */; };
 		E74819FA27BBA1E10070D9B5 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74819F827BBA1E10070D9B5 /* Line.swift */; };
+		E76B1A70282412EE008CBB93 /* BlueDotPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76B1A6F282412EE008CBB93 /* BlueDotPoint.swift */; };
+		E76B1A71282412EE008CBB93 /* BlueDotPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76B1A6F282412EE008CBB93 /* BlueDotPoint.swift */; };
 		E770DB12282148E50098B6CE /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E770DB11282148E50098B6CE /* MimeType.swift */; };
 		E770DB13282148E50098B6CE /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E770DB11282148E50098B6CE /* MimeType.swift */; };
 		E78776A927859137007C1824 /* FplanKit.docc in Sources */ = {isa = PBXBuildFile; fileRef = E78776A827859137007C1824 /* FplanKit.docc */; };
@@ -86,6 +88,7 @@
 		E73980F827FE2ACA0009B781 /* FSWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSWebViewController.swift; sourceTree = "<group>"; };
 		E74819F527BB99930070D9B5 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		E74819F827BBA1E10070D9B5 /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
+		E76B1A6F282412EE008CBB93 /* BlueDotPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueDotPoint.swift; sourceTree = "<group>"; };
 		E770DB11282148E50098B6CE /* MimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
 		E78776A427859137007C1824 /* FplanKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FplanKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E78776A727859137007C1824 /* FplanKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FplanKit.h; sourceTree = "<group>"; };
@@ -125,6 +128,7 @@
 				E720CD6427BB18CB0077AE87 /* Booth.swift */,
 				E74819F527BB99930070D9B5 /* Route.swift */,
 				E74819F827BBA1E10070D9B5 /* Line.swift */,
+				E76B1A6F282412EE008CBB93 /* BlueDotPoint.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -358,6 +362,7 @@
 				E73980F927FE2ACA0009B781 /* FSWebViewController.swift in Sources */,
 				E706183027B44B6D00F35C14 /* DirectionHandler.swift in Sources */,
 				E74819F927BBA1E10070D9B5 /* Line.swift in Sources */,
+				E76B1A70282412EE008CBB93 /* BlueDotPoint.swift in Sources */,
 				E720CD6527BB18CB0077AE87 /* Booth.swift in Sources */,
 				E720CD6227BB16220077AE87 /* Point.swift in Sources */,
 			);
@@ -375,6 +380,7 @@
 				E74819F727BB99930070D9B5 /* Route.swift in Sources */,
 				E720CD6627BB18CB0077AE87 /* Booth.swift in Sources */,
 				E7BC4F5C27F7168300DFF2E9 /* FSWebView.swift in Sources */,
+				E76B1A71282412EE008CBB93 /* BlueDotPoint.swift in Sources */,
 				E710330127F332FC001346A4 /* Constants.swift in Sources */,
 				E706183127B44B6D00F35C14 /* DirectionHandler.swift in Sources */,
 				E74819FA27BBA1E10070D9B5 /* Line.swift in Sources */,

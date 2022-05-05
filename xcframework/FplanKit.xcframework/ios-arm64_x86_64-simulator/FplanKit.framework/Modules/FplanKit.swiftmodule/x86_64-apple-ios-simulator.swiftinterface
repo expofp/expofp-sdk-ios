@@ -13,7 +13,7 @@ import WebKit
 import _Concurrency
 @available(iOS 13.0, *)
 public struct FplanView : SwiftUI.UIViewRepresentable {
-  public init(_ url: Swift.String, eventId: Swift.String? = nil, noOverlay: Swift.Bool = true, selectedBooth: SwiftUI.Binding<Swift.String?>? = nil, route: FplanKit.Route? = nil, currentPosition: FplanKit.Point? = nil, focusOnCurrentPosition: Swift.Bool = false, fpReadyAction: (() -> Swift.Void)? = nil, buildDirectionAction: ((_ direction: FplanKit.Direction) -> Swift.Void)? = nil)
+  public init(_ url: Swift.String, eventId: Swift.String? = nil, noOverlay: Swift.Bool = true, selectedBooth: SwiftUI.Binding<Swift.String?>? = nil, route: FplanKit.Route? = nil, currentPosition: SwiftUI.Binding<FplanKit.BlueDotPoint?>? = nil, focusOnCurrentPosition: Swift.Bool = false, fpReadyAction: (() -> Swift.Void)? = nil, buildDirectionAction: ((_ direction: FplanKit.Direction) -> Swift.Void)? = nil)
   @_Concurrency.MainActor(unsafe) public func makeUIView(context: FplanKit.FplanView.Context) -> FplanKit.FSWebView
   @_Concurrency.MainActor(unsafe) public func updateUIView(_ webView: FplanKit.FSWebView, context: FplanKit.FplanView.Context)
   public typealias Body = Swift.Never
@@ -43,7 +43,7 @@ extension Swift.String {
 @objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class FSWebView : WebKit.WKWebView {
   @_Concurrency.MainActor(unsafe) public var selectedBooth: Swift.String?
   @_Concurrency.MainActor(unsafe) public var route: FplanKit.Route?
-  @_Concurrency.MainActor(unsafe) public var currentPosition: FplanKit.Point?
+  @_Concurrency.MainActor(unsafe) public var currentPosition: FplanKit.BlueDotPoint?
   @_Concurrency.MainActor(unsafe) @objc override dynamic public var safeAreaInsets: UIKit.UIEdgeInsets {
     @_Concurrency.MainActor(unsafe) @objc get
   }
@@ -69,6 +69,16 @@ public struct Line {
   public let startPoint: FplanKit.Point
   public let endPoint: FplanKit.Point
   public let weight: Swift.Int
+}
+public struct BlueDotPoint : Swift.Decodable, Swift.Equatable {
+  public let x: Swift.Int
+  public let y: Swift.Int
+  public let z: Swift.String?
+  public let angle: Swift.Int?
+  public init(x: Swift.Int, y: Swift.Int)
+  public init(x: Swift.Int, y: Swift.Int, z: Swift.String? = nil, angle: Swift.Int? = nil)
+  public static func == (p1: FplanKit.BlueDotPoint, p2: FplanKit.BlueDotPoint) -> Swift.Bool
+  public init(from decoder: Swift.Decoder) throws
 }
 public struct Booth : Swift.Decodable {
   public let id: Swift.Int

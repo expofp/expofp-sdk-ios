@@ -309,14 +309,6 @@ struct Helper{
     public static func updateFile(_ url: URL, _ filePath: URL, callback: @escaping (()->Void)){
         let session = URLSession.shared
         let task = session.dataTask(with: url, completionHandler: { data, response, error in
-            print("++++++++ updateFile")
-            print("++++++++ updateFile url: \(url)")
-            print("++++++++ updateFile filePath: \(filePath.absoluteString)")
-            
-            if(error != nil){
-                print("++++++++ updateFile ERROR. url: \(url); error: \(error)")
-            }
-            
             let fileManager = FileManager.default
             fileManager.createFile(atPath: filePath.path, contents: data)
             callback()
