@@ -254,15 +254,15 @@ struct Helper{
           dataUrl: "$url#/data/",
           eventId: "$eventId#",
           noOverlay: $noOverlay#,
-          onBoothClick: (e) => {
-            window.onBoothClickHandler?.postMessage(e.target.name);
+          onBoothClick: e => {
+             window.webkit?.messageHandlers?.onBoothClickHandler?.postMessage(e.target.name);
           },
           onFpConfigured: () => {
-            window.onFpConfiguredHandler?.postMessage("FLOOR PLAN CONFIGURED");
+             window.webkit?.messageHandlers?.onFpConfiguredHandler?.postMessage("FLOOR PLAN CONFIGURED");
           },
           onDirection: (e) => {
-            window.onDirectionHandler?.postMessage(JSON.stringify(e));
-          },
+             window.webkit?.messageHandlers?.onDirectionHandler?.postMessage(JSON.stringify(e));
+          }
         });
       }
 
