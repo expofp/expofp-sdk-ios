@@ -15,24 +15,70 @@ public struct FplanView: UIViewRepresentable {
     private let url: String
     private let eventId: String
     private let noOverlay: Bool
+    
+    @Binding private var selectedBooth: String?
+    
     private let route: Route?
+    
+    private let currentPosition: BlueDotPoint?
     private let focusOnCurrentPosition: Bool
+    
+    private let selectBoothAction: ((_ boothName: String) -> Void)?
     private let fpReadyAction: (() -> Void)?
     private let buildDirectionAction: ((_ direction: Direction) -> Void)?
     
     @State private var webViewController = FSWebViewController()
-    @Binding var selectedBooth: String?
-    @Binding var currentPosition: BlueDotPoint?
     
     /**
      This function initializes the view.
+     Recommended for use in UIKit.
       
      **Parameters:**
      - url: Floor plan URL address in the format https://[expo_name].expofp.com
      - eventId = [expo_name]: Id of the expo
      - noOverlay: True - Hides the panel with information about exhibitors
+     - selectBoothAction: Callback to be called after the booth has been select
+     - fpReadyAction: Callback to be called after the floor plan has been ready
+     - buildDirectionAction: Callback to be called after the route has been built
+     */
+    public init(_ url: String,
+                eventId: String? = nil,
+                noOverlay: Bool = true,
+                selectBoothAction: ((_ boothName: String) -> Void)? = nil,
+                fpReadyAction:(() -> Void)? = nil,
+                buildDirectionAction: ((_ direction: Direction) -> Void)? = nil){
+        
+        let eventAddress = Helper.getEventAddress(url)
+        let eventUrl = "https://\(eventAddress)"
+        
+        self.url = eventUrl
+        self.eventId = eventId ?? Helper.getEventId(eventUrl)
+        self.noOverlay = noOverlay
+        
+        self._selectedBooth = Binding.constant(nil)
+        
+        self.route = nil
+        
+        self.currentPosition = nil
+        self.focusOnCurrentPosition = false
+        
+        self.selectBoothAction = nil
+        self.fpReadyAction = fpReadyAction
+        self.buildDirectionAction = buildDirectionAction
+    }
+    
+    
+    /**
+     This function initializes the view.
+     Recommended for use in SwiftUI.
+     
+     **Parameters:**
+     - url: Floor plan URL address in the format https://[expo_name].expofp.com
+     - eventId = [expo_name]: Id of the expo
+     - noOverlay: True - Hides the panel with information about exhibitors
      - selectedBooth: Booth selected on the floor plan
-     - route: Information about the route to be built
+     - route: Information about the route to be built.
+            After the route is built, the buildDirectionAction callback is called.
      - currentPosition: Current position on the floor plan
      - focusOnCurrentPosition: Focus on current position
      - fpReadyAction: Callback to be called after the floor plan has been ready
@@ -43,7 +89,7 @@ public struct FplanView: UIViewRepresentable {
                 noOverlay: Bool = true,
                 selectedBooth: Binding<String?>? = nil,
                 route: Route? = nil,
-                currentPosition: Binding<BlueDotPoint?>? = nil,
+                currentPosition: BlueDotPoint? = nil,
                 focusOnCurrentPosition: Bool = false,
                 fpReadyAction:(() -> Void)? = nil,
                 buildDirectionAction: ((_ direction: Direction) -> Void)? = nil){
@@ -54,10 +100,15 @@ public struct FplanView: UIViewRepresentable {
         self.url = eventUrl
         self.eventId = eventId ?? Helper.getEventId(eventUrl)
         self.noOverlay = noOverlay
+        
         self._selectedBooth = selectedBooth ?? Binding.constant(nil)
+        
         self.route = route
-        self._currentPosition = currentPosition ?? Binding.constant(nil)
+        
+        self.currentPosition = currentPosition
         self.focusOnCurrentPosition = focusOnCurrentPosition
+        
+        self.selectBoothAction = nil
         self.fpReadyAction = fpReadyAction
         self.buildDirectionAction = buildDirectionAction
     }
@@ -76,6 +127,7 @@ public struct FplanView: UIViewRepresentable {
         webView.allowsBackForwardNavigationGestures = true
         webView.scrollView.isScrollEnabled = true
         webView.navigationDelegate = webViewController
+        webViewController.wkWebView = webView
         
         webView.configuration.userContentController.add(FpHandler(webView, fpReady), name: "onFpConfiguredHandler")
         webView.configuration.userContentController.add(BoothHandler(webView, selectBooth), name: "onBoothClickHandler")
@@ -96,40 +148,97 @@ public struct FplanView: UIViewRepresentable {
         }
     }
     
+    /**
+     This function selects a booth on the floor plan.
+     
+     **Parameters:**
+     - boothName: Booth name
+     */
+    public func selectBooth(_ boothName: String?){
+        if(boothName != nil && boothName != "") {
+            webViewController.wkWebView?.evaluateJavaScript("window.floorplan?.selectBooth('\(boothName!)');")
+        }
+        else {
+            webViewController.wkWebView?.evaluateJavaScript("window.floorplan?.selectBooth(null);")
+        }
+    }
+    
+    /**
+     This function starts the process of building a route from one booth to another.
+     After the route is built, the buildDirectionAction callback is called.
+     
+     **Parameters:**
+     - route: Route info
+     */
+    public func buildRoute(_ route: Route?){
+        if(route != nil) {
+            webViewController.wkWebView?.evaluateJavaScript("window.floorplan?.selectRoute('\(route!.from)', '\(route!.to)', \(route!.exceptInaccessible));")
+        }
+        else {
+            webViewController.wkWebView?.evaluateJavaScript("window.floorplan?.selectRoute(null, null, false);")
+        }
+    }
+    
+    /**
+     This function sets a blue-dot point.
+     
+     **Parameters:**
+     - position: Coordinates.
+     - focus: True - focus the floor plan display on the passed coordinates.
+     */
+    public func setCurrentPosition(_ position: BlueDotPoint?, _ focus: Bool = false){
+        if(position != nil) {
+            let z = position!.z != nil ? "'\(position!.z!)'" : "null"
+            let angle = position!.angle != nil ? "\(position!.angle!)" : "null"
+            
+            webViewController.wkWebView?.evaluateJavaScript(
+                "window.floorplan?.selectCurrentPosition({ x: \(position!.x), y: \(position!.y), z: \(z), angle: \(angle) }, \(focus));")
+        }
+        else {
+            webViewController.wkWebView?.evaluateJavaScript("window.floorplan?.selectCurrentPosition(null, false);")
+        }
+    }
+    
+    /**
+     This function clears the floor plan
+     */
+    public func clear() {
+        selectBooth(nil)
+        buildRoute(nil)
+        setCurrentPosition(nil)
+    }
+    
     private func updateWebView(_ webView: FSWebView) {
-        if(webView.selectedBooth != self.selectedBooth){
-            webView.selectedBooth = self.selectedBooth
+        if(webViewController.selectedBooth != self.selectedBooth){
+            webViewController.selectedBooth = self.selectedBooth
             
             if(self.selectedBooth != nil && self.selectedBooth != "" && self.route == nil){
-                webView.evaluateJavaScript("window.selectBooth('\(self.selectedBooth!)');")
+                selectBooth(self.selectedBooth)
             }
             else if(self.route == nil){
-                webView.evaluateJavaScript("window.selectBooth(null);")
+                selectBooth(nil)
             }
         }
         
-        if(webView.route != self.route){
-            webView.route = self.route
+        if(webViewController.route != self.route){
+            webViewController.route = self.route
             
             if(self.route != nil){
-                webView.evaluateJavaScript("window.selectRoute('\(self.route!.from)', '\(self.route!.to)', \(self.route!.exceptInaccessible));")
+                buildRoute(self.route)
             }
             else if(self.selectedBooth == nil){
-                webView.evaluateJavaScript("window.selectRoute(null, null, false);")
+                buildRoute(nil)
             }
         }
         
-        if(webView.currentPosition != self.currentPosition){
-            webView.currentPosition = self.currentPosition
+        if(webViewController.currentPosition != self.currentPosition){
+            webViewController.currentPosition = self.currentPosition
             
             if(self.currentPosition != nil){
-                let z = self.currentPosition!.z != nil ? "'\(self.currentPosition!.z!)'" : "null"
-                let angle = self.currentPosition!.angle != nil ? "\(self.currentPosition!.angle!)" : "null"
-                
-                webView.evaluateJavaScript("window.setCurrentPosition(\(self.currentPosition!.x), \(self.currentPosition!.y), \(z), \(angle), \(focusOnCurrentPosition));")
+                setCurrentPosition(self.currentPosition)
             }
             else{
-                webView.evaluateJavaScript("window.setCurrentPosition(null, null, null, null, false);")
+                setCurrentPosition(nil)
             }
         }
     }
@@ -143,7 +252,7 @@ public struct FplanView: UIViewRepresentable {
         
         let fplanDirectory = Helper.getCacheDirectory().appendingPathComponent("fplan/")
         let directory = fplanDirectory.appendingPathComponent("\(eventAddress)/")
-        webViewController.initForExpo(eventUrl, directory.absoluteString)
+        webViewController.setExpo(eventUrl, directory.absoluteString)
 
         let indexPath = directory.appendingPathComponent("index.html")
         let baseUrl = "\(Constants.scheme)://\(directory.path)"
@@ -187,6 +296,7 @@ public struct FplanView: UIViewRepresentable {
     
     private func selectBooth(_ webView: FSWebView, _ boothName: String){
         self.selectedBooth = boothName
+        self.selectBoothAction?(boothName)
     }
     
     private func buildDirection(_ webView: FSWebView, _ direction: Direction){

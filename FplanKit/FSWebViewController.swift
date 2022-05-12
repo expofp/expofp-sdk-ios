@@ -3,10 +3,16 @@ import WebKit
 import UniformTypeIdentifiers
 
 class FSWebViewController: UIViewController, WKURLSchemeHandler, WKNavigationDelegate {
+    var wkWebView: WKWebView? = nil
+    
+    var selectedBooth: String?
+    var route: Route?
+    var currentPosition: BlueDotPoint?
+    
     private var expoCacheDirectory: String = ""
     private var expoUrl: String = ""
     
-    public func initForExpo(_ expoUrl: String, _ expoCacheDirectory: String){
+    func setExpo(_ expoUrl: String, _ expoCacheDirectory: String){
         self.expoUrl = expoUrl
         self.expoCacheDirectory = expoCacheDirectory
     }

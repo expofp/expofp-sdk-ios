@@ -5,6 +5,25 @@ struct JSONLine : Decodable {
     let p0: Point
     let p1: Point
     let weight: Int
+    let ended: Bool
+    
+    private enum CodingKeys: String, CodingKey
+    {
+        case p0
+        case p1
+        case weight
+        case ended
+    }
+    
+    public init(from decoder: Decoder) throws
+    {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        p0 = try container.decode(Point.self, forKey: .p0)
+        p1 = try container.decode(Point.self, forKey: .p1)
+        
+        weight = (try? container.decode(Int.self, forKey: .weight)) ?? 0
+        ended = (try? container.decode(Bool.self, forKey: .ended)) ?? false
+    }
 }
 
 struct JSONRoute : Decodable {

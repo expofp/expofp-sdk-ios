@@ -13,9 +13,14 @@ import WebKit
 import _Concurrency
 @available(iOS 13.0, *)
 public struct FplanView : SwiftUI.UIViewRepresentable {
-  public init(_ url: Swift.String, eventId: Swift.String? = nil, noOverlay: Swift.Bool = true, selectedBooth: SwiftUI.Binding<Swift.String?>? = nil, route: FplanKit.Route? = nil, currentPosition: SwiftUI.Binding<FplanKit.BlueDotPoint?>? = nil, focusOnCurrentPosition: Swift.Bool = false, fpReadyAction: (() -> Swift.Void)? = nil, buildDirectionAction: ((_ direction: FplanKit.Direction) -> Swift.Void)? = nil)
+  public init(_ url: Swift.String, eventId: Swift.String? = nil, noOverlay: Swift.Bool = true, selectBoothAction: ((_ boothName: Swift.String) -> Swift.Void)? = nil, fpReadyAction: (() -> Swift.Void)? = nil, buildDirectionAction: ((_ direction: FplanKit.Direction) -> Swift.Void)? = nil)
+  public init(_ url: Swift.String, eventId: Swift.String? = nil, noOverlay: Swift.Bool = true, selectedBooth: SwiftUI.Binding<Swift.String?>? = nil, route: FplanKit.Route? = nil, currentPosition: FplanKit.BlueDotPoint? = nil, focusOnCurrentPosition: Swift.Bool = false, fpReadyAction: (() -> Swift.Void)? = nil, buildDirectionAction: ((_ direction: FplanKit.Direction) -> Swift.Void)? = nil)
   @_Concurrency.MainActor(unsafe) public func makeUIView(context: FplanKit.FplanView.Context) -> FplanKit.FSWebView
   @_Concurrency.MainActor(unsafe) public func updateUIView(_ webView: FplanKit.FSWebView, context: FplanKit.FplanView.Context)
+  public func selectBooth(_ boothName: Swift.String?)
+  public func buildRoute(_ route: FplanKit.Route?)
+  public func setCurrentPosition(_ position: FplanKit.BlueDotPoint?, _ focus: Swift.Bool = false)
+  public func clear()
   public typealias Body = Swift.Never
   public typealias Coordinator = Swift.Void
   public typealias UIViewType = FplanKit.FSWebView
@@ -41,9 +46,6 @@ extension Swift.String {
   public func mimeType() -> Swift.String
 }
 @objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class FSWebView : WebKit.WKWebView {
-  @_Concurrency.MainActor(unsafe) public var selectedBooth: Swift.String?
-  @_Concurrency.MainActor(unsafe) public var route: FplanKit.Route?
-  @_Concurrency.MainActor(unsafe) public var currentPosition: FplanKit.BlueDotPoint?
   @_Concurrency.MainActor(unsafe) @objc override dynamic public var safeAreaInsets: UIKit.UIEdgeInsets {
     @_Concurrency.MainActor(unsafe) @objc get
   }

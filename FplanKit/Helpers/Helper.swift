@@ -294,8 +294,7 @@ struct Helper{
       }
 
       function autoInit() {
-        const canInit = $autoInit#;
-        if(canInit){
+        if($autoInit#){
             init();
         }
       }
