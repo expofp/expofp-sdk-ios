@@ -277,21 +277,6 @@ struct Helper{
         document.body.appendChild(expofpScript);
       }
 
-      function selectRoute(from, to, exceptUnAccessible) {
-        window.floorplan?.selectRoute(from, to, exceptUnAccessible);
-      }
-
-      function selectBooth(name) {
-        window.floorplan?.selectBooth(name);
-      }
-
-      function setCurrentPosition(x, y, z, angle, focus) {
-        if (x == null || y == null) {
-          window.floorplan?.selectCurrentPosition(null, focus);
-        } else {
-          window.floorplan?.selectCurrentPosition({ x: x, y: y, z: z, angle: angle }, focus);
-        }
-      }
 
       function autoInit() {
         if($autoInit#){
