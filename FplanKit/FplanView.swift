@@ -159,7 +159,7 @@ public struct FplanView: UIViewRepresentable {
             webViewController.wkWebView?.evaluateJavaScript("window.floorplan?.selectBooth('\(boothName!)');")
         }
         else {
-            webViewController.wkWebView?.evaluateJavaScript("window.floorplan?.selectBooth(null);")
+            webViewController.wkWebView?.evaluateJavaScript("window.floorplan?.selectBooth('');")
         }
     }
     
