@@ -30,18 +30,7 @@ import FplanKit
 struct FplanApp: App {
     var body: some Scene {
         WindowGroup {
-            ZStack(alignment: .bottom)
-            {
-                FplanView("https://demo.expofp.com")
-                HStack
-                {
-                    Spacer()
-                    Button("Select booth", action: selectBooth)
-                    Spacer()
-                    Button("Build route", action: buildRoute)
-                    Spacer()
-                }
-            }
+            FplanView("https://demo.expofp.com")
         }
     }
 }
