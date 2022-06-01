@@ -28,9 +28,13 @@ import FplanKit
 
 @main
 struct FplanApp: App {
+    @State var url: String = "https://demo.expofp.com"
+    @State var selectedBooth: String? = nil
+
     var body: some Scene {
         WindowGroup {
-            FplanView("https://demo.expofp.com")
+            //noOverlay - Hides the panel with information about exhibitors
+            FplanView(url, noOverlay: false, selectedBooth: $selectedBooth)
         }
     }
 }
