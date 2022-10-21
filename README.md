@@ -29,7 +29,7 @@ https://github.com/expofp/expofp-swiftui-example
 
 ### What's New in ExpoFP Fplan version 3.0.1<a id='3.0.1-what-is-new'></a>
 
-Navigation from CrowdConnected and IndoorAtlas has also been added.
+Navigation from CrowdConnected and IndoorAtlas has been added.
 
 ### Installation<a id='3.0.1-installation'></a>
 
