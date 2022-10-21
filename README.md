@@ -4,20 +4,18 @@ Create your expo plan on the website https://expofp.com then use the URL of the 
 
 ![WhatsApp Image 2022-01-05 at 22 51 07](https://user-images.githubusercontent.com/60826376/148282339-c53466a3-4b65-42ba-ba12-54156f77497f.jpeg)
 
-
-
 ## Table of Contents
 * [Version for Android](#version-for-android)
 * [Usage example](#usage-example)
-* [3.0.0 version](#3.0.0)
-  * [What's New](#3.0.0-what-is-new)
-  * [Installation](#3.0.0-installation)
-  * [Usage](#3.0.0-usage)
-  * [Functions](#3.0.0-functions)
-  * [Events](#3.0.0-events)
-  * [Navigation](#3.0.0-navigation)
-  * [CrowdConnected location provider](#3.0.0-cc-navigation)
-  * [IndoorAtlas location provider](#3.0.0-ia-navigation)
+* [3.0.1 version](#3.0.1)
+  * [What's New](#3.0.1-what-is-new)
+  * [Installation](#3.0.1-installation)
+  * [Usage](#3.0.1-usage)
+  * [Functions](#3.0.1-functions)
+  * [Events](#3.0.1-events)
+  * [Navigation](#3.0.1-navigation)
+  * [CrowdConnected location provider](#3.0.1-cc-navigation)
+  * [IndoorAtlas location provider](#3.0.1-ia-navigation)
 
 ## Version for Android<a id='version-for-android'></a>
 
@@ -27,21 +25,21 @@ https://github.com/expofp/expofp-android-sdk
 
 https://github.com/expofp/expofp-swiftui-example
 
-## 3.0.0 version<a id='3.0.0'></a>
+## 3.0.1 version<a id='3.0.1'></a>
 
-### What's New in ExpoFP Fplan version 3.0.0<a id='3.0.0-what-is-new'></a>
+### What's New in ExpoFP Fplan version 3.0.1<a id='3.0.1-what-is-new'></a>
 
-In the new version of the library, all FplanView settings have been moved to the Settings class. Some function and event names have been changed to match the [JavaScript API Reference](https://developer.expofp.com/reference). Navigation from CrowdConnected and IndoorAtlas has also been added.
+Navigation from CrowdConnected and IndoorAtlas has also been added.
 
-### Installation<a id='3.0.0-installation'></a>
+### Installation<a id='3.0.1-installation'></a>
 
 Cocoapods:
 
 ```swift
-pod 'ExpoFpFplan', '3.0.0'
+pod 'ExpoFpFplan', '3.0.1'
 ```
 
-### Usage<a id='3.0.0-usage'></a>
+### Usage<a id='3.0.1-usage'></a>
 
 ```swift
 import SwiftUI
@@ -76,7 +74,7 @@ To do this, you need to call the 'destroy' function:
 fplanView.destoy()
 ```
 
-### Functions<a id='3.0.0-functions'></a>
+### Functions<a id='3.0.1-functions'></a>
 
 Open plan:
 
@@ -114,7 +112,7 @@ Clear floor plan:
 fplanView.clear()
 ```
 
-### Events<a id='3.0.0-events'></a>
+### Events<a id='3.0.1-events'></a>
 
 Floor plan ready event:
 
@@ -206,7 +204,7 @@ struct FplanApp: App {
 }
 ```
 
-### Navigation<a id='3.0.0-navigation'></a>
+### Navigation<a id='3.0.1-navigation'></a>
 
 There are 2 ways to use navigation in FplanView. The first way is to explicitly specify the provider. In this case, FplanView will start and stop the LocationProvider on its own.
 
@@ -235,12 +233,12 @@ When the program terminates, the GlobalLocationProvider must also be stopped:
 GlobalLocationProvider.stop();
 ```
 
-### CrowdConnected location provider<a id='3.0.0-cc-navigation'></a>
+### CrowdConnected location provider<a id='3.0.1-cc-navigation'></a>
 
 Сocoapods:
 
 ```swift
-pod 'ExpoFpCrowdConnected', '3.0.0'
+pod 'ExpoFpCrowdConnected', '3.0.1'
 ```
 
 Import:
@@ -264,12 +262,12 @@ settings.addAlias("KEY_2", "VALUE_2")
 let locationProvider: LocationProvider = CrowdConnectedProvider(settings)
 ```
 
-### IndoorAtlas location provider<a id='3.0.0-ia-navigation'></a>
+### IndoorAtlas location provider<a id='3.0.1-ia-navigation'></a>
 
 Сocoapods:
 
 ```swift
-pod 'ExpoFpIndoorAtlas', '3.0.0'
+pod 'ExpoFpIndoorAtlas', '3.0.1'
 ```
 
 Import:
