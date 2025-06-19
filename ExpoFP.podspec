@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name               = "ExpoFP"
-  spec.version            = "5.0.0-RC1"
+  spec.version            = "5.0.0-RC2"
   spec.platform           = :ios, '14.0'
   spec.summary            = "Expo Floor Plan"
   spec.description        = "Plan Map for ExpoFP SDK"
