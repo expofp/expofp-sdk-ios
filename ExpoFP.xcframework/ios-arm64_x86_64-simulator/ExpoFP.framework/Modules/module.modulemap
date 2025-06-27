@@ -1,4 +1,0 @@
-framework module ExpoFP {
-  header "ExpoFP-Swift.h"
-  requires objc
-}
