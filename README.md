@@ -29,7 +29,9 @@ and then as a dependency for the Package target utilizing **ExpoFP**:
 ### 1.2 CocoaPods
 
 ```
-spec.dependency 'ExpoFP', '~>5.0.0'
+target 'MyApp' do
+    pod 'ExpoFP', '~> 5.0.0'
+end
 ```
 
 ## 2 Usage
@@ -69,9 +71,23 @@ let uiKitViewController = presenter.getViewController()
 
 Plan will be downloaded into cache directory in user domain mask.
 
+Download a plan from the internet:
+
 ```swift
 let expoKey = "YourExpoKey"
 let downloadedPlanResult = await ExpoFpPlan.downloader.downloadPlan(withExpoKey: expoKey) // Also awailable with completion
+let downloadedPlanInfo = try downloadedPlanResult.get()
+
+let presenter = ExpoFpPlan.createPlanPresenter(with: .downloadedPlanInfo(downloadedPlanInfo))
+```
+
+Unzip from the archive stored in the app:
+
+> Archive must be named `<expokey>_<version>.zip` to identify the plan.
+
+```swift
+let zipFilePath = Bundle.main.path(forResource: "<expokey>_<version>", ofType: "zip")
+let downloadedPlanResult = await ExpoFpPlan.downloader.downloadPlan(withZipFilePath: zipFilePath) // Also awailable with completion
 let downloadedPlanInfo = try downloadedPlanResult.get()
 
 let presenter = ExpoFpPlan.createPlanPresenter(with: .downloadedPlanInfo(downloadedPlanInfo))
@@ -145,5 +161,5 @@ During plan lifecycle you can use `presenter` to:
 * Monitor loading, initialization and errors via `presenter.planStatusPublisher`;
 * Zoom, select booth or category, build routes and many more.
 
-Feel free to check out our detailed instructions at [expofp.github.io](https://expofp.github.io/expofp-mobile-sdk/ios-sdk/)
+Feel free to check out our detailed instructions at [expofp.github.io](https://expofp.github.io/expofp-sdk-ios/documentation/expofp/)
 

@@ -9,7 +9,8 @@ let package = Package(
     products: [
         .library(
             name: "ExpoFP",
-            targets: ["ExpoFP"]),
+            targets: ["ExpoFP"]
+        ),
     ],
     targets: [
         .binaryTarget(

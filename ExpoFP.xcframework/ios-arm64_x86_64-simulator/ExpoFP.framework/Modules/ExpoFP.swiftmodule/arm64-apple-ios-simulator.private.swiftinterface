@@ -11,139 +11,6 @@ import WebKit
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
-public struct ExpoFpBoothClickEvent : Swift.Codable, Swift.Equatable {
-  public let target: ExpoFP.ExpoFpBooth?
-  public static func == (a: ExpoFP.ExpoFpBoothClickEvent, b: ExpoFP.ExpoFpBoothClickEvent) -> Swift.Bool
-  public func encode(to encoder: any Swift.Encoder) throws
-  public init(from decoder: any Swift.Decoder) throws
-}
-public struct ExpoFpRouteInfo : Swift.Codable, Swift.Equatable {
-  public let waypoints: [ExpoFP.ExpoFpRouteWaypoint]
-  public static func == (a: ExpoFP.ExpoFpRouteInfo, b: ExpoFP.ExpoFpRouteInfo) -> Swift.Bool
-  public func encode(to encoder: any Swift.Encoder) throws
-  public init(from decoder: any Swift.Decoder) throws
-}
-public typealias ExpoFpDownloadedPlanInfoResult = Swift.Result<ExpoFP.ExpoFpDownloadedPlanInfo, ExpoFP.ExpoFpError>
-public struct ExpoFpPlanDownloader : Swift.Sendable {
-  public func downloadPlan(withExpoKey expoKey: Swift.String, completion: @escaping (ExpoFP.ExpoFpDownloadedPlanInfoResult) -> Swift.Void = {_ in})
-  @discardableResult
-  public func downloadPlan(withExpoKey expoKey: Swift.String) async -> ExpoFP.ExpoFpDownloadedPlanInfoResult
-  public func downloadPlan(withZipFilePath filePath: Swift.String, completion: @escaping (ExpoFP.ExpoFpDownloadedPlanInfoResult) -> Swift.Void = {_ in})
-  @discardableResult
-  public func downloadPlan(withZipFilePath filePath: Swift.String) async -> ExpoFP.ExpoFpDownloadedPlanInfoResult
-  public func getDownloadedPlansInfo(withExpoKey expoKey: Swift.String? = nil, completion: @escaping ([ExpoFP.ExpoFpDownloadedPlanInfo]) -> Swift.Void)
-  public func getDownloadedPlansInfo(withExpoKey expoKey: Swift.String? = nil) async -> [ExpoFP.ExpoFpDownloadedPlanInfo]
-  public func removeOldVersionsOfDownloadedPlans(withExpoKey expoKey: Swift.String? = nil) async
-  public func removeDownloadedPlan(with planInfo: ExpoFP.ExpoFpDownloadedPlanInfo) async
-  public func removeAllDownloadedPlans() async
-}
-public struct ExpoFpLayer : Swift.Codable, Swift.Equatable {
-  public let name: Swift.String
-  public let description: Swift.String
-  public static func == (a: ExpoFP.ExpoFpLayer, b: ExpoFP.ExpoFpLayer) -> Swift.Bool
-  public func encode(to encoder: any Swift.Encoder) throws
-}
-extension ExpoFP.ExpoFpLayer {
-  public init(from decoder: any Swift.Decoder) throws
-}
-public struct ExpoFpVisitedClickEvent : Swift.Codable, Swift.Equatable {
-  public let name: Swift.String
-  public let externalId: Swift.String
-  public let visited: Swift.Bool
-  public init(from decoder: any Swift.Decoder) throws
-  public static func == (a: ExpoFP.ExpoFpVisitedClickEvent, b: ExpoFP.ExpoFpVisitedClickEvent) -> Swift.Bool
-  public func encode(to encoder: any Swift.Encoder) throws
-}
-public typealias ExpoFpResult<T> = Swift.Result<T, ExpoFP.ExpoFpError>
-public typealias ExpoFpPlanStatusPublisher = Combine.AnyPublisher<ExpoFP.ExpoFpPlanStatus, Swift.Never>
-@_Concurrency.MainActor public protocol IExpoFpPlanPresenter : AnyObject {
-  @_Concurrency.MainActor var additionalParams: [Foundation.URLQueryItem] { get }
-  @_Concurrency.MainActor var locationProvider: (any ExpoFP.IExpoFpLocationProvider)? { get }
-  @_Concurrency.MainActor var planLink: ExpoFP.ExpoFpLinkType { get }
-  @_Concurrency.MainActor var planStatusPublisher: ExpoFP.ExpoFpPlanStatusPublisher { get }
-  @_Concurrency.MainActor func applyNewAdditionalParams(_ additionalParams: [Foundation.URLQueryItem])
-  @_Concurrency.MainActor func removeAdditionalParams(forKeys keys: [Swift.String])
-  @_Concurrency.MainActor func applyNewLocationProvider(_ locationProvider: (any ExpoFP.IExpoFpLocationProvider)?)
-  @_Concurrency.MainActor func getView() -> SwiftUICore.AnyView
-  @_Concurrency.MainActor func getViewController() -> UIKit.UIViewController
-  @_Concurrency.MainActor func reloadPlan(planLink: ExpoFP.ExpoFpLinkType?, additionalParams: [Foundation.URLQueryItem]?, locationProvider: (any ExpoFP.IExpoFpLocationProvider)?, messageListener: (any ExpoFP.IExpoFpPlanMessageListener)?)
-  @_Concurrency.MainActor func setMessageListener(_ messageListener: (any ExpoFP.IExpoFpPlanMessageListener)?)
-}
-extension ExpoFP.IExpoFpPlanPresenter {
-  @_Concurrency.MainActor public func reloadPlan(planLink: ExpoFP.ExpoFpLinkType? = nil, additionalParams: [Foundation.URLQueryItem]? = nil, locationProvider: (any ExpoFP.IExpoFpLocationProvider)? = nil, messageListener: (any ExpoFP.IExpoFpPlanMessageListener)? = nil)
-  @_Concurrency.MainActor public func findLocation()
-  @_Concurrency.MainActor public func fitBounds()
-  @_Concurrency.MainActor public func highlightBooths(externalIds: [Swift.String])
-  @_Concurrency.MainActor public func highlightExhibitors(externalIds: [Swift.String])
-  @_Concurrency.MainActor public func selectBooth(nameOrExternalId: Swift.String)
-  @_Concurrency.MainActor public func selectCategory(name: Swift.String?)
-  @_Concurrency.MainActor public func selectCurrentPosition(_ position: ExpoFP.ExpoFpPosition?, focus: Swift.Bool = true)
-  @_Concurrency.MainActor public func selectExhibitor(nameOrExternalId: Swift.String)
-  @_Concurrency.MainActor public func selectRoute(waypoints: [ExpoFP.ExpoFpRouteWaypoint], onlyAccessible: Swift.Bool)
-  @_Concurrency.MainActor public func setBookmarks(_ bookmarks: [ExpoFP.ExpoFpBookmark])
-  @_Concurrency.MainActor public func setElementsVisibility(_ elementsVisibility: ExpoFP.ExpoFpElementsVisibility)
-  @_Concurrency.MainActor public func switchView()
-  @_Concurrency.MainActor public func updateLayerVisibility(layer: Swift.String, isVisible: Swift.Bool)
-  @_Concurrency.MainActor public func zoomIn()
-  @_Concurrency.MainActor public func zoomOut()
-  @_Concurrency.MainActor public func boothsList() async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpBooth]>
-  @_Concurrency.MainActor public func boothsList(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpBooth]>) -> Swift.Void)
-  @_Concurrency.MainActor public func categoriesList() async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpCategory]>
-  @_Concurrency.MainActor public func categoriesList(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpCategory]>) -> Swift.Void)
-  @_Concurrency.MainActor public func exhibitorsList() async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpExhibitor]>
-  @_Concurrency.MainActor public func exhibitorsList(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpExhibitor]>) -> Swift.Void)
-  @_Concurrency.MainActor public func getElementsVisibility() async -> ExpoFP.ExpoFpResult<ExpoFP.ExpoFpElementsVisibility>
-  @_Concurrency.MainActor public func getElementsVisibility(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<ExpoFP.ExpoFpElementsVisibility>) -> Swift.Void)
-  @_Concurrency.MainActor public func getOptimizedRoutes(waypoints: [ExpoFP.ExpoFpRouteWaypoint]) async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpRouteInfo]>
-  @_Concurrency.MainActor public func getOptimizedRoutes(waypoints: [ExpoFP.ExpoFpRouteWaypoint], completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpRouteInfo]>) -> Swift.Void)
-  @_Concurrency.MainActor public func search(text: Swift.String) async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpSearchModel]>
-  @_Concurrency.MainActor public func search(text: Swift.String, completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpSearchModel]>) -> Swift.Void)
-}
-public struct ExpoFpDirection : Swift.Codable, Swift.Equatable {
-  public let distance: Swift.String
-  public let duration: Foundation.TimeInterval
-  public let from: ExpoFP.ExpoFpBooth?
-  public let to: ExpoFP.ExpoFpBooth?
-  public let lines: [ExpoFP.ExpoFpLine]
-  public static func == (a: ExpoFP.ExpoFpDirection, b: ExpoFP.ExpoFpDirection) -> Swift.Bool
-  public func encode(to encoder: any Swift.Encoder) throws
-  public init(from decoder: any Swift.Decoder) throws
-}
-public enum ExpoFpPlanStatus {
-  case error(ExpoFP.ExpoFpError)
-  case initialization
-  case loading(percentage: Swift.Int)
-  case ready
-  public var isError: Swift.Bool {
-    get
-  }
-  public var isInitializing: Swift.Bool {
-    get
-  }
-  public var isReady: Swift.Bool {
-    get
-  }
-  public var percentageProgress: Swift.Int? {
-    get
-  }
-  public func isLoading(with progress: Swift.Int? = nil) -> Swift.Bool
-}
-extension ExpoFP.ExpoFpPlanStatus : Swift.Equatable, Swift.CustomStringConvertible {
-  public var description: Swift.String {
-    get
-  }
-  public static func == (lhs: ExpoFP.ExpoFpPlanStatus, rhs: ExpoFP.ExpoFpPlanStatus) -> Swift.Bool
-}
-@_hasMissingDesignatedInitializers @_Concurrency.MainActor final public class ExpoFpGlobalLocationProvider : ExpoFP.IExpoFpLocationProvider {
-  @_Concurrency.MainActor final public var sharedProvider: (any ExpoFP.IExpoFpLocationProvider)?
-  @_Concurrency.MainActor final public var expoFpLocationProviderDelegate: (any ExpoFP.ExpoFpLocationProviderDelegate)? {
-    get
-    set
-  }
-  @_Concurrency.MainActor final public func startUpdatingLocation() async throws
-  @_Concurrency.MainActor final public func stopUpdatingLocation()
-  @objc deinit
-}
 public struct ExpoFpCustomButtonEvent : Swift.Codable, Swift.Equatable {
   public let externalId: Swift.String
   public let buttonNumber: Swift.Int
@@ -167,6 +34,18 @@ public struct ExpoFpSchedule : Swift.Codable, Swift.Equatable, Swift.Identifiabl
   public typealias ID = Swift.Int
   public func encode(to encoder: any Swift.Encoder) throws
 }
+public enum ExpoFpLinkType : Swift.Hashable, Swift.Equatable, Swift.CustomStringConvertible {
+  case expoKey(Swift.String)
+  case downloadedPlanInfo(ExpoFP.ExpoFpDownloadedPlanInfo)
+  public var description: Swift.String {
+    get
+  }
+  public static func == (lhs: ExpoFP.ExpoFpLinkType, rhs: ExpoFP.ExpoFpLinkType) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
 public struct ExpoFpBooth : Swift.Codable, Swift.Equatable, Swift.Identifiable {
   public let id: Swift.Int
   public let name: Swift.String
@@ -188,28 +67,18 @@ public struct ExpoFpPoint : Swift.Codable, Swift.Equatable {
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
 }
-public struct ExpoFpDownloadedPlanInfo : Swift.Hashable, Swift.Equatable, Swift.CustomStringConvertible, Swift.Comparable {
-  public let expoKey: Swift.String
-  public let version: Swift.Int
-  public var description: Swift.String {
+@_hasMissingDesignatedInitializers final public class ExpoFpPreloadedPlanInfo : Swift.Hashable, Swift.Equatable, Swift.CustomStringConvertible {
+  final public var planLink: ExpoFP.ExpoFpLinkType {
     get
   }
-  public static func < (lhs: ExpoFP.ExpoFpDownloadedPlanInfo, rhs: ExpoFP.ExpoFpDownloadedPlanInfo) -> Swift.Bool
-  public static func == (a: ExpoFP.ExpoFpDownloadedPlanInfo, b: ExpoFP.ExpoFpDownloadedPlanInfo) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
-  public var hashValue: Swift.Int {
-    get
-  }
-}
-public struct ExpoFpPreloadedPlanInfo : Swift.Hashable, Swift.Equatable, Swift.CustomStringConvertible {
-  public let planLink: ExpoFP.ExpoFpLinkType
-  public var planStatusPublisher: ExpoFP.ExpoFpPlanStatusPublisher
-  public var description: Swift.String {
+  final public var planStatusPublisher: ExpoFP.ExpoFpPlanStatusPublisher
+  final public var description: Swift.String {
     get
   }
   public static func == (lhs: ExpoFP.ExpoFpPreloadedPlanInfo, rhs: ExpoFP.ExpoFpPreloadedPlanInfo) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
-  public var hashValue: Swift.Int {
+  final public func hash(into hasher: inout Swift.Hasher)
+  @objc deinit
+  final public var hashValue: Swift.Int {
     get
   }
 }
@@ -239,16 +108,6 @@ public struct ExpoFpUnknownSearchItem : Swift.Codable, Swift.Equatable, Swift.Id
   public typealias ID = Swift.String
   public func encode(to encoder: any Swift.Encoder) throws
 }
-@_Concurrency.MainActor public protocol IExpoFpPlanMessageListener : AnyObject {
-  @_Concurrency.MainActor func bookmarkDidClick(_ bookmark: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpBookmark>, from planLink: ExpoFP.ExpoFpLinkType)
-  @_Concurrency.MainActor func boothDidClick(_ boothEvent: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpBoothClickEvent>, from planLink: ExpoFP.ExpoFpLinkType)
-  @_Concurrency.MainActor func categoryDidClick(_ category: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpCategory>, from planLink: ExpoFP.ExpoFpLinkType)
-  @_Concurrency.MainActor func currentPositionDidChange(_ position: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpPosition>, from planLink: ExpoFP.ExpoFpLinkType)
-  @_Concurrency.MainActor func detailsDidClick(_ details: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpDetails?>, from planLink: ExpoFP.ExpoFpLinkType)
-  @_Concurrency.MainActor func directionDidBuild(_ direction: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpDirection?>, from planLink: ExpoFP.ExpoFpLinkType)
-  @_Concurrency.MainActor func exhibitorCustomButtonDidClick(_ buttonEvent: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpCustomButtonEvent>, from planLink: ExpoFP.ExpoFpLinkType)
-  @_Concurrency.MainActor func visitedDidClick(_ visitedEvent: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpVisitedClickEvent>, from planLink: ExpoFP.ExpoFpLinkType)
-}
 @_Concurrency.MainActor public protocol IExpoFpLocationProvider : AnyObject {
   @_Concurrency.MainActor var expoFpLocationProviderDelegate: (any ExpoFP.ExpoFpLocationProviderDelegate)? { get set }
   @_Concurrency.MainActor func startUpdatingLocation() async throws
@@ -265,18 +124,6 @@ public enum ExpoFpDetailsType : Swift.String, Swift.Codable, Swift.Equatable {
     get
   }
 }
-public enum ExpoFpLinkType : Swift.Hashable, Swift.Equatable, Swift.CustomStringConvertible {
-  case expoKey(Swift.String)
-  case downloadedPlanInfo(ExpoFP.ExpoFpDownloadedPlanInfo)
-  public var description: Swift.String {
-    get
-  }
-  public static func == (lhs: ExpoFP.ExpoFpLinkType, rhs: ExpoFP.ExpoFpLinkType) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
-  public var hashValue: Swift.Int {
-    get
-  }
-}
 public struct ExpoFpPosition : Swift.Codable, Swift.Equatable {
   public let x: Swift.Double?
   public let y: Swift.Double?
@@ -288,6 +135,12 @@ public struct ExpoFpPosition : Swift.Codable, Swift.Equatable {
   public static func == (a: ExpoFP.ExpoFpPosition, b: ExpoFP.ExpoFpPosition) -> Swift.Bool
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
+}
+@_Concurrency.MainActor public enum ExpoFpPlan {
+  @_Concurrency.MainActor public static let downloader: ExpoFP.ExpoFpPlanDownloader
+  @_Concurrency.MainActor public static let preloader: ExpoFP.ExpoFpPlanPreloader
+  @_Concurrency.MainActor public static let globalLocationProvider: ExpoFP.ExpoFpGlobalLocationProvider
+  @_Concurrency.MainActor public static func createPlanPresenter(with planLink: ExpoFP.ExpoFpLinkType, additionalParams: [Foundation.URLQueryItem] = [], locationProvider: (any ExpoFP.IExpoFpLocationProvider)? = nil, messageListener: (any ExpoFP.IExpoFpPlanMessageListener)? = nil) -> any ExpoFP.IExpoFpPlanPresenter
 }
 public struct ExpoFpCategory : Swift.Codable, Swift.Equatable, Swift.Identifiable {
   public let id: Swift.Int
@@ -304,6 +157,21 @@ public enum ExpoFpRouteWaypoint : Swift.Codable, Swift.Equatable {
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
   public static func == (a: ExpoFP.ExpoFpRouteWaypoint, b: ExpoFP.ExpoFpRouteWaypoint) -> Swift.Bool
+}
+public enum ExpoFpError : Swift.Error {
+  case internalError(error: (any Swift.Error)? = nil, message: Swift.String? = nil)
+  case decodingError(error: (any Swift.Error)? = nil, message: Swift.String? = nil)
+  case downloadingPlanError(error: any Swift.Error)
+  case locationProviderError(error: (any Swift.Error)? = nil, message: Swift.String? = nil)
+  case invalidExpoKey
+  case invalidPlanLink(ExpoFP.ExpoFpLinkType)
+  case invalidZipFilePath(Swift.String)
+  case planInfoRequestTimeout
+  case javaScriptEvaluationError(any Swift.Error)
+  case planLoadingError(message: Swift.String)
+  case planNavigationError(any Swift.Error)
+  case planDidTerminate
+  case planMessageError(_: (any Swift.Error)? = nil)
 }
 public struct ExpoFpBookmark : Swift.Codable, Swift.Equatable {
   public let name: Swift.String
@@ -361,14 +229,55 @@ public struct ExpoFpSearchModel : Swift.Codable, Swift.Equatable, Swift.Identifi
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
 }
-@_Concurrency.MainActor public enum ExpoFpPlan {
-  @_Concurrency.MainActor public static let downloader: ExpoFP.ExpoFpPlanDownloader
-  @_Concurrency.MainActor public static let preloader: ExpoFP.ExpoFpPlanPreloader
-  @_Concurrency.MainActor public static let globalLocationProvider: ExpoFP.ExpoFpGlobalLocationProvider
-  @_Concurrency.MainActor public static func createPlanPresenter(with planLink: ExpoFP.ExpoFpLinkType, additionalParams: [Foundation.URLQueryItem] = [], locationProvider: (any ExpoFP.IExpoFpLocationProvider)? = nil, messageListener: (any ExpoFP.IExpoFpPlanMessageListener)? = nil) -> any ExpoFP.IExpoFpPlanPresenter
-}
 @_Concurrency.MainActor public protocol ExpoFpLocationProviderDelegate : AnyObject {
   @_Concurrency.MainActor func positionDidChange(_ newPosition: ExpoFP.ExpoFpPosition)
+}
+public typealias ExpoFpResult<T> = Swift.Result<T, ExpoFP.ExpoFpError>
+public typealias ExpoFpPlanStatusPublisher = Combine.AnyPublisher<ExpoFP.ExpoFpPlanStatus, Swift.Never>
+@_Concurrency.MainActor public protocol IExpoFpPlanPresenter : AnyObject {
+  @_Concurrency.MainActor var additionalParams: [Foundation.URLQueryItem] { get }
+  @_Concurrency.MainActor var locationProvider: (any ExpoFP.IExpoFpLocationProvider)? { get }
+  @_Concurrency.MainActor var planLink: ExpoFP.ExpoFpLinkType { get }
+  @_Concurrency.MainActor var planStatusPublisher: ExpoFP.ExpoFpPlanStatusPublisher { get }
+  @_Concurrency.MainActor func getView() -> SwiftUICore.AnyView
+  @_Concurrency.MainActor func getViewController() -> UIKit.UIViewController
+  @_Concurrency.MainActor func applyNewAdditionalParams(_ additionalParams: [Foundation.URLQueryItem])
+  @_Concurrency.MainActor func removeAdditionalParams(forKeys keys: [Swift.String])
+  @_Concurrency.MainActor func setLocationProvider(_ locationProvider: any ExpoFP.IExpoFpLocationProvider)
+  @_Concurrency.MainActor func removeLocationProvider()
+  @_Concurrency.MainActor func setMessageListener(_ messageListener: any ExpoFP.IExpoFpPlanMessageListener)
+  @_Concurrency.MainActor func removeMessageListener()
+  @_Concurrency.MainActor func reloadPlan(planLink: ExpoFP.ExpoFpLinkType?, additionalParams: [Foundation.URLQueryItem]?, locationProvider: (any ExpoFP.IExpoFpLocationProvider)?, messageListener: (any ExpoFP.IExpoFpPlanMessageListener)?)
+}
+extension ExpoFP.IExpoFpPlanPresenter {
+  @_Concurrency.MainActor public func reloadPlan(planLink: ExpoFP.ExpoFpLinkType? = nil, additionalParams: [Foundation.URLQueryItem]? = nil, locationProvider: (any ExpoFP.IExpoFpLocationProvider)? = nil, messageListener: (any ExpoFP.IExpoFpPlanMessageListener)? = nil)
+  @_Concurrency.MainActor public func findLocation()
+  @_Concurrency.MainActor public func fitBounds()
+  @_Concurrency.MainActor public func highlightBooths(externalIds: [Swift.String])
+  @_Concurrency.MainActor public func highlightExhibitors(externalIds: [Swift.String])
+  @_Concurrency.MainActor public func selectBooth(nameOrExternalId: Swift.String)
+  @_Concurrency.MainActor public func selectCategory(name: Swift.String?)
+  @_Concurrency.MainActor public func selectCurrentPosition(_ position: ExpoFP.ExpoFpPosition?, focus: Swift.Bool = true)
+  @_Concurrency.MainActor public func selectExhibitor(nameOrExternalId: Swift.String)
+  @_Concurrency.MainActor public func selectRoute(waypoints: [ExpoFP.ExpoFpRouteWaypoint], onlyAccessible: Swift.Bool)
+  @_Concurrency.MainActor public func setBookmarks(_ bookmarks: [ExpoFP.ExpoFpBookmark])
+  @_Concurrency.MainActor public func setElementsVisibility(_ elementsVisibility: ExpoFP.ExpoFpElementsVisibility)
+  @_Concurrency.MainActor public func switchView()
+  @_Concurrency.MainActor public func updateLayerVisibility(layer: Swift.String, isVisible: Swift.Bool)
+  @_Concurrency.MainActor public func zoomIn()
+  @_Concurrency.MainActor public func zoomOut()
+  @_Concurrency.MainActor public func boothsList() async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpBooth]>
+  @_Concurrency.MainActor public func boothsList(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpBooth]>) -> Swift.Void)
+  @_Concurrency.MainActor public func categoriesList() async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpCategory]>
+  @_Concurrency.MainActor public func categoriesList(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpCategory]>) -> Swift.Void)
+  @_Concurrency.MainActor public func exhibitorsList() async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpExhibitor]>
+  @_Concurrency.MainActor public func exhibitorsList(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpExhibitor]>) -> Swift.Void)
+  @_Concurrency.MainActor public func getElementsVisibility() async -> ExpoFP.ExpoFpResult<ExpoFP.ExpoFpElementsVisibility>
+  @_Concurrency.MainActor public func getElementsVisibility(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<ExpoFP.ExpoFpElementsVisibility>) -> Swift.Void)
+  @_Concurrency.MainActor public func getOptimizedRoutes(waypoints: [ExpoFP.ExpoFpRouteWaypoint]) async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpRouteInfo]>
+  @_Concurrency.MainActor public func getOptimizedRoutes(waypoints: [ExpoFP.ExpoFpRouteWaypoint], completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpRouteInfo]>) -> Swift.Void)
+  @_Concurrency.MainActor public func search(text: Swift.String) async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpSearchModel]>
+  @_Concurrency.MainActor public func search(text: Swift.String, completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpSearchModel]>) -> Swift.Void)
 }
 public struct ExpoFpDetails : Swift.Codable, Swift.Equatable {
   public let id: Swift.Int
@@ -402,21 +311,6 @@ public enum ExpoFpSearchItemType : Swift.Codable, Swift.Equatable {
   public init(from decoder: any Swift.Decoder) throws
   public static func == (a: ExpoFP.ExpoFpSearchItemType, b: ExpoFP.ExpoFpSearchItemType) -> Swift.Bool
 }
-public enum ExpoFpError : Swift.Error {
-  case internalError(error: (any Swift.Error)? = nil, message: Swift.String? = nil)
-  case decodingError(error: (any Swift.Error)? = nil, message: Swift.String? = nil)
-  case downloadingPlanError(error: any Swift.Error)
-  case locationProviderError(error: (any Swift.Error)? = nil, message: Swift.String? = nil)
-  case invalidExpoKey
-  case invalidPlanLink(ExpoFP.ExpoFpLinkType)
-  case invalidZipFilePath(Swift.String)
-  case planInfoRequestTimeout
-  case javaScriptEvaluationError(any Swift.Error)
-  case planLoadingError(message: Swift.String)
-  case planNavigationError(any Swift.Error)
-  case planDidTerminate
-  case planMessageError(_: (any Swift.Error)? = nil)
-}
 public enum ExpoFpFloor : Swift.Codable, Swift.Equatable {
   case index(Swift.Int)
   case name(Swift.String)
@@ -424,11 +318,122 @@ public enum ExpoFpFloor : Swift.Codable, Swift.Equatable {
   public init(from decoder: any Swift.Decoder) throws
   public static func == (a: ExpoFP.ExpoFpFloor, b: ExpoFP.ExpoFpFloor) -> Swift.Bool
 }
-extension ExpoFP.ExpoFpGlobalLocationProvider : Swift.Sendable {}
+public enum ExpoFpPlanStatus {
+  case error(ExpoFP.ExpoFpError)
+  case initialization
+  case loading(percentage: Swift.Int)
+  case ready
+  public var isError: Swift.Bool {
+    get
+  }
+  public var isInitializing: Swift.Bool {
+    get
+  }
+  public var isReady: Swift.Bool {
+    get
+  }
+  public var percentageProgress: Swift.Int? {
+    get
+  }
+  public func isLoading(with progress: Swift.Int? = nil) -> Swift.Bool
+}
+extension ExpoFP.ExpoFpPlanStatus : Swift.Equatable, Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+  public static func == (lhs: ExpoFP.ExpoFpPlanStatus, rhs: ExpoFP.ExpoFpPlanStatus) -> Swift.Bool
+}
+public struct ExpoFpBoothClickEvent : Swift.Codable, Swift.Equatable {
+  public let target: ExpoFP.ExpoFpBooth?
+  public static func == (a: ExpoFP.ExpoFpBoothClickEvent, b: ExpoFP.ExpoFpBoothClickEvent) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct ExpoFpRouteInfo : Swift.Codable, Swift.Equatable {
+  public let waypoints: [ExpoFP.ExpoFpRouteWaypoint]
+  public static func == (a: ExpoFP.ExpoFpRouteInfo, b: ExpoFP.ExpoFpRouteInfo) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public typealias ExpoFpDownloadedPlanInfoResult = Swift.Result<ExpoFP.ExpoFpDownloadedPlanInfo, ExpoFP.ExpoFpError>
+public struct ExpoFpPlanDownloader : Swift.Sendable {
+  public func downloadPlan(withExpoKey expoKey: Swift.String, completion: @escaping (ExpoFP.ExpoFpDownloadedPlanInfoResult) -> Swift.Void = {_ in})
+  @discardableResult
+  public func downloadPlan(withExpoKey expoKey: Swift.String) async -> ExpoFP.ExpoFpDownloadedPlanInfoResult
+  public func downloadPlan(withZipFilePath filePath: Swift.String, completion: @escaping (ExpoFP.ExpoFpDownloadedPlanInfoResult) -> Swift.Void = {_ in})
+  @discardableResult
+  public func downloadPlan(withZipFilePath filePath: Swift.String) async -> ExpoFP.ExpoFpDownloadedPlanInfoResult
+  public func getDownloadedPlansInfo(withExpoKey expoKey: Swift.String? = nil, completion: @escaping ([ExpoFP.ExpoFpDownloadedPlanInfo]) -> Swift.Void)
+  public func getDownloadedPlansInfo(withExpoKey expoKey: Swift.String? = nil) async -> [ExpoFP.ExpoFpDownloadedPlanInfo]
+  public func removeOldVersionsOfDownloadedPlans(withExpoKey expoKey: Swift.String? = nil) async
+  public func removeDownloadedPlan(with planInfo: ExpoFP.ExpoFpDownloadedPlanInfo) async
+  public func removeAllDownloadedPlans() async
+}
+public struct ExpoFpLayer : Swift.Codable, Swift.Equatable {
+  public let name: Swift.String
+  public let description: Swift.String
+  public static func == (a: ExpoFP.ExpoFpLayer, b: ExpoFP.ExpoFpLayer) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+extension ExpoFP.ExpoFpLayer {
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct ExpoFpVisitedClickEvent : Swift.Codable, Swift.Equatable {
+  public let name: Swift.String
+  public let externalId: Swift.String
+  public let visited: Swift.Bool
+  public init(from decoder: any Swift.Decoder) throws
+  public static func == (a: ExpoFP.ExpoFpVisitedClickEvent, b: ExpoFP.ExpoFpVisitedClickEvent) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public struct ExpoFpDownloadedPlanInfo : Swift.Hashable, Swift.Equatable, Swift.CustomStringConvertible, Swift.Comparable {
+  public let expoKey: Swift.String
+  public let version: Swift.Int
+  public var description: Swift.String {
+    get
+  }
+  public static func < (lhs: ExpoFP.ExpoFpDownloadedPlanInfo, rhs: ExpoFP.ExpoFpDownloadedPlanInfo) -> Swift.Bool
+  public static func == (a: ExpoFP.ExpoFpDownloadedPlanInfo, b: ExpoFP.ExpoFpDownloadedPlanInfo) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct ExpoFpDirection : Swift.Codable, Swift.Equatable {
+  public let distance: Swift.String
+  public let duration: Foundation.TimeInterval
+  public let from: ExpoFP.ExpoFpBooth?
+  public let to: ExpoFP.ExpoFpBooth?
+  public let lines: [ExpoFP.ExpoFpLine]
+  public static func == (a: ExpoFP.ExpoFpDirection, b: ExpoFP.ExpoFpDirection) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+@_hasMissingDesignatedInitializers @_Concurrency.MainActor final public class ExpoFpGlobalLocationProvider : ExpoFP.IExpoFpLocationProvider {
+  @_Concurrency.MainActor final public var sharedProvider: (any ExpoFP.IExpoFpLocationProvider)?
+  @_Concurrency.MainActor final public var expoFpLocationProviderDelegate: (any ExpoFP.ExpoFpLocationProviderDelegate)? {
+    get
+    set
+  }
+  @_Concurrency.MainActor final public func startUpdatingLocation() async throws
+  @_Concurrency.MainActor final public func stopUpdatingLocation()
+  @objc deinit
+}
+@_Concurrency.MainActor public protocol IExpoFpPlanMessageListener : AnyObject {
+  @_Concurrency.MainActor func bookmarkDidClick(_ bookmark: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpBookmark>, from planLink: ExpoFP.ExpoFpLinkType)
+  @_Concurrency.MainActor func boothDidClick(_ boothEvent: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpBoothClickEvent>, from planLink: ExpoFP.ExpoFpLinkType)
+  @_Concurrency.MainActor func categoryDidClick(_ category: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpCategory>, from planLink: ExpoFP.ExpoFpLinkType)
+  @_Concurrency.MainActor func currentPositionDidChange(_ position: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpPosition>, from planLink: ExpoFP.ExpoFpLinkType)
+  @_Concurrency.MainActor func detailsDidClick(_ details: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpDetails?>, from planLink: ExpoFP.ExpoFpLinkType)
+  @_Concurrency.MainActor func directionDidBuild(_ direction: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpDirection?>, from planLink: ExpoFP.ExpoFpLinkType)
+  @_Concurrency.MainActor func exhibitorCustomButtonDidClick(_ buttonEvent: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpCustomButtonEvent>, from planLink: ExpoFP.ExpoFpLinkType)
+  @_Concurrency.MainActor func visitedDidClick(_ visitedEvent: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpVisitedClickEvent>, from planLink: ExpoFP.ExpoFpLinkType)
+}
 extension ExpoFP.ExpoFpDetailsType : Swift.Hashable {}
 extension ExpoFP.ExpoFpDetailsType : Swift.RawRepresentable {}
-extension ExpoFP.ExpoFpPlanPreloader : Swift.Sendable {}
 extension ExpoFP.ExpoFpPlan : Swift.Sendable {}
+extension ExpoFP.ExpoFpPlanPreloader : Swift.Sendable {}
 extension ExpoFP.ExpoFpSearchItemType.RawType : Swift.Equatable {}
 extension ExpoFP.ExpoFpSearchItemType.RawType : Swift.Hashable {}
 extension ExpoFP.ExpoFpSearchItemType.RawType : Swift.RawRepresentable {}
+extension ExpoFP.ExpoFpGlobalLocationProvider : Swift.Sendable {}
