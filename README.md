@@ -2,20 +2,21 @@
 
 [![Swift Package Manager compatible](https://img.shields.io/badge/SPM-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/ExpoFP.svg)](https://cocoapods.org/pods/ExpoFP)
-[![Platform](https://img.shields.io/badge/Platforms-%20iOS%20|%20iPadOS-lightgrey.svg)](https://expofp.github.io/expofp-mobile-sdk/ios-sdk/)
+[![Platform](https://img.shields.io/badge/Platforms-%20iOS%20|%20iPadOS-lightgrey.svg)](https://expofp.github.io/expofp-sdk-ios/documentation/expofp/)
 
-ExpoFP is a binary package (XCFramework) to show and manage floor plans.
+ExpoFP is a binary package (XCFramework) to show and manage floor plans<br>
+Full usage instructions on [expofp.github.io](https://expofp.github.io/expofp-sdk-ios/documentation/expofp/)
 
-## 1 Installation
-### 1.1 Swift Package Manager
+## Installation
+### Swift Package Manager
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/expofp/expofp-sdk-ios", from: "5.0.0"),
+    .package(url: "https://github.com/expofp/expofp-sdk-ios", from: "5.0.1"),
 ]
 ```
 
-and then as a dependency for the Package target utilizing **ExpoFP**:
+and add it to your target’s dependencies
 
 ```swift
 .target(
@@ -26,52 +27,37 @@ and then as a dependency for the Package target utilizing **ExpoFP**:
 ),
 ```
 
-### 1.2 CocoaPods
+### CocoaPods
 
 ```
 target 'MyApp' do
-    pod 'ExpoFP', '~> 5.0.0'
+    pod 'ExpoFP', '~> 5.0.1'
 end
 ```
 
-## 2 Usage
-### 2.1 Load a plan
+## Quick Guide
+### Load a plan
 
 ```swift
 let expoKey = "YourExpoKey"
 let presenter = ExpoFpPlan.createPlanPresenter(with: .expoKey(expoKey))
 ```
 
-### 2.2 Load a plan with additional tools
+### Present in UIKit
 
 ```swift
-let expoKey = "YourExpoKey"
-let additionalParams = [URLQueryItem(name: "noOverlay", value: "true")]
-let locationProvider: IExpoFpLocationProvider = YourLocationProvider() // or Golbal location provider
-let messageListener: IExpoFpPlanMessageListener = YourMessageListener()
-
-let presenter = ExpoFpPlan.createPlanPresenter(
-    with: .expoKey(expoKey),
-    additionalParams: additionalParams,
-    locationProvider: locationProvider,
-    messageListener: messageListener
-)
+let planController = presenter.getViewController()
+yourViewController.pushViewController(planController, animated: true)
 ```
 
-### 2.3 Display loaded plan
+### Present in SwiftUI
 
 ```swift
-let swiftUIView = presenter.getView()
-let uiKitViewController = presenter.getViewController()
+var body: some View {
+    presenter.getView()
+}
 ```
-
-## 3 Preparing a plan in advance
-
-### 3.1.1 Download a plan for later use
-
-Plan will be downloaded into cache directory in user domain mask.
-
-Download a plan from the internet:
+### Download a plan
 
 ```swift
 let expoKey = "YourExpoKey"
@@ -81,35 +67,7 @@ let downloadedPlanInfo = try downloadedPlanResult.get()
 let presenter = ExpoFpPlan.createPlanPresenter(with: .downloadedPlanInfo(downloadedPlanInfo))
 ```
 
-Unzip from the archive stored in the app:
-
-> Archive must be named `<expokey>_<version>.zip` to identify the plan.
-
-```swift
-let zipFilePath = Bundle.main.path(forResource: "<expokey>_<version>", ofType: "zip")
-let downloadedPlanResult = await ExpoFpPlan.downloader.downloadPlan(withZipFilePath: zipFilePath) // Also awailable with completion
-let downloadedPlanInfo = try downloadedPlanResult.get()
-
-let presenter = ExpoFpPlan.createPlanPresenter(with: .downloadedPlanInfo(downloadedPlanInfo))
-```
-
-### 3.1.2 Get info about all downloaded plans
-
-```swift
-let downloadedPlansInfo = await ExpoFpPlan.downloader.getDownloadedPlansInfo() // Also awailable with completion
-```
-
-### 3.1.3 Delete downloaded plans
-
-```swift
-ExpoFpPlan.downloader.removeDownloadedPlan(with: downloadedPlanInfo)
-or
-ExpoFpPlan.downloader.removeAllDownloadedPlans()
-```
-
-### 3.2.1 Preload a plan for later use
-
-All preloaded plans retain their state during app lifecycle and release after app is terminated.
+### Preload a plan
 
 ```swift
 let expoKey = "YourExpoKey"
@@ -120,46 +78,12 @@ let preloadedPlanInfo = ExpoFpPlan.preloader.preloadPlan(with: .downloadedPlanIn
 let presenter = ExpoFpPlan.preloader.getPreloadedPlanPresenter(with: preloadedPlanInfo)
 ```
 
-### 3.2.2 Get info about all preloaded plans
+### Manage a plan
 
-```swift
-let preloadedPlansInfo = await ExpoFpPlan.preloader.getPreloadedPlansInfo() // Also awailable with completion
-```
+* Apply additional params, location provider, message listener
+* Reload plan with new or previously applied settings
+* Monitor loading, initialization and errors via `presenter.planStatusPublisher`
+* Zoom, select booth or category, build routes, listen events and many more
 
-### 3.2.3 Delete preloaded plans
-
-```swift
-ExpoFpPlan.preloader.disposePreloadedPlan(with: preloadedPlanInfo)
-or
-ExpoFpPlan.preloader.removeAllPreloadedPlans()
-```
-
-## 4 Location provider usage
-
-To use Location Provider you **must add** `NSLocationWhenInUseUsageDescription` key in your app `Info.plist` file.<br>
-To use Location Provider in background you **must also add** `NSLocationAlwaysUsageDescription` key in your app `Info.plist` file.
-
-### 4.1 Individual location provider
-
-You need to import [Indoor Atlas](https://github.com/expofp/expofp-indooratlas-ios) or [Crowd Connected](https://github.com/expofp/expofp-crowdconnected-ios) and use their documentation to initialize location provider.<br>
-You can use your own location provider after confirming it to `IExpoFpLocationProvider` protocol.<br>
-Plan will call `startUpdatingLocation()` when it appers and `stopUpdatingLocation()` when it disappears.
-
-### 4.2 Global location provider
-
-To use Global location provider you need to set location provider to `ExpoFpPlan.globalLocationProvider.sharedProvider` instance.<br>
-Global location provider is not set to a plan automatically, but you can set `ExpoFpPlan.globalLocationProvider` to a plan presenter instead of shared instance.<br>
-Plan will call `startUpdatingLocation()` when it appers.<br>
-**Important:** Plan will not call `stopUpdatingLocation()` when it disappears.
-
-## 5 Plan management
-
-During plan lifecycle you can use `presenter` to:
-
-* Apply new additional params, location provider, message listener;
-* Reload plan with all previously applied params;
-* Monitor loading, initialization and errors via `presenter.planStatusPublisher`;
-* Zoom, select booth or category, build routes and many more.
-
-Feel free to check out our detailed instructions at [expofp.github.io](https://expofp.github.io/expofp-sdk-ios/documentation/expofp/)
+Feel free to check out our detailed instructions on [expofp.github.io](https://expofp.github.io/expofp-sdk-ios/documentation/expofp/)
 

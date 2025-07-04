@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name               = "ExpoFP"
-  spec.version            = "5.0.0"
+  spec.version            = "5.1.0"
   spec.platform           = :ios, '14.0'
   spec.summary            = "ExpoFP SDK"
   spec.description        = "ExpoFP SDK to show and manage expo floor plans. Use documentation for integration"
@@ -8,7 +8,7 @@ Pod::Spec.new do |spec|
   spec.documentation_url  = "https://expofp.github.io/expofp-sdk-ios/documentation/expofp/"
   spec.license            = { :type => "MIT" }
   spec.author             = { 'ExpoFP' => 'support@expofp.com' }
-  spec.source             = { :git => 'https://github.com/expofp/expofp-sdk-ios.git', :tag => "#{spec.version}" }
+  spec.source             = { :git => 'https://github.com/expofp/expofp-sdk-ios.git', :tag => "v#{spec.version}" }
   spec.swift_version      = "5"
 
   # Supported deployment targets
