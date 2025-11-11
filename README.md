@@ -12,7 +12,7 @@ Full usage instructions on [expofp.github.io](https://expofp.github.io/expofp-sd
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/expofp/expofp-sdk-ios", from: "5.3.1"),
+    .package(url: "https://github.com/expofp/expofp-sdk-ios", from: "5.4.0"),
 ]
 ```
 
@@ -31,7 +31,7 @@ and add it to your target’s dependencies
 
 ```
 target 'MyApp' do
-    pod 'ExpoFP', '~> 5.3.1'
+    pod 'ExpoFP', '~> 5.4.0'
 end
 ```
 
