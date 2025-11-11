@@ -8,7 +8,7 @@ Pod::Spec.new do |spec|
   spec.documentation_url  = "https://expofp.github.io/expofp-sdk-ios/documentation/expofp/"
   spec.license            = { :type => "MIT" }
   spec.author             = { 'ExpoFP' => 'support@expofp.com' }
-  spec.source             = { :git => 'https://github.com/expofp/expofp-sdk-ios.git', :tag => "v#{spec.version}" }
+  spec.source             = { :git => 'https://github.com/expofp/expofp-sdk-ios.git', :tag => "#{spec.version}" }
   spec.swift_version      = "5"
 
   # Supported deployment targets
