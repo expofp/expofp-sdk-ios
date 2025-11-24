@@ -39,7 +39,7 @@ public enum ExpoFpLinkType : Swift.Hashable, Swift.CustomStringConvertible {
     get
   }
 }
-public enum ExpoFpPlanParameter : Swift.CustomStringConvertible {
+public enum ExpoFpPlanParameter : Swift.CustomStringConvertible, Swift.Hashable {
   case allowConsent(Swift.Bool)
   case debugMode(Swift.Bool)
   case disableBookmarked(Swift.Bool)
@@ -65,6 +65,11 @@ public enum ExpoFpPlanParameter : Swift.CustomStringConvertible {
     get
   }
   public var queryItem: Foundation.URLQueryItem {
+    get
+  }
+  public static func == (a: ExpoFP.ExpoFpPlanParameter, b: ExpoFP.ExpoFpPlanParameter) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
     get
   }
 }
@@ -334,7 +339,8 @@ public struct ExpoFpPosition : Swift.Codable, Swift.Hashable {
   }
   public init(from decoder: any Swift.Decoder) throws
 }
-@_hasMissingDesignatedInitializers @_Concurrency.MainActor final public class ExpoFpGlobalLocationProvider : ExpoFP.IExpoFpLocationProvider {
+@_hasMissingDesignatedInitializers @_Concurrency.MainActor final public class ExpoFpGlobalLocationProvider : @_Concurrency.MainActor ExpoFP.IExpoFpLocationProvider {
+  @_Concurrency.MainActor final public let id: Foundation.UUID
   @_Concurrency.MainActor final public var isLocationUpdating: Swift.Bool {
     get
   }
@@ -347,19 +353,23 @@ public struct ExpoFpPosition : Swift.Codable, Swift.Hashable {
   #endif
   @_Concurrency.MainActor final public func startUpdatingLocation()
   @_Concurrency.MainActor final public func stopUpdatingLocation()
+  public typealias ID = Foundation.UUID
   @objc deinit
 }
-@_Concurrency.MainActor public protocol ExpoFpLocationProviderDelegate : AnyObject {
+@_Concurrency.MainActor public protocol ExpoFpLocationProviderDelegate : AnyObject, Swift.Identifiable {
   @_Concurrency.MainActor func positionDidChange(_ newPosition: ExpoFP.ExpoFpPosition)
   @_Concurrency.MainActor func errorOccurred(_ error: ExpoFP.ExpoFpError, from provider: ExpoFP.ExpoFpLocationProviderType)
 }
-@_Concurrency.MainActor public protocol IExpoFpLocationProvider : AnyObject {
+@_Concurrency.MainActor public protocol IExpoFpLocationProvider : AnyObject, Swift.Equatable, Swift.Identifiable {
   @_Concurrency.MainActor var isLocationUpdating: Swift.Bool { get }
   #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor var expoFpLocationProviderDelegate: (any ExpoFP.ExpoFpLocationProviderDelegate)? { get set }
   #endif
   @_Concurrency.MainActor func startUpdatingLocation()
   @_Concurrency.MainActor func stopUpdatingLocation()
+}
+extension ExpoFP.IExpoFpLocationProvider {
+  @_Concurrency.MainActor public static func == (lhs: Self, rhs: Self) -> Swift.Bool
 }
 @_Concurrency.MainActor public struct ExpoFpPlanPreloader {
   #if compiler(>=5.3) && $NonescapableTypes
