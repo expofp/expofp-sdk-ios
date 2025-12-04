@@ -44,6 +44,7 @@ public enum ExpoFpPlanParameter : Swift.CustomStringConvertible, Swift.Hashable 
   case debugMode(Swift.Bool)
   case disableBookmarked(Swift.Bool)
   case disableFeatured(Swift.Bool)
+  case disableGps(Swift.Bool)
   case hideHeaderLogo(Swift.Bool)
   case hideLogoInBooth(Swift.Bool)
   case kioskMode(Swift.Bool)
