@@ -1,7 +1,7 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 6.2.3 effective-5.10 (swiftlang-6.2.3.3.21 clang-1700.6.3.2)
+// swift-compiler-version: Apple Swift version 6.2.4 effective-5.10 (swiftlang-6.2.4.1.4 clang-1700.6.4.2)
 // swift-module-flags: -target x86_64-apple-ios14.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name ExpoFP
-// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2.3
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2.4
 import Combine
 import Foundation
 import Swift
@@ -173,6 +173,8 @@ public typealias ExpoFpPlanStatusPublisher = Combine.AnyPublisher<ExpoFP.ExpoFpP
   @_Concurrency.MainActor func removeLocationProvider()
   @_Concurrency.MainActor func setMessageListener(_ messageListener: any ExpoFP.IExpoFpPlanMessageListener)
   @_Concurrency.MainActor func removeMessageListener()
+  @_Concurrency.MainActor func setMessageHandler(_ messageHandler: any WebKit.WKScriptMessageHandler, for callbackName: Swift.String)
+  @_Concurrency.MainActor func removeMessageHandler(for callbackName: Swift.String)
   #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor func reloadPlan(planLink: ExpoFP.ExpoFpLinkType?, additionalParams: [ExpoFP.ExpoFpPlanParameter]?, locationProvider: (any ExpoFP.IExpoFpLocationProvider)?, messageListener: (any ExpoFP.IExpoFpPlanMessageListener)?, isDebugModeEnabled: Swift.Bool?)
   #endif
@@ -185,26 +187,32 @@ extension ExpoFP.IExpoFpPlanPresenter {
   @_Concurrency.MainActor public func activateFloor(_ floor: ExpoFP.ExpoFpFloor)
   @_Concurrency.MainActor public func changeLanguage(_ language: ExpoFP.ExpoFpLanguage)
   @_Concurrency.MainActor public func findLocation()
-  @_Concurrency.MainActor public func fitBounds()
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor public func fitBounds(bounds: ExpoFP.ExpoFpBounds? = nil, options: ExpoFP.ExpoFpZoomToOptions = .init())
+  #endif
   @_Concurrency.MainActor public func highlightBooths(externalIds: [Swift.String] = [])
+  @_Concurrency.MainActor public func highlightEntities(externalIds: [Swift.String] = [])
   @_Concurrency.MainActor public func highlightExhibitors(externalIds: [Swift.String] = [])
+  @_Concurrency.MainActor public func reset()
   @_Concurrency.MainActor public func selectBooth(nameOrExternalId: Swift.String = "")
   #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func selectCategory(name: Swift.String? = nil)
   #endif
-  #if compiler(>=5.3) && $NonescapableTypes
-  @_Concurrency.MainActor public func selectCurrentPosition(_ position: ExpoFP.ExpoFpPosition? = nil, focus: Swift.Bool = true)
-  #endif
+  @_Concurrency.MainActor public func selectCurrentPosition(_ position: ExpoFP.ExpoFpPosition, focus: Swift.Bool = true)
+  @_Concurrency.MainActor public func deselectCurrentPosition()
   @_Concurrency.MainActor public func selectExhibitor(nameOrExternalId: Swift.String = "")
+  @_Concurrency.MainActor public func selectRoute(waypoints: [ExpoFP.ExpoFpRouteWaypoint])
   #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func selectRoute(from start: ExpoFP.ExpoFpRouteWaypoint?, to destination: ExpoFP.ExpoFpRouteWaypoint?)
   #endif
-  @_Concurrency.MainActor public func selectRoute(waypoints: [ExpoFP.ExpoFpRouteWaypoint] = [])
+  @_Concurrency.MainActor public func deselectRoute()
   @_Concurrency.MainActor public func setBookmarks(_ bookmarks: [ExpoFP.ExpoFpBookmark])
   @_Concurrency.MainActor public func setElementsVisibility(_ elementsVisibility: ExpoFP.ExpoFpElementsVisibility)
+  @_Concurrency.MainActor public func setBuiltInGpsTrackingEnabled(_ isEnabled: Swift.Bool)
   @_Concurrency.MainActor public func switchView()
   @_Concurrency.MainActor public func zoomIn()
   @_Concurrency.MainActor public func zoomOut()
+  @_Concurrency.MainActor public func zoomTo(selectors: ExpoFP.ExpoFpPoiSelectors, options: ExpoFP.ExpoFpZoomToOptions = .init())
   #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func boothsList() async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpBooth]>
   #endif
@@ -236,10 +244,22 @@ extension ExpoFP.IExpoFpPlanPresenter {
   @_Concurrency.MainActor public func getFloors(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpFloor]>) -> Swift.Void)
   #endif
   #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor public func getBounds(selectors: ExpoFP.ExpoFpPoiSelectors) async -> ExpoFP.ExpoFpResult<ExpoFP.ExpoFpBounds>
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor public func getBounds(selectors: ExpoFP.ExpoFpPoiSelectors, completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<ExpoFP.ExpoFpBounds>) -> Swift.Void)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func getOptimizedRoutes(waypoints: [ExpoFP.ExpoFpRouteWaypoint]) async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpRouteInfo]>
   #endif
   #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func getOptimizedRoutes(waypoints: [ExpoFP.ExpoFpRouteWaypoint], completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpRouteInfo]>) -> Swift.Void)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor public func isBuiltInGpsTrackingEnabled() async -> ExpoFP.ExpoFpResult<Swift.Bool>
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor public func isBuiltInGpsTrackingEnabled(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<Swift.Bool>) -> Swift.Void)
   #endif
   #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func search(text: Swift.String) async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpSearchModel]>
@@ -446,6 +466,18 @@ public struct ExpoFpBooth : Swift.Codable, Swift.Hashable, Swift.Identifiable {
 public struct ExpoFpBoothClickEvent : Swift.Codable, Swift.Hashable {
   public let target: ExpoFP.ExpoFpBooth?
   public static func == (a: ExpoFP.ExpoFpBoothClickEvent, b: ExpoFP.ExpoFpBoothClickEvent) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct ExpoFpBounds : Swift.Codable, Swift.Hashable {
+  public let leftTop: ExpoFP.ExpoFpPoint
+  public let rightBottom: ExpoFP.ExpoFpPoint
+  public init(leftTop: ExpoFP.ExpoFpPoint, rightBottom: ExpoFP.ExpoFpPoint)
+  public static func == (a: ExpoFP.ExpoFpBounds, b: ExpoFP.ExpoFpBounds) -> Swift.Bool
   public func encode(to encoder: any Swift.Encoder) throws
   public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
@@ -674,9 +706,35 @@ public struct ExpoFpPoint : Swift.Codable, Swift.Hashable {
   public let y: Swift.Double
   public let layer: Swift.String?
   #if compiler(>=5.3) && $NonescapableTypes
-  public init(x: Swift.Double, y: Swift.Double, layer: Swift.String?)
+  public init(x: Swift.Double, y: Swift.Double, layer: Swift.String? = nil)
   #endif
   public static func == (a: ExpoFP.ExpoFpPoint, b: ExpoFP.ExpoFpPoint) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct ExpoFpPoiSelector : Swift.Codable, Swift.Hashable {
+  public let name: Swift.String?
+  public let externalId: Swift.String?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(name: Swift.String? = nil, externalId: Swift.String? = nil)
+  #endif
+  public static func == (a: ExpoFP.ExpoFpPoiSelector, b: ExpoFP.ExpoFpPoiSelector) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct ExpoFpPoiSelectors : Swift.Codable, Swift.Hashable {
+  public let booths: [ExpoFP.ExpoFpPoiSelector]
+  public let exhibitors: [ExpoFP.ExpoFpPoiSelector]
+  public init(booths: [ExpoFP.ExpoFpPoiSelector] = [], exhibitors: [ExpoFP.ExpoFpPoiSelector] = [])
+  public static func == (a: ExpoFP.ExpoFpPoiSelectors, b: ExpoFP.ExpoFpPoiSelectors) -> Swift.Bool
   public func encode(to encoder: any Swift.Encoder) throws
   public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
@@ -843,6 +901,17 @@ public struct ExpoFpWindowError : Swift.Codable {
   public let errorName: Swift.String
   public let errorMessage: Swift.String
   public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct ExpoFpZoomToOptions : Swift.Codable, Swift.Hashable {
+  public let padding: Swift.Double
+  public init(padding: Swift.Double = .zero)
+  public static func == (a: ExpoFP.ExpoFpZoomToOptions, b: ExpoFP.ExpoFpZoomToOptions) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
   public init(from decoder: any Swift.Decoder) throws
 }
 extension ExpoFP.ExpoFpPlan : Swift.Sendable {}
