@@ -1,7 +1,7 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 6.2.4 effective-5.10 (swiftlang-6.2.4.1.4 clang-1700.6.4.2)
-// swift-module-flags: -target arm64-apple-ios14.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name ExpoFP
-// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2.4
+// swift-compiler-version: Apple Swift version 6.3.2 effective-5.10 (swiftlang-6.3.2.1.108 clang-2100.1.1.101)
+// swift-module-flags: -target arm64-apple-ios14.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name ExpoFP
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.3.2
 import Combine
 import Foundation
 import Swift
@@ -88,14 +88,10 @@ public enum ExpoFpPlanStatus {
   public var isReady: Swift.Bool {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   public var percentageProgress: Swift.Int? {
     get
   }
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func isLoading(with progress: Swift.Int? = nil) -> Swift.Bool
-  #endif
 }
 extension ExpoFP.ExpoFpPlanStatus : Swift.Equatable, Swift.CustomStringConvertible {
   public var description: Swift.String {
@@ -107,61 +103,31 @@ extension ExpoFP.ExpoFpPlanStatus : Swift.Equatable, Swift.CustomStringConvertib
   @_Concurrency.MainActor public static let downloader: ExpoFP.ExpoFpPlanDownloader
   @_Concurrency.MainActor public static let preloader: ExpoFP.ExpoFpPlanPreloader
   @_Concurrency.MainActor public static let globalLocationProvider: ExpoFP.ExpoFpGlobalLocationProvider
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public static func createPlanPresenter(with planLink: ExpoFP.ExpoFpLinkType, additionalParams: [ExpoFP.ExpoFpPlanParameter] = [], locationProvider: (any ExpoFP.IExpoFpLocationProvider)? = nil, messageListener: (any ExpoFP.IExpoFpPlanMessageListener)? = nil, isDebugModeEnabled: Swift.Bool = false) -> any ExpoFP.IExpoFpPlanPresenter
-  #endif
 }
 @_Concurrency.MainActor public protocol IExpoFpPlanMessageListener : AnyObject {
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor func bookmarkDidClick(_ bookmark: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpBookmark>, from planLink: ExpoFP.ExpoFpLinkType)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor func boothDidClick(_ boothEvent: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpBoothClickEvent>, from planLink: ExpoFP.ExpoFpLinkType)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor func categoryDidClick(_ category: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpCategory>, from planLink: ExpoFP.ExpoFpLinkType)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor func currentFloorDidChange(_ floor: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpFloor>, from planLink: ExpoFP.ExpoFpLinkType)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor func currentPositionDidChange(_ position: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpPosition>, from planLink: ExpoFP.ExpoFpLinkType)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor func detailsDidClick(_ details: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpDetails?>, from planLink: ExpoFP.ExpoFpLinkType)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor func directionDidBuild(_ direction: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpDirection?>, from planLink: ExpoFP.ExpoFpLinkType)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor func exhibitorCustomButtonDidClick(_ buttonEvent: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpCustomButtonEvent>, from planLink: ExpoFP.ExpoFpLinkType)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor func visitedDidClick(_ visitedEvent: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpVisitedClickEvent>, from planLink: ExpoFP.ExpoFpLinkType)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor func windowErrorDidReceive(_ error: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpWindowError>, from planLink: ExpoFP.ExpoFpLinkType)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor func consoleMessageDidReceive(_ message: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpConsoleMessage>, from planLink: ExpoFP.ExpoFpLinkType)
-  #endif
 }
 extension ExpoFP.IExpoFpPlanMessageListener {
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func windowErrorDidReceive(_ error: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpWindowError>, from planLink: ExpoFP.ExpoFpLinkType)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func consoleMessageDidReceive(_ message: ExpoFP.ExpoFpResult<ExpoFP.ExpoFpConsoleMessage>, from planLink: ExpoFP.ExpoFpLinkType)
-  #endif
 }
 public typealias ExpoFpResult<T> = Swift.Result<T, ExpoFP.ExpoFpError>
 public typealias ExpoFpPlanStatusPublisher = Combine.AnyPublisher<ExpoFP.ExpoFpPlanStatus, Swift.Never>
 @_Concurrency.MainActor public protocol IExpoFpPlanPresenter : AnyObject, Swift.Identifiable {
   @_Concurrency.MainActor var id: Foundation.UUID { get }
   @_Concurrency.MainActor var additionalParams: [ExpoFP.ExpoFpPlanParameter] { get }
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor var locationProvider: (any ExpoFP.IExpoFpLocationProvider)? { get }
-  #endif
   @_Concurrency.MainActor var planLink: ExpoFP.ExpoFpLinkType { get }
   @_Concurrency.MainActor var isDebugModeEnabled: Swift.Bool { get }
   @_Concurrency.MainActor var planStatusPublisher: ExpoFP.ExpoFpPlanStatusPublisher { get }
@@ -175,36 +141,27 @@ public typealias ExpoFpPlanStatusPublisher = Combine.AnyPublisher<ExpoFP.ExpoFpP
   @_Concurrency.MainActor func removeMessageListener()
   @_Concurrency.MainActor func setMessageHandler(_ messageHandler: any WebKit.WKScriptMessageHandler, for callbackName: Swift.String)
   @_Concurrency.MainActor func removeMessageHandler(for callbackName: Swift.String)
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor func reloadPlan(planLink: ExpoFP.ExpoFpLinkType?, additionalParams: [ExpoFP.ExpoFpPlanParameter]?, locationProvider: (any ExpoFP.IExpoFpLocationProvider)?, messageListener: (any ExpoFP.IExpoFpPlanMessageListener)?, isDebugModeEnabled: Swift.Bool?)
-  #endif
 }
 extension ExpoFP.IExpoFpPlanPresenter {
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func reloadPlan(planLink: ExpoFP.ExpoFpLinkType? = nil, additionalParams: [ExpoFP.ExpoFpPlanParameter]? = nil, locationProvider: (any ExpoFP.IExpoFpLocationProvider)? = nil, messageListener: (any ExpoFP.IExpoFpPlanMessageListener)? = nil, isDebugModeEnabled: Swift.Bool? = nil)
-  #endif
   @_Concurrency.MainActor public func applyAdditionalParams(_ additionalParams: [ExpoFP.ExpoFpPlanParameter], isSaved: Swift.Bool = false)
   @_Concurrency.MainActor public func activateFloor(_ floor: ExpoFP.ExpoFpFloor)
   @_Concurrency.MainActor public func changeLanguage(_ language: ExpoFP.ExpoFpLanguage)
   @_Concurrency.MainActor public func findLocation()
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func fitBounds(bounds: ExpoFP.ExpoFpBounds? = nil, options: ExpoFP.ExpoFpZoomToOptions = .init())
-  #endif
   @_Concurrency.MainActor public func highlightBooths(externalIds: [Swift.String] = [])
   @_Concurrency.MainActor public func highlightEntities(externalIds: [Swift.String] = [])
   @_Concurrency.MainActor public func highlightExhibitors(externalIds: [Swift.String] = [])
   @_Concurrency.MainActor public func reset()
   @_Concurrency.MainActor public func selectBooth(nameOrExternalId: Swift.String = "")
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func selectCategory(name: Swift.String? = nil)
-  #endif
   @_Concurrency.MainActor public func selectCurrentPosition(_ position: ExpoFP.ExpoFpPosition, focus: Swift.Bool = true)
   @_Concurrency.MainActor public func deselectCurrentPosition()
   @_Concurrency.MainActor public func selectExhibitor(nameOrExternalId: Swift.String = "")
+  @_Concurrency.MainActor public func selectAccessibleRoute(waypoints: [ExpoFP.ExpoFpRouteWaypoint])
   @_Concurrency.MainActor public func selectRoute(waypoints: [ExpoFP.ExpoFpRouteWaypoint])
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func selectRoute(from start: ExpoFP.ExpoFpRouteWaypoint?, to destination: ExpoFP.ExpoFpRouteWaypoint?)
-  #endif
   @_Concurrency.MainActor public func deselectRoute()
   @_Concurrency.MainActor public func setBookmarks(_ bookmarks: [ExpoFP.ExpoFpBookmark])
   @_Concurrency.MainActor public func setElementsVisibility(_ elementsVisibility: ExpoFP.ExpoFpElementsVisibility)
@@ -213,63 +170,25 @@ extension ExpoFP.IExpoFpPlanPresenter {
   @_Concurrency.MainActor public func zoomIn()
   @_Concurrency.MainActor public func zoomOut()
   @_Concurrency.MainActor public func zoomTo(selectors: ExpoFP.ExpoFpPoiSelectors, options: ExpoFP.ExpoFpZoomToOptions = .init())
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func boothsList() async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpBooth]>
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func boothsList(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpBooth]>) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func categoriesList() async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpCategory]>
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func categoriesList(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpCategory]>) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func exhibitorsList() async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpExhibitor]>
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func exhibitorsList(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpExhibitor]>) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func getElementsVisibility() async -> ExpoFP.ExpoFpResult<ExpoFP.ExpoFpElementsVisibility>
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func getElementsVisibility(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<ExpoFP.ExpoFpElementsVisibility>) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func getFloors() async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpFloor]>
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func getFloors(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpFloor]>) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func getBounds(selectors: ExpoFP.ExpoFpPoiSelectors) async -> ExpoFP.ExpoFpResult<ExpoFP.ExpoFpBounds>
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func getBounds(selectors: ExpoFP.ExpoFpPoiSelectors, completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<ExpoFP.ExpoFpBounds>) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func getOptimizedRoutes(waypoints: [ExpoFP.ExpoFpRouteWaypoint]) async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpRouteInfo]>
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func getOptimizedRoutes(waypoints: [ExpoFP.ExpoFpRouteWaypoint], completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpRouteInfo]>) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func isBuiltInGpsTrackingEnabled() async -> ExpoFP.ExpoFpResult<Swift.Bool>
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func isBuiltInGpsTrackingEnabled(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<Swift.Bool>) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func search(text: Swift.String) async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpSearchModel]>
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func search(text: Swift.String, completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpSearchModel]>) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func evaluateCustomScript(_ script: Swift.String) async throws -> Any?
-  #endif
 }
 public struct ExpoFpDownloadedPlanInfo : Swift.Codable, Swift.Comparable, Swift.CustomStringConvertible, Swift.Hashable, Swift.Identifiable {
   public var id: Swift.String {
@@ -292,29 +211,15 @@ public struct ExpoFpDownloadedPlanInfo : Swift.Codable, Swift.Comparable, Swift.
 }
 public typealias ExpoFpDownloadedPlanInfoResult = Swift.Result<ExpoFP.ExpoFpDownloadedPlanInfo, ExpoFP.ExpoFpError>
 public struct ExpoFpPlanDownloader : Swift.Sendable {
-  #if compiler(>=5.3) && $NonescapableTypes
   public func downloadPlan(withExpoKey expoKey: Swift.String, completion: @escaping (ExpoFP.ExpoFpDownloadedPlanInfoResult) -> Swift.Void = {_ in})
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @discardableResult
   public func downloadPlan(withExpoKey expoKey: Swift.String) async -> ExpoFP.ExpoFpDownloadedPlanInfoResult
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func downloadPlan(withZipFilePath filePath: Swift.String, completion: @escaping (ExpoFP.ExpoFpDownloadedPlanInfoResult) -> Swift.Void = {_ in})
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @discardableResult
   public func downloadPlan(withZipFilePath filePath: Swift.String) async -> ExpoFP.ExpoFpDownloadedPlanInfoResult
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func getDownloadedPlansInfo(withExpoKey expoKey: Swift.String? = nil, completion: @escaping ([ExpoFP.ExpoFpDownloadedPlanInfo]) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func getDownloadedPlansInfo(withExpoKey expoKey: Swift.String? = nil) async -> [ExpoFP.ExpoFpDownloadedPlanInfo]
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func removeOldVersionsOfDownloadedPlans(withExpoKey expoKey: Swift.String? = nil) async
-  #endif
   public func removeDownloadedPlan(with planInfo: ExpoFP.ExpoFpDownloadedPlanInfo) async
   public func removeAllDownloadedPlans() async
 }
@@ -349,9 +254,7 @@ public struct ExpoFpPosition : Swift.Codable, Swift.Hashable {
   public let angle: Swift.Double?
   public let lat: Swift.Double?
   public let lng: Swift.Double?
-  #if compiler(>=5.3) && $NonescapableTypes
   public init(x: Swift.Double? = nil, y: Swift.Double? = nil, z: ExpoFP.ExpoFpFloorType? = nil, angle: Swift.Double? = nil, lat: Swift.Double? = nil, lng: Swift.Double? = nil)
-  #endif
   public static func == (a: ExpoFP.ExpoFpPosition, b: ExpoFP.ExpoFpPosition) -> Swift.Bool
   public func encode(to encoder: any Swift.Encoder) throws
   public func hash(into hasher: inout Swift.Hasher)
@@ -366,12 +269,10 @@ public struct ExpoFpPosition : Swift.Codable, Swift.Hashable {
     get
   }
   @_Concurrency.MainActor final public var sharedProvider: (any ExpoFP.IExpoFpLocationProvider)?
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor final public var expoFpLocationProviderDelegate: (any ExpoFP.ExpoFpLocationProviderDelegate)? {
     get
     set
   }
-  #endif
   @_Concurrency.MainActor final public func startUpdatingLocation()
   @_Concurrency.MainActor final public func stopUpdatingLocation()
   public typealias ID = Foundation.UUID
@@ -383,9 +284,7 @@ public struct ExpoFpPosition : Swift.Codable, Swift.Hashable {
 }
 @_Concurrency.MainActor public protocol IExpoFpLocationProvider : AnyObject, Swift.Equatable, Swift.Identifiable {
   @_Concurrency.MainActor var isLocationUpdating: Swift.Bool { get }
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor var expoFpLocationProviderDelegate: (any ExpoFP.ExpoFpLocationProviderDelegate)? { get set }
-  #endif
   @_Concurrency.MainActor func startUpdatingLocation()
   @_Concurrency.MainActor func stopUpdatingLocation()
 }
@@ -393,23 +292,17 @@ extension ExpoFP.IExpoFpLocationProvider {
   @_Concurrency.MainActor public static func == (lhs: Self, rhs: Self) -> Swift.Bool
 }
 @_Concurrency.MainActor public struct ExpoFpPlanPreloader {
-  #if compiler(>=5.3) && $NonescapableTypes
   @discardableResult
   @_Concurrency.MainActor public func preloadPlan(with planLink: ExpoFP.ExpoFpLinkType, additionalParams: [ExpoFP.ExpoFpPlanParameter] = [], locationProvider: (any ExpoFP.IExpoFpLocationProvider)? = nil, messageListener: (any ExpoFP.IExpoFpPlanMessageListener)? = nil, isDebugModeEnabled: Swift.Bool = false) -> ExpoFP.ExpoFpPreloadedPlanInfo
-  #endif
   @_Concurrency.MainActor public func getPreloadedPlansInfo() -> [ExpoFP.ExpoFpPreloadedPlanInfo]
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func getPreloadedPlanPresenter(with info: ExpoFP.ExpoFpPreloadedPlanInfo? = nil) -> (any ExpoFP.IExpoFpPlanPresenter)?
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @discardableResult
   @_Concurrency.MainActor public func disposePreloadedPlan(with info: ExpoFP.ExpoFpPreloadedPlanInfo? = nil) -> (any ExpoFP.IExpoFpPlanPresenter)?
-  #endif
   @_Concurrency.MainActor public func removeAllPreloadedPlans()
 }
 @_hasMissingDesignatedInitializers final public class ExpoFpPreloadedPlanInfo : Swift.Hashable, Swift.CustomStringConvertible, Swift.Identifiable, Combine.ObservableObject {
   final public let id: Foundation.UUID
-  @Combine.Published @_projectedValueProperty($planLink) final public var planLink: ExpoFP.ExpoFpLinkType {
+  @Combine.Published<ExpoFP.ExpoFpLinkType> @_projectedValueProperty($planLink) final public var planLink: ExpoFP.ExpoFpLinkType {
     get
   }
   final public var $planLink: Combine.Published<ExpoFP.ExpoFpLinkType>.Publisher {
@@ -514,9 +407,7 @@ public struct ExpoFpConsoleMessage : Swift.Codable, Swift.CustomStringConvertibl
     case log
     case trace
     case warn
-    #if compiler(>=5.3) && $NonescapableTypes
     public init?(rawValue: Swift.String)
-    #endif
     public typealias AllCases = [ExpoFP.ExpoFpConsoleMessage.OutputType]
     public typealias RawValue = Swift.String
     nonisolated public static var allCases: [ExpoFP.ExpoFpConsoleMessage.OutputType] {
@@ -527,8 +418,8 @@ public struct ExpoFpConsoleMessage : Swift.Codable, Swift.CustomStringConvertibl
     }
   }
   public init(from decoder: any Swift.Decoder) throws
-  public typealias ID = Foundation.UUID
   public func encode(to encoder: any Swift.Encoder) throws
+  public typealias ID = Foundation.UUID
 }
 public struct ExpoFpCustomButtonEvent : Swift.Codable, Swift.Hashable, Swift.Identifiable {
   public var id: Swift.String {
@@ -566,9 +457,7 @@ public enum ExpoFpDetailsType : Swift.String, Swift.Codable, Swift.Hashable, Swi
   case category
   case exhibitor
   case route
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
-  #endif
   public typealias AllCases = [ExpoFP.ExpoFpDetailsType]
   public typealias RawValue = Swift.String
   nonisolated public static var allCases: [ExpoFP.ExpoFpDetailsType] {
@@ -664,9 +553,7 @@ public enum ExpoFpLanguage : Swift.String, Swift.Codable, Swift.Hashable, Swift.
   public var description: Swift.String {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
-  #endif
   public typealias AllCases = [ExpoFP.ExpoFpLanguage]
   public typealias RawValue = Swift.String
   nonisolated public static var allCases: [ExpoFP.ExpoFpLanguage] {
@@ -705,9 +592,7 @@ public struct ExpoFpPoint : Swift.Codable, Swift.Hashable {
   public let x: Swift.Double
   public let y: Swift.Double
   public let layer: Swift.String?
-  #if compiler(>=5.3) && $NonescapableTypes
   public init(x: Swift.Double, y: Swift.Double, layer: Swift.String? = nil)
-  #endif
   public static func == (a: ExpoFP.ExpoFpPoint, b: ExpoFP.ExpoFpPoint) -> Swift.Bool
   public func encode(to encoder: any Swift.Encoder) throws
   public func hash(into hasher: inout Swift.Hasher)
@@ -719,9 +604,7 @@ public struct ExpoFpPoint : Swift.Codable, Swift.Hashable {
 public struct ExpoFpPoiSelector : Swift.Codable, Swift.Hashable {
   public let name: Swift.String?
   public let externalId: Swift.String?
-  #if compiler(>=5.3) && $NonescapableTypes
   public init(name: Swift.String? = nil, externalId: Swift.String? = nil)
-  #endif
   public static func == (a: ExpoFP.ExpoFpPoiSelector, b: ExpoFP.ExpoFpPoiSelector) -> Swift.Bool
   public func encode(to encoder: any Swift.Encoder) throws
   public func hash(into hasher: inout Swift.Hasher)
@@ -794,9 +677,7 @@ public enum ExpoFpSearchItemType : Swift.Codable, Swift.Hashable, Swift.Identifi
     case exhibitor
     case schedule
     case unknown
-    #if compiler(>=5.3) && $NonescapableTypes
     public init?(rawValue: Swift.String)
-    #endif
     public typealias AllCases = [ExpoFP.ExpoFpSearchItemType.RawType]
     public typealias RawValue = Swift.String
     nonisolated public static var allCases: [ExpoFP.ExpoFpSearchItemType.RawType] {
@@ -812,11 +693,9 @@ public enum ExpoFpSearchItemType : Swift.Codable, Swift.Hashable, Swift.Identifi
   public var name: Swift.String {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   public var externalId: Swift.String? {
     get
   }
-  #endif
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
   public static func == (a: ExpoFP.ExpoFpSearchItemType, b: ExpoFP.ExpoFpSearchItemType) -> Swift.Bool
@@ -835,11 +714,9 @@ public struct ExpoFpSearchModel : Swift.Codable, Swift.Comparable, Swift.Hashabl
   public var name: Swift.String {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   public var externalId: Swift.String? {
     get
   }
-  #endif
   public var rawType: ExpoFP.ExpoFpSearchItemType.RawType {
     get
   }
