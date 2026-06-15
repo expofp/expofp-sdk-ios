@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
   spec.name               = "ExpoFP"
-  spec.version            = "5.6.0"
-  spec.platform           = :ios, '14.0'
+  spec.version            = "5.7.0"
+  spec.platform           = :ios, '16.0'
   spec.summary            = "ExpoFP SDK"
   spec.description        = "ExpoFP SDK to show and manage expo floor plans. Use documentation for integration"
   spec.homepage           = "https://expofp.com"
@@ -12,7 +12,7 @@ Pod::Spec.new do |spec|
   spec.swift_version      = "5"
 
   # Supported deployment targets
-  spec.ios.deployment_target  = "14.0"
+  spec.ios.deployment_target  = "16.0"
 
   # Published binaries
   spec.ios.vendored_frameworks = "ExpoFP.xcframework"
