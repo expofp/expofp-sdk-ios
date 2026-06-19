@@ -176,12 +176,14 @@ extension ExpoFP.IExpoFpPlanPresenter {
   @_Concurrency.MainActor public func categoriesList(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpCategory]>) -> Swift.Void)
   @_Concurrency.MainActor public func exhibitorsList() async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpExhibitor]>
   @_Concurrency.MainActor public func exhibitorsList(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpExhibitor]>) -> Swift.Void)
+  @_Concurrency.MainActor public func getBounds(selectors: ExpoFP.ExpoFpPoiSelectors) async -> ExpoFP.ExpoFpResult<ExpoFP.ExpoFpBounds>
+  @_Concurrency.MainActor public func getBounds(selectors: ExpoFP.ExpoFpPoiSelectors, completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<ExpoFP.ExpoFpBounds>) -> Swift.Void)
   @_Concurrency.MainActor public func getElementsVisibility() async -> ExpoFP.ExpoFpResult<ExpoFP.ExpoFpElementsVisibility>
   @_Concurrency.MainActor public func getElementsVisibility(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<ExpoFP.ExpoFpElementsVisibility>) -> Swift.Void)
   @_Concurrency.MainActor public func getFloors() async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpFloor]>
   @_Concurrency.MainActor public func getFloors(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpFloor]>) -> Swift.Void)
-  @_Concurrency.MainActor public func getBounds(selectors: ExpoFP.ExpoFpPoiSelectors) async -> ExpoFP.ExpoFpResult<ExpoFP.ExpoFpBounds>
-  @_Concurrency.MainActor public func getBounds(selectors: ExpoFP.ExpoFpPoiSelectors, completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<ExpoFP.ExpoFpBounds>) -> Swift.Void)
+  @_Concurrency.MainActor public func getGeoConfig() async -> ExpoFP.ExpoFpResult<ExpoFP.ExpoFpGeoConfig?>
+  @_Concurrency.MainActor public func getGeoConfig(completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<ExpoFP.ExpoFpGeoConfig?>) -> Swift.Void)
   @_Concurrency.MainActor public func getOptimizedRoutes(waypoints: [ExpoFP.ExpoFpRouteWaypoint]) async -> ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpRouteInfo]>
   @_Concurrency.MainActor public func getOptimizedRoutes(waypoints: [ExpoFP.ExpoFpRouteWaypoint], completion: @escaping @_Concurrency.MainActor (ExpoFP.ExpoFpResult<[ExpoFP.ExpoFpRouteInfo]>) -> Swift.Void)
   @_Concurrency.MainActor public func isBuiltInGpsTrackingEnabled() async -> ExpoFP.ExpoFpResult<Swift.Bool>
@@ -522,6 +524,32 @@ public struct ExpoFpFloor : Swift.Codable, Swift.Hashable, Swift.Identifiable, S
   public init(name: Swift.String, shortName: Swift.String = "", description: Swift.String = "", index: Swift.Int, isActive: Swift.Bool = false, isDisabled: Swift.Bool = false)
   public static func == (a: ExpoFP.ExpoFpFloor, b: ExpoFP.ExpoFpFloor) -> Swift.Bool
   public typealias ID = Swift.Int
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct ExpoFpGeoAnchor : Swift.Codable, Swift.Hashable {
+  public let x: Swift.Double
+  public let y: Swift.Double
+  public let lat: Swift.Double
+  public let lng: Swift.Double
+  public static func == (a: ExpoFP.ExpoFpGeoAnchor, b: ExpoFP.ExpoFpGeoAnchor) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct ExpoFpGeoConfig : Swift.Codable, Swift.Hashable {
+  public let bearing: Swift.Double
+  public let p0: ExpoFP.ExpoFpGeoAnchor
+  public let p1: ExpoFP.ExpoFpGeoAnchor?
+  public let p2: ExpoFP.ExpoFpGeoAnchor
+  public static func == (a: ExpoFP.ExpoFpGeoConfig, b: ExpoFP.ExpoFpGeoConfig) -> Swift.Bool
   public func encode(to encoder: any Swift.Encoder) throws
   public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
