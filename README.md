@@ -12,7 +12,7 @@ Full usage instructions on [expofp.github.io](https://expofp.github.io/expofp-sd
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/expofp/expofp-sdk-ios", from: "5.8.0"),
+    .package(url: "https://github.com/expofp/expofp-sdk-ios", from: "5.9.0"),
 ]
 ```
 
@@ -31,7 +31,7 @@ and add it to your target’s dependencies
 
 ```
 target 'MyApp' do
-    pod 'ExpoFP', '~> 5.8.0'
+    pod 'ExpoFP', '~> 5.9.0'
 end
 ```
 
@@ -86,4 +86,8 @@ let presenter = ExpoFpPlan.preloader.getPreloadedPlanPresenter(with: preloadedPl
 * Zoom, select booth or category, build routes, listen events and many more
 
 Feel free to check out our detailed instructions on [expofp.github.io](https://expofp.github.io/expofp-sdk-ios/documentation/expofp/)
+
+## Development
+
+After checking out the repo, run `npx ensure-claude-plugins` to install the Claude Code plugins declared in `.claude/settings.json`.
 
