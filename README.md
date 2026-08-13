@@ -12,7 +12,7 @@ Full usage instructions on [expofp.github.io](https://expofp.github.io/expofp-sd
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/expofp/expofp-sdk-ios", from: "5.9.0"),
+    .package(url: "https://github.com/expofp/expofp-sdk-ios", from: "5.10.0"),
 ]
 ```
 
@@ -31,7 +31,7 @@ and add it to your target’s dependencies
 
 ```
 target 'MyApp' do
-    pod 'ExpoFP', '~> 5.9.0'
+    pod 'ExpoFP', '~> 5.10.0'
 end
 ```
 
@@ -82,7 +82,8 @@ let presenter = ExpoFpPlan.preloader.getPreloadedPlanPresenter(with: preloadedPl
 
 * Apply additional params, location provider, message listener
 * Reload plan with new or previously applied settings
-* Monitor loading, initialization and errors via `presenter.planStatusPublisher`
+* Monitor loading, initialization and loading failures via `presenter.planStatusPublisher`
+* Monitor errors of a loaded plan via `presenter.planOperationalErrorPublisher`
 * Zoom, select booth or category, build routes, listen events and many more
 
 Feel free to check out our detailed instructions on [expofp.github.io](https://expofp.github.io/expofp-sdk-ios/documentation/expofp/)

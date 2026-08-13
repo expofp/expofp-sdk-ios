@@ -50,7 +50,6 @@ public enum ExpoFpPlanParameter : Swift.CustomStringConvertible, Swift.Hashable 
   case kioskMode(Swift.Bool)
   case monochrome(Swift.Bool)
   case noOverlay(Swift.Bool)
-  case serviceWorker(Swift.Bool)
   case showYouAreHereMarker(Swift.String)
   case raw(name: Swift.String, value: Swift.String? = nil)
   case openAgenda
@@ -124,6 +123,7 @@ extension ExpoFP.IExpoFpPlanMessageListener {
 }
 public typealias ExpoFpResult<T> = Swift.Result<T, ExpoFP.ExpoFpError>
 public typealias ExpoFpPlanStatusPublisher = Combine.AnyPublisher<ExpoFP.ExpoFpPlanStatus, Swift.Never>
+public typealias ExpoFpPlanOperationalErrorPublisher = Combine.AnyPublisher<ExpoFP.ExpoFpError, Swift.Never>
 @_Concurrency.MainActor public protocol IExpoFpPlanPresenter : AnyObject, Swift.Identifiable {
   @_Concurrency.MainActor var id: Foundation.UUID { get }
   @_Concurrency.MainActor var additionalParams: [ExpoFP.ExpoFpPlanParameter] { get }
@@ -131,6 +131,7 @@ public typealias ExpoFpPlanStatusPublisher = Combine.AnyPublisher<ExpoFP.ExpoFpP
   @_Concurrency.MainActor var planLink: ExpoFP.ExpoFpLinkType { get }
   @_Concurrency.MainActor var isDebugModeEnabled: Swift.Bool { get }
   @_Concurrency.MainActor var planStatusPublisher: ExpoFP.ExpoFpPlanStatusPublisher { get }
+  @_Concurrency.MainActor var planOperationalErrorPublisher: ExpoFP.ExpoFpPlanOperationalErrorPublisher { get }
   @_Concurrency.MainActor func getView() -> SwiftUICore.AnyView
   @_Concurrency.MainActor func getViewController() -> UIKit.UIViewController
   @_Concurrency.MainActor func applyAdditionalParams(_ additionalParams: [ExpoFP.ExpoFpPlanParameter], isSaved: Swift.Bool)
@@ -311,6 +312,9 @@ extension ExpoFP.IExpoFpLocationProvider {
     get
   }
   final public var planStatusPublisher: ExpoFP.ExpoFpPlanStatusPublisher {
+    get
+  }
+  final public var planOperationalErrorPublisher: ExpoFP.ExpoFpPlanOperationalErrorPublisher {
     get
   }
   final public var description: Swift.String {
