@@ -50,12 +50,10 @@ public enum ExpoFpPlanParameter : Swift.CustomStringConvertible, Swift.Hashable 
   case kioskMode(Swift.Bool)
   case monochrome(Swift.Bool)
   case noOverlay(Swift.Bool)
-  case showYouAreHereMarker(Swift.String)
   case raw(name: Swift.String, value: Swift.String? = nil)
   case openAgenda
   case openLanguage
   case openKioskConfig
-  case displayKiosk(Swift.Int)
   case viewBookmarksList
   case searchText(Swift.String)
   public var description: Swift.String {
